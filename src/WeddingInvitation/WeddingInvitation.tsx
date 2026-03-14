@@ -541,13 +541,132 @@ Para: el amor de mi vida`,
                     </Typography>
 
                     {/* Nombres de los padres */}
-                    <Box sx={{ mb: 2 }}>
-                      <Typography variant="caption" color="text.secondary">
-                        Hijos de
+                    <Box
+                      sx={{
+                        mb: 4,
+                        textAlign: "center",
+                        position: "relative",
+                        px: 2,
+                      }}
+                    >
+                      {/* Título decorativo */}
+                      <Typography
+                        variant="overline"
+                        sx={{
+                          display: "block",
+                          color: "text.secondary",
+                          letterSpacing: "4px",
+                          fontSize: "0.7rem",
+                          mb: 3,
+                          fontFamily: '"Cormorant Garamond", serif',
+                          fontWeight: 300,
+                          textTransform: "uppercase",
+                          position: "relative",
+                          "&::before, &::after": {
+                            content: '""',
+                            position: "absolute",
+                            width: "40px",
+                            height: "1px",
+                            backgroundColor: "rgba(0,0,0,0.1)",
+                            top: "50%",
+                            transform: "translateY(-50%)",
+                          },
+                          "&::before": {
+                            left: "20%",
+                          },
+                          "&::after": {
+                            right: "20%",
+                          },
+                        }}
+                      >
+                        Con la bendición de nuestros padres
                       </Typography>
-                      <Typography variant="body2" fontWeight="500">
-                        {padresNovio} & {padresNovia}
-                      </Typography>
+
+                      {/* Familia del Novio */}
+                      <Box sx={{ mb: 3 }}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontFamily: '"Cormorant Garamond", serif',
+                            fontWeight: 500,
+                            fontSize: "1.1rem",
+                            lineHeight: 1.5,
+                            color: "primary.dark",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          Sra. Laura Karina Salcedo Hernández
+                        </Typography>
+
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontFamily: '"Cormorant Garamond", serif',
+                            fontWeight: 500,
+                            fontSize: "1.1rem",
+                            lineHeight: 1.5,
+                            color: "primary.dark",
+                            mb: 0.5,
+                          }}
+                        >
+                          Sr. J. Jesús Carrillo Ibarra
+                        </Typography>
+                      </Box>
+
+                      {/* Decoración central - Ramo o lazo */}
+                      <Box
+                        sx={{
+                          display: "flex",
+                          justifyContent: "center",
+                          alignItems: "center",
+                          gap: 2,
+                          my: 2,
+                        }}
+                      >
+                        <Box
+                          sx={{
+                            width: "30px",
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent)",
+                          }}
+                        />
+                        <Typography
+                          variant="body2"
+                          sx={{
+                            fontFamily: '"Cormorant Garamond", serif',
+                            fontSize: "1.2rem",
+                            color: "primary.main",
+                            fontStyle: "italic",
+                          }}
+                        >
+                          &
+                        </Typography>
+                        <Box
+                          sx={{
+                            width: "30px",
+                            height: "1px",
+                            background:
+                              "linear-gradient(90deg, transparent, rgba(0,0,0,0.2), transparent)",
+                          }}
+                        />
+                      </Box>
+
+                      {/* Familia de la Novia */}
+                      <Box sx={{ mt: 2 }}>
+                        <Typography
+                          variant="h6"
+                          sx={{
+                            fontFamily: '"Cormorant Garamond", serif',
+                            fontWeight: 500,
+                            fontSize: "1.1rem",
+                            lineHeight: 1.5,
+                            color: "primary.dark",
+                          }}
+                        >
+                          Sra. María Eulalia Aguilar Sánchez
+                        </Typography>
+                      </Box>
                     </Box>
 
                     <Divider sx={{ width: "60%", mx: "auto", my: 3 }}>
