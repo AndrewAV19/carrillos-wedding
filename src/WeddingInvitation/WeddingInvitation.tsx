@@ -193,7 +193,7 @@ Para: el amor de mi vida`,
                     mb: 3,
                   }}
                 >
-                  Información Importante
+                  Ubicación
                 </Typography>
 
                 <Grid container spacing={3}>
