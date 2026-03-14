@@ -658,7 +658,7 @@ Para: el amor de mi vida`,
                     {[
                       {
                         icon: CalendarIcon,
-                        color: "primary",
+                        color: "primary" as const,
                         title: "Fecha",
                         value: fecha,
                         subvalue: "Sábado",
@@ -667,7 +667,7 @@ Para: el amor de mi vida`,
                       },
                       {
                         icon: TimeIcon,
-                        color: "secondary",
+                        color: "secondary" as const,
                         title: "Ceremonia",
                         value: hora,
                         description: "El momento mágico dará inicio",
@@ -675,7 +675,7 @@ Para: el amor de mi vida`,
                       },
                       {
                         icon: ChurchIcon,
-                        color: "success",
+                        color: "success" as const,
                         title: "Lugar",
                         value: lugar,
                         subvalue: direccion,
@@ -684,7 +684,7 @@ Para: el amor de mi vida`,
                       },
                       {
                         icon: DryCleaningIcon,
-                        color: "warning",
+                        color: "warning" as const,
                         title: "Vestimenta",
                         value: codigoVestimenta,
                         subvalue: codigoDresscode,
@@ -943,9 +943,7 @@ Para: el amor de mi vida`,
                   sx={{ mb: 3, flexWrap: "wrap", gap: 1 }}
                 >
                   <Button
-                    variant={
-                      activeSection === "details" ? "contained" : "outlined"
-                    }
+                   
                     color="info"
                     size="small"
                     startIcon={<LocationIcon />}
@@ -960,9 +958,7 @@ Para: el amor de mi vida`,
                     Ubicación
                   </Button>
                   <Button
-                    variant={
-                      activeSection === "history" ? "contained" : "outlined"
-                    }
+                   
                     color="secondary"
                     size="small"
                     startIcon={<HistoryIcon />}
@@ -977,9 +973,7 @@ Para: el amor de mi vida`,
                     Historia
                   </Button>
                   <Button
-                    variant={
-                      activeSection === "gallery" ? "contained" : "outlined"
-                    }
+                   
                     color="success"
                     size="small"
                     startIcon={<PhotoIcon />}
