@@ -70,7 +70,7 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
       // Llamar a onOpen después de un pequeño retraso para mostrar el contenido
       setTimeout(() => {
         onOpen();
-      }, 1500);
+      }, 3500);
     }, 1500);
   };
 
