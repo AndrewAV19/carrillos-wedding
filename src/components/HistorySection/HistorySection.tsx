@@ -18,7 +18,6 @@ import {
   Stars as StarsIcon,
   AcUnit as AcUnitIcon,
   FlightTakeoff as FlightIcon,
-  PlayCircleOutline as PlayIcon,
   Close as CloseIcon,
   ChevronLeft as ChevronLeftIcon,
   ChevronRight as ChevronRightIcon,
@@ -479,7 +478,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                   {/* Galería de imágenes mejorada */}
                   <Grid container spacing={3} sx={{ mt: 2 }}>
                     {item.images.map((image, imgIndex) => (
-                      <Grid item xs={12} sm={6} md={4} key={imgIndex}>
+                      <Grid size={{ xs: 12, sm: 6, md: 4 }} key={imgIndex}>
                         <Box
                           onClick={() =>
                             handleImageClick(item.images, imgIndex)
