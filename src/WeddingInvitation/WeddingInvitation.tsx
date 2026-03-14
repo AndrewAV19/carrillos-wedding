@@ -21,7 +21,6 @@ import {
   Chip,
   Grid,
   Stack,
-  Badge,
   Slide,
 } from "@mui/material";
 import {
@@ -35,15 +34,9 @@ import {
   ChevronLeft as LeftIcon,
   Close as CloseIcon,
   Diamond as DiamondIcon,
-  MenuBook as MenuBookIcon,
-  MusicNote as MusicIcon,
-  Cake as CakeIcon,
-  Restaurant as RestaurantIcon,
   Church as ChurchIcon,
   RingVolume as RingIcon,
-  Timer as TimerIcon,
   ConfirmationNumber as ConfirmationNumberIcon,
-  CardGiftcard as GiftIcon,
 } from "@mui/icons-material";
 import HistorySection from "../components/HistorySection/HistorySection";
 import Gallery from "../components/Gallery/Gallery";
@@ -82,15 +75,13 @@ interface WeddingInvitationProps {
   opcionesMenu?: string[];
   restriccionesAlimenticias?: string;
   notasAdicionales?: string;
-  regalos?: string;
   numeroWhatsApp?: string;
 }
 
 export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   novio = "Chui",
   novia = "Gabi",
-  padresNovio = "Laura Karina Salcedo Hernández y J. Jesús Carrillo Ibarra",
-  padresNovia = "María Eulalia Aguilar Sánchez",
+
   fecha = "26 de Septiembre, 2026",
   hora = "5:00 PM",
   lugar = "Hacienda Los Olivos",
@@ -108,37 +99,10 @@ De: tu prometido
 Para: el amor de mi vida`,
   fotos = [],
   codigoVestimenta = "Formal",
-  horarioEventos = [
-    {
-      time: "5:00 PM",
-      event: "Ceremonia Religiosa",
-      description: "En la capilla de la Hacienda",
-      icon: ChurchIcon,
-    },
-    {
-      time: "7:00 PM",
-      event: "Recepción",
-      description: "Salón Principal - Cena y baile",
-      icon: RestaurantIcon,
-    },
-    {
-      time: "9:00 PM",
-      event: "Brindis y Pastel",
-      description: "Celebración con los novios",
-      icon: CakeIcon,
-    },
-    {
-      time: "11:00 PM",
-      event: "Barra Libre",
-      description: "Música y baile hasta el final",
-      icon: MusicIcon,
-    },
-  ],
   frasePersonal = "Y en un beso, supimos que era para siempre",
   coordenadasGPS = { lat: 20.301798, lng: -102.539874 },
   codigoDresscode = "Nos reservamos el blanco",
   notasAdicionales = "No olvides traer tu mejor sonrisa y muchas ganas de celebrar",
-  regalos = "Tu presencia es el mejor regalo, pero si deseas hacernos un detalle, puedes colaborar con nuestra luna de miel",
 }) => {
   const theme = useTheme();
   const [activeSection, setActiveSection] = useState<
@@ -153,7 +117,7 @@ Para: el amor de mi vida`,
   }, [activeSection]);
 
   const [openModal, setOpenModal] = useState(false);
-  const [modalType, setModalType] = useState<"attendance" | "details" | "gift">(
+  const [modalType, setModalType] = useState<"attendance" | "details">(
     "attendance",
   );
 
@@ -185,7 +149,7 @@ Para: el amor de mi vida`,
     return () => clearInterval(timer);
   }, []);
 
-  const handleOpenModal = (type: "attendance" | "details" | "gift") => {
+  const handleOpenModal = (type: "attendance" | "details") => {
     setModalType(type);
     setOpenModal(true);
   };
@@ -233,136 +197,46 @@ Para: el amor de mi vida`,
                 </Typography>
 
                 <Grid container spacing={3}>
-                  {/* Horario detallado */}
+                  {/* Mapa - Único elemento */}
                   <Grid size={{ xs: 12 }}>
                     <Paper
                       elevation={0}
                       sx={{
-                        p: 2,
+                        p: 3,
                         bgcolor: alpha(theme.palette.primary.main, 0.03),
                         borderRadius: 2,
+                        textAlign: "center",
                       }}
                     >
-                      <Typography
-                        variant="h6"
+                      <LocationIcon
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          mb: 2,
+                          fontSize: 48,
                           color: theme.palette.primary.main,
+                          mb: 2,
                         }}
-                      >
-                        <TimerIcon /> Cronograma del día
+                      />
+                      <Typography variant="h6" gutterBottom>
+                        ¿Cómo llegar?
                       </Typography>
-                      <Stack spacing={2}>
-                        {horarioEventos.map((evento, index) => (
-                          <Box
-                            key={index}
-                            sx={{
-                              display: "flex",
-                              alignItems: "flex-start",
-                              gap: 2,
-                              p: 1,
-                              borderRadius: 1,
-                              "&:hover": {
-                                bgcolor: alpha(
-                                  theme.palette.primary.main,
-                                  0.05,
-                                ),
-                              },
-                            }}
-                          >
-                            <Badge
-                              badgeContent={index + 1}
-                              color="primary"
-                              sx={{
-                                "& .MuiBadge-badge": { right: -5, top: 5 },
-                              }}
-                            >
-                              <Avatar
-                                sx={{
-                                  bgcolor: alpha(
-                                    theme.palette.primary.main,
-                                    0.1,
-                                  ),
-                                  color: theme.palette.primary.main,
-                                }}
-                              >
-                                <evento.icon />
-                              </Avatar>
-                            </Badge>
-                            <Box>
-                              <Typography
-                                variant="subtitle2"
-                                color="primary"
-                                fontWeight="bold"
-                              >
-                                {evento.time}
-                              </Typography>
-                              <Typography variant="body2" fontWeight="600">
-                                {evento.event}
-                              </Typography>
-                              <Typography
-                                variant="caption"
-                                color="text.secondary"
-                              >
-                                {evento.description}
-                              </Typography>
-                            </Box>
-                          </Box>
-                        ))}
-                      </Stack>
-                    </Paper>
-                  </Grid>
-
-                  {/* Mapa */}
-                  <Grid size={{ xs: 12 }}>
-                    <Button
-                      fullWidth
-                      variant="outlined"
-                      startIcon={<LocationIcon />}
-                      onClick={openMaps}
-                      sx={{
-                        py: 1.5,
-                        borderWidth: 2,
-                        borderRadius: 2,
-                        "&:hover": { borderWidth: 2 },
-                      }}
-                    >
-                      Ver ubicación en Google Maps
-                    </Button>
-                  </Grid>
-
-                  {/* Regalos */}
-                  <Grid size={{ xs: 12 }}>
-                    <Paper
-                      sx={{
-                        p: 2,
-                        bgcolor: alpha(theme.palette.secondary.main, 0.05),
-                        borderRadius: 2,
-                      }}
-                    >
                       <Typography
-                        variant="subtitle1"
+                        variant="body2"
+                        color="text.secondary"
+                        paragraph
+                      >
+                        {lugar} - {direccion}
+                      </Typography>
+                      <Button
+                        fullWidth
+                        variant="contained"
+                        startIcon={<LocationIcon />}
+                        onClick={openMaps}
                         sx={{
-                          display: "flex",
-                          alignItems: "center",
-                          gap: 1,
-                          color: theme.palette.secondary.main,
+                          py: 1.5,
+                          borderRadius: 2,
+                          background: `linear-gradient(45deg, ${theme.palette.primary.main} 30%, ${theme.palette.secondary.main} 90%)`,
                         }}
                       >
-                        <GiftIcon /> Regalos
-                      </Typography>
-                      <Typography variant="body2">{regalos}</Typography>
-                      <Button
-                        size="small"
-                        variant="text"
-                        color="secondary"
-                        sx={{ mt: 1 }}
-                        onClick={() => handleOpenModal("gift")}
-                      >
-                        Ver datos bancarios
+                        Ver ubicación en Google Maps
                       </Button>
                     </Paper>
                   </Grid>
@@ -726,20 +600,58 @@ Para: el amor de mi vida`,
                   </Box>
                 </Paper>
 
-                <Box sx={{ mb: 4 }}>
+                <Box sx={{ mb: 6, position: "relative" }}>
+                  {/* Marco decorativo superior */}
+                  <Box
+                    sx={{
+                      position: "relative",
+                      mb: 3,
+                      "&::before, &::after": {
+                        content: '""',
+                        position: "absolute",
+                        width: "60px",
+                        height: "60px",
+                        background: `url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 24 24' fill='%23${theme.palette.primary.main.replace("#", "")}' opacity='0.1'%3E%3Cpath d='M12 21.35l-1.45-1.32C5.4 15.36 2 12.28 2 8.5 2 5.42 4.42 3 7.5 3c1.74 0 3.41.81 4.5 2.09C13.09 3.81 14.76 3 16.5 3 19.58 3 22 5.42 22 8.5c0 3.78-3.4 6.86-8.55 11.54L12 21.35z'/%3E%3C/svg%3E")`,
+                        backgroundSize: "contain",
+                        backgroundRepeat: "no-repeat",
+                      },
+                      "&::before": {
+                        left: "10%",
+                        top: "-20px",
+                        transform: "rotate(-15deg)",
+                      },
+                      "&::after": {
+                        right: "10%",
+                        top: "-20px",
+                        transform: "rotate(15deg)",
+                      },
+                    }}
+                  />
+
                   <Typography
                     variant="h6"
                     align="center"
                     sx={{
-                      fontFamily: "'Dancing Script', cursive",
-                      color: theme.palette.primary.main,
-                      fontSize: "2rem",
+                      fontFamily: "'Great Vibes', cursive",
+                      fontSize: { xs: "2.5rem", sm: "3rem" },
+                      fontWeight: 400,
                       mb: 4,
-                      fontWeight: 500,
-                      textShadow: `2px 2px 4px ${alpha(theme.palette.primary.main, 0.1)}`,
+                      position: "relative",
+                      color: theme.palette.primary.main,
+                      textShadow: `3px 3px 6px ${alpha(theme.palette.primary.main, 0.15)}`,
+                      letterSpacing: "1px",
+                      "& .ornament": {
+                        display: "inline-block",
+                        fontSize: "1.5rem",
+                        mx: 2,
+                        color: theme.palette.secondary.light,
+                        opacity: 0.7,
+                      },
                     }}
                   >
+                    <span className="ornament">༄</span>
                     Detalles del evento
+                    <span className="ornament">༄</span>
                   </Typography>
 
                   <Grid container spacing={3}>
@@ -750,12 +662,16 @@ Para: el amor de mi vida`,
                         title: "Fecha",
                         value: fecha,
                         subvalue: "Sábado",
+                        description: "El día que nuestros corazones se unirán",
+                        ornament: "🌹",
                       },
                       {
                         icon: TimeIcon,
                         color: "secondary",
                         title: "Ceremonia",
                         value: hora,
+                        description: "El momento mágico dará inicio",
+                        ornament: "⭐",
                       },
                       {
                         icon: ChurchIcon,
@@ -763,6 +679,8 @@ Para: el amor de mi vida`,
                         title: "Lugar",
                         value: lugar,
                         subvalue: direccion,
+                        description: "Donde los sueños se hacen realidad",
+                        ornament: "🏛️",
                       },
                       {
                         icon: DryCleaningIcon,
@@ -770,118 +688,197 @@ Para: el amor de mi vida`,
                         title: "Vestimenta",
                         value: codigoVestimenta,
                         subvalue: codigoDresscode,
+                        description: "Vístete con amor y elegancia",
+                        ornament: "💫",
                       },
                     ].map((item, index) => (
                       <Grid size={{ xs: 12, sm: 6 }} key={index}>
-                        <Grow in={true} timeout={1000 + index * 200}>
+                        <Fade in={true} timeout={1500 + index * 300}>
                           <Paper
                             elevation={0}
                             sx={{
                               height: "100%",
-                              p: 2.5,
-                              bgcolor: alpha(
-                                (
-                                  theme.palette[
-                                    item.color as keyof typeof theme.palette
-                                  ] as any
-                                ).light || theme.palette.primary.light,
-                                0.05,
-                              ),
-                              borderRadius: 3,
-                              border: `1px solid ${alpha(
-                                (
-                                  theme.palette[
-                                    item.color as keyof typeof theme.palette
-                                  ] as any
-                                ).main || theme.palette.primary.main,
-                                0.1,
-                              )}`,
-                              transition: "all 0.3s ease",
-                              display: "flex",
-                              alignItems: "center",
+                              p: 3.5,
+                              background: `linear-gradient(165deg, 
+                ${alpha(theme.palette.background.paper, 0.95)} 0%,
+                ${alpha(theme.palette[item.color]?.light || theme.palette.primary.light, 0.05)} 100%
+              )`,
+                              borderRadius: 5,
+                              border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
+                              transition: "all 0.5s ease",
+                              position: "relative",
+                              overflow: "hidden",
+                              boxShadow: `0 10px 30px ${alpha(theme.palette.common.black, 0.05)}`,
+                              "&::before": {
+                                content: '""',
+                                position: "absolute",
+                                top: 0,
+                                left: 0,
+                                right: 0,
+                                bottom: 0,
+                                background: `radial-gradient(circle at 100% 0%, ${alpha(
+                                  theme.palette[item.color]?.main ||
+                                    theme.palette.primary.main,
+                                  0.05,
+                                )} 0%, transparent 50%)`,
+                                opacity: 0.5,
+                              },
+                              "&::after": {
+                                content: '""',
+                                position: "absolute",
+                                bottom: 0,
+                                right: 0,
+                                width: "100px",
+                                height: "100px",
+                                background: `radial-gradient(circle, ${alpha(
+                                  theme.palette[item.color]?.main ||
+                                    theme.palette.primary.main,
+                                  0.03,
+                                )} 0%, transparent 70%)`,
+                              },
                               "&:hover": {
-                                transform: "translateY(-4px)",
-                                boxShadow: `0 12px 24px ${alpha(
-                                  (
-                                    theme.palette[
-                                      item.color as keyof typeof theme.palette
-                                    ] as any
-                                  ).main || theme.palette.primary.main,
-                                  0.15,
-                                )}`,
+                                transform: "translateY(-8px) scale(1.02)",
                                 borderColor: alpha(
-                                  (
-                                    theme.palette[
-                                      item.color as keyof typeof theme.palette
-                                    ] as any
-                                  ).main || theme.palette.primary.main,
+                                  theme.palette[item.color]?.main ||
+                                    theme.palette.primary.main,
                                   0.3,
                                 ),
+                                boxShadow: `0 25px 50px -12px ${alpha(
+                                  theme.palette[item.color]?.main ||
+                                    theme.palette.primary.main,
+                                  0.25,
+                                )}`,
+                                "& .romantic-icon": {
+                                  transform: "scale(1.1) rotate(5deg)",
+                                },
+                                "& .ornament-bg": {
+                                  opacity: 0.2,
+                                  transform: "rotate(10deg) scale(1.2)",
+                                },
                               },
                             }}
                           >
+                            {/* Elemento decorativo de fondo */}
+                            <Typography
+                              className="ornament-bg"
+                              sx={{
+                                position: "absolute",
+                                bottom: -10,
+                                right: -10,
+                                fontSize: "5rem",
+                                opacity: 0.05,
+                                transform: "rotate(-10deg)",
+                                transition: "all 0.5s ease",
+                                color:
+                                  theme.palette[item.color]?.main ||
+                                  theme.palette.primary.main,
+                                fontFamily:
+                                  "'Segoe UI Emoji', 'Apple Color Emoji', sans-serif",
+                              }}
+                            >
+                              {item.ornament}
+                            </Typography>
+
                             <Box
                               display="flex"
-                              alignItems="center"
-                              gap={2.5}
-                              width="100%"
+                              flexDirection="column"
+                              height="100%"
                             >
-                              <Avatar
-                                sx={{
-                                  width: 56,
-                                  height: 56,
-                                  bgcolor: alpha(
-                                    (
-                                      theme.palette[
-                                        item.color as keyof typeof theme.palette
-                                      ] as any
-                                    ).main || theme.palette.primary.main,
-                                    0.1,
-                                  ),
-                                  color:
-                                    (
-                                      theme.palette[
-                                        item.color as keyof typeof theme.palette
-                                      ] as any
-                                    ).main || theme.palette.primary.main,
-                                  transition: "all 0.3s ease",
-                                  "&:hover": {
-                                    bgcolor: alpha(
-                                      (
-                                        theme.palette[
-                                          item.color as keyof typeof theme.palette
-                                        ] as any
-                                      ).main || theme.palette.primary.main,
-                                      0.2,
-                                    ),
-                                    transform: "scale(1.05)",
-                                  },
-                                }}
+                              {/* Icono y título */}
+                              <Box
+                                display="flex"
+                                alignItems="center"
+                                gap={2}
+                                mb={2}
                               >
-                                <item.icon sx={{ fontSize: 28 }} />
-                              </Avatar>
-
-                              <Box flex={1}>
-                                <Typography
-                                  variant="caption"
-                                  color="text.secondary"
+                                <Avatar
+                                  className="romantic-icon"
                                   sx={{
-                                    fontSize: "0.75rem",
-                                    letterSpacing: "0.5px",
-                                    textTransform: "uppercase",
+                                    width: 65,
+                                    height: 65,
+                                    background: `linear-gradient(145deg, 
+                      ${alpha(theme.palette[item.color]?.main || theme.palette.primary.main, 0.15)},
+                      ${alpha(theme.palette[item.color]?.light || theme.palette.primary.light, 0.25)}
+                    )`,
+                                    color:
+                                      theme.palette[item.color]?.main ||
+                                      theme.palette.primary.main,
+                                    border: `2px solid ${alpha(theme.palette[item.color]?.main || theme.palette.primary.main, 0.2)}`,
+                                    transition:
+                                      "all 0.4s cubic-bezier(0.34, 1.56, 0.64, 1)",
+                                    boxShadow: `0 8px 20px ${alpha(theme.palette[item.color]?.main || theme.palette.primary.main, 0.2)}`,
+                                  }}
+                                >
+                                  <item.icon sx={{ fontSize: 32 }} />
+                                </Avatar>
+
+                                <Typography
+                                  variant="h6"
+                                  sx={{
+                                    fontFamily: "'Cormorant Garamond', serif",
+                                    fontSize: "1.5rem",
+                                    fontWeight: 500,
+                                    fontStyle: "italic",
+                                    color:
+                                      theme.palette[item.color]?.dark ||
+                                      theme.palette.primary.dark,
+                                    borderBottom: `2px dotted ${alpha(theme.palette[item.color]?.main || theme.palette.primary.main, 0.3)}`,
+                                    pb: 0.5,
                                   }}
                                 >
                                   {item.title}
                                 </Typography>
+                              </Box>
 
+                              {/* Descripción romántica */}
+                              <Typography
+                                sx={{
+                                  fontFamily: "'Quicksand', sans-serif",
+                                  fontSize: "0.9rem",
+                                  color: alpha(
+                                    theme.palette.text.secondary,
+                                    0.8,
+                                  ),
+                                  mb: 1.5,
+                                  fontStyle: "italic",
+                                  display: "flex",
+                                  alignItems: "center",
+                                  gap: 1,
+                                  "&::before": {
+                                    content: '"❝"',
+                                    fontSize: "1.2rem",
+                                    color:
+                                      theme.palette[item.color]?.light ||
+                                      theme.palette.primary.light,
+                                  },
+                                  "&::after": {
+                                    content: '"❞"',
+                                    fontSize: "1.2rem",
+                                    color:
+                                      theme.palette[item.color]?.light ||
+                                      theme.palette.primary.light,
+                                  },
+                                }}
+                              >
+                                {item.description}
+                              </Typography>
+
+                              {/* Información principal */}
+                              <Box sx={{ mt: "auto" }}>
                                 <Typography
                                   variant="body1"
-                                  fontWeight="600"
                                   sx={{
-                                    fontSize: "1rem",
-                                    lineHeight: 1.4,
+                                    fontSize: "1.25rem",
+                                    fontWeight: 600,
                                     mb: 0.5,
-                                    color: theme.palette.text.primary,
+                                    fontFamily: "'Montserrat', sans-serif",
+                                    background: `linear-gradient(135deg, 
+                      ${theme.palette.text.primary},
+                      ${theme.palette[item.color]?.dark || theme.palette.primary.dark}
+                    )`,
+                                    WebkitBackgroundClip: "text",
+                                    WebkitTextFillColor: "transparent",
+                                    letterSpacing: "0.5px",
                                   }}
                                 >
                                   {item.value}
@@ -890,12 +887,23 @@ Para: el amor de mi vida`,
                                 {item.subvalue && (
                                   <Typography
                                     variant="body2"
-                                    color="text.secondary"
                                     sx={{
-                                      fontSize: "0.875rem",
+                                      fontSize: "1rem",
+                                      color: alpha(
+                                        theme.palette.text.primary,
+                                        0.7,
+                                      ),
                                       display: "flex",
                                       alignItems: "center",
-                                      gap: 0.5,
+                                      gap: 1,
+                                      fontFamily: "'Quicksand', sans-serif",
+                                      "&::before": {
+                                        content: '"→"',
+                                        color:
+                                          theme.palette[item.color]?.main ||
+                                          theme.palette.primary.main,
+                                        fontSize: "1rem",
+                                      },
                                     }}
                                   >
                                     {item.subvalue}
@@ -904,26 +912,28 @@ Para: el amor de mi vida`,
                               </Box>
                             </Box>
                           </Paper>
-                        </Grow>
+                        </Fade>
                       </Grid>
                     ))}
                   </Grid>
-                </Box>
 
-                {/* Fecha límite de confirmación */}
-                <Paper
-                  sx={{
-                    p: 2,
-                    mb: 3,
-                    bgcolor: alpha(theme.palette.info.main, 0.05),
-                    borderRadius: 3,
-                    textAlign: "center",
-                  }}
-                >
-                  <Typography variant="caption" color="text.secondary">
-                    Por favor confirmar
-                  </Typography>
-                </Paper>
+                  {/* Línea decorativa inferior */}
+                  <Box
+                    sx={{
+                      mt: 3,
+                      height: "2px",
+                      background: `linear-gradient(90deg, 
+        transparent, 
+        ${alpha(theme.palette.primary.main, 0.2)},
+        ${alpha(theme.palette.secondary.main, 0.2)},
+        ${alpha(theme.palette.primary.main, 0.2)},
+        transparent
+      )`,
+                      width: "80%",
+                      mx: "auto",
+                    }}
+                  />
+                </Box>
 
                 {/* Botones de navegación mejorados */}
                 <Stack
@@ -934,17 +944,11 @@ Para: el amor de mi vida`,
                 >
                   <Button
                     variant={
-                      (activeSection as
-                        | "invitation"
-                        | "history"
-                        | "gallery"
-                        | "details") === "history"
-                        ? "contained"
-                        : "outlined"
+                      activeSection === "details" ? "contained" : "outlined"
                     }
                     color="info"
                     size="small"
-                    startIcon={<MenuBookIcon />}
+                    startIcon={<LocationIcon />}
                     onClick={() => setActiveSection("details")}
                     sx={{
                       borderRadius: 28,
@@ -953,17 +957,11 @@ Para: el amor de mi vida`,
                       textTransform: "none",
                     }}
                   >
-                    Detalles
+                    Ubicación
                   </Button>
                   <Button
                     variant={
-                      (activeSection as
-                        | "invitation"
-                        | "history"
-                        | "gallery"
-                        | "details") === "history"
-                        ? "contained"
-                        : "outlined"
+                      activeSection === "history" ? "contained" : "outlined"
                     }
                     color="secondary"
                     size="small"
@@ -980,13 +978,7 @@ Para: el amor de mi vida`,
                   </Button>
                   <Button
                     variant={
-                      (activeSection as
-                        | "invitation"
-                        | "history"
-                        | "gallery"
-                        | "details") === "history"
-                        ? "contained"
-                        : "outlined"
+                      activeSection === "gallery" ? "contained" : "outlined"
                     }
                     color="success"
                     size="small"
@@ -1152,82 +1144,6 @@ Para: el amor de mi vida`,
                   novia={novia}
                   onClose={handleCloseModal}
                 />
-              </>
-            )}
-
-            {modalType === "gift" && (
-              <>
-                <Box textAlign="center" mb={3}>
-                  <GiftIcon
-                    sx={{
-                      fontSize: 50,
-                      color: theme.palette.secondary.main,
-                      mb: 1,
-                    }}
-                  />
-                  <Typography variant="h5" gutterBottom>
-                    Datos bancarios
-                  </Typography>
-                  <Typography variant="body2" color="text.secondary" paragraph>
-                    Para quienes deseen colaborar con nuestra luna de miel
-                  </Typography>
-                </Box>
-
-                <Paper
-                  sx={{
-                    p: 2,
-                    bgcolor: alpha(theme.palette.primary.main, 0.03),
-                    borderRadius: 2,
-                  }}
-                >
-                  <Stack spacing={2}>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Banco
-                      </Typography>
-                      <Typography variant="body1">Banco de Crédito</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Tipo de cuenta
-                      </Typography>
-                      <Typography variant="body1">Ahorros</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Número de cuenta
-                      </Typography>
-                      <Typography variant="body1">191-12345678-0-90</Typography>
-                    </Box>
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        CCI
-                      </Typography>
-                      <Typography variant="body1">
-                        00219100123456789012
-                      </Typography>
-                    </Box>
-                    <Divider />
-                    <Box>
-                      <Typography variant="caption" color="text.secondary">
-                        Titular
-                      </Typography>
-                      <Typography variant="body1">
-                        {novia} {novio}
-                      </Typography>
-                    </Box>
-                  </Stack>
-                </Paper>
-
-                <Button
-                  fullWidth
-                  variant="contained"
-                  color="secondary"
-                  onClick={handleCloseModal}
-                  sx={{ mt: 3, borderRadius: 28 }}
-                >
-                  Cerrar
-                </Button>
               </>
             )}
           </Box>

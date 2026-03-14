@@ -42,6 +42,7 @@ const Gallery: React.FC<GalleryProps> = ({ fotos }) => {
     "/boda4.jpeg",
     "/boda5.jpeg",
     "/boda6.jpeg",
+    "/boda7.jpeg",
   ];
 
   const images = fotos && fotos.length > 0 ? fotos : localImages;
