@@ -30,8 +30,8 @@ interface HistorySectionProps {
 }
 
 const HistorySection: React.FC<HistorySectionProps> = ({
-  novio = "Chui",
-  novia = "Gabi",
+  novio = "Jesús Carrillo Salcedo",
+  novia = "Ana Gabriela López Aguilar",
   historia,
 }) => {
   const theme = useTheme();

@@ -65,8 +65,8 @@ function App() {
           <Fade in={true} timeout={1500}>
             <Box>
               <WeddingInvitation
-                novio="Chuy"
-                novia="Gabi"
+                novio="Jesús Carrillo Salcedo"
+                novia="Ana Gabriela López Aguilar"
                 fecha="Sábado, 26 de Septiembre 2026"
                 hora="5:00 PM"
                 lugar="Grand Jardín"

@@ -79,8 +79,8 @@ interface WeddingInvitationProps {
 }
 
 export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
-  novio = "Chui",
-  novia = "Gabi",
+  novio = "Jesús Carrillo Salcedo",
+  novia = "Ana Gabriela López Aguilar",
 
   fecha = "26 de Septiembre, 2026",
   hora = "5:00 PM",

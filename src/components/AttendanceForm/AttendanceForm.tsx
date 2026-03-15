@@ -119,13 +119,11 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
 
     if (formData.confirmacion === "si") {
       mensajeWhatsApp = encodeURIComponent(
-        `🎉 *¡${formData.nombre.toUpperCase()} CONFIRMA ASISTENCIA!* 🎉\n` +
+        `🎉 *¡CONFIRMO ASISTENCIA!* 🎉\n` +
           `═══════════════════════════\n\n` +
-          `Hola Chui y Gabi, ¡qué emoción! 💖\n\n` +
+          `Queridos Jesús Carrillo Salcedo y Ana Gabriela López Aguilar, ¡qué emoción! 💖\n\n` +
           `📌 *Mi confirmación:*\n` +
           `━━━━━━━━━━━━━━━━\n` +
-          `👤 *Invitado:* ${formData.nombre}\n` +
-          `📱 *Mi teléfono:* ${formData.telefono}\n` +
           `✅ *Asistiré:* ¡SÍ, con mucho gusto! ✨\n` +
           `👥 *Acompañantes:* ${formData.acompanantes}\n` +
           `━━━━━━━━━━━━━━━━\n\n` +
@@ -136,13 +134,11 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
       );
     } else {
       mensajeWhatsApp = encodeURIComponent(
-        `💔 *${formData.nombre.toUpperCase()} NO PODRÁ ASISTIR* 💔\n` +
+        `💔 *NO PODRÉ ASISTIR* 💔\n` +
           `═══════════════════════════\n\n` +
-          `Queridos Chui y Gabi,\n\n` +
+          `Queridos Ana Gabriela López Aguilar y Jesús Carrillo Salcedo ,\n\n` +
           `📌 *Mi confirmación:*\n` +
           `━━━━━━━━━━━━━━━━\n` +
-          `👤 *Invitado:* ${formData.nombre}\n` +
-          `📱 *Mi teléfono:* ${formData.telefono}\n` +
           `❌ *Asistiré:* Lamentablemente NO podré acompañarlos\n` +
           `━━━━━━━━━━━━━━━━\n\n` +
           `${formData.mensaje ? `💌 *Un mensaje para ti:*\n"${formData.mensaje}"\n\n` : ""}` +
