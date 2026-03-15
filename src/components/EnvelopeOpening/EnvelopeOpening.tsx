@@ -1,429 +1,487 @@
-// components/EnvelopeOpening.tsx
-import React, { useState, useEffect } from "react";
-import { Box, Typography, useTheme, alpha, Fade, Zoom } from "@mui/material";
-import {
-  Favorite as HeartIcon,
-  Diamond as DiamondIcon,
-  ChevronRight as RightIcon,
-} from "@mui/icons-material";
-import { keyframes } from "@mui/system";
+import React, { useState, useRef } from "react";
 
 interface EnvelopeOpeningProps {
   onOpen: () => void;
 }
 
-const float = keyframes`
-  0% { transform: translateY(0px); }
-  50% { transform: translateY(-20px); }
-  100% { transform: translateY(0px); }
-`;
+interface Petal {
+  id: number;
+  left: number;
+  duration: number;
+  delay: number;
+  size: number;
+  emoji: string;
+}
 
-const flapOpen = keyframes`
-  0% { transform: rotateX(0deg); }
-  50% { transform: rotateX(140deg); }
-  100% { transform: rotateX(180deg); z-index: 1; }
-`;
+interface Star {
+  id: number;
+  left: number;
+  top: number;
+  delay: number;
+  duration: number;
+}
 
-const heartBeat = keyframes`
-  0% { transform: scale(1); }
-  14% { transform: scale(1.3); }
-  28% { transform: scale(1); }
-  42% { transform: scale(1.3); }
-  70% { transform: scale(1); }
-`;
+const PETAL_EMOJIS = ["🌸", "🌺", "✿", "❀"];
 
-const sparkle = keyframes`
-  0% { opacity: 0; transform: scale(0) rotate(0deg); }
-  50% { opacity: 1; transform: scale(1.2) rotate(180deg); }
-  100% { opacity: 0; transform: scale(0) rotate(360deg); }
+const styles = `
+  @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&display=swap');
+
+  .env-scene {
+    position: fixed;
+    inset: 0;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    overflow: hidden;
+    background: radial-gradient(ellipse at 50% 60%, #fff5f7 0%, #fef0f4 40%, #fce8f0 100%);
+  }
+
+  .env-star {
+    position: absolute;
+    width: 3px;
+    height: 3px;
+    border-radius: 50%;
+    background: #e8a0b4;
+    animation: env-twinkle 3s ease-in-out infinite;
+    pointer-events: none;
+  }
+
+  @keyframes env-twinkle {
+    0%, 100% { opacity: 0.2; transform: scale(1); }
+    50% { opacity: 0.9; transform: scale(1.8); }
+  }
+
+  .env-petal {
+    position: absolute;
+    top: -30px;
+    pointer-events: none;
+    animation: env-fall linear infinite;
+    opacity: 0;
+  }
+
+  @keyframes env-fall {
+    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
+    10%  { opacity: 0.7; }
+    90%  { opacity: 0.4; }
+    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
+  }
+
+  .env-center {
+    position: relative;
+    text-align: center;
+    display: flex;
+    flex-direction: column;
+    align-items: center;
+    z-index: 2;
+  }
+
+  .env-pretitle {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 44px;
+    color: #b5436a;
+    line-height: 1;
+    margin-bottom: 4px;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .env-subtitle {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 13px;
+    letter-spacing: 0.2em;
+    color: #c9738a;
+    text-transform: uppercase;
+    margin-bottom: 28px;
+    transition: opacity 0.6s ease, transform 0.6s ease;
+  }
+
+  .env-fade-out {
+    opacity: 0 !important;
+    transform: translateY(-10px) !important;
+    pointer-events: none;
+  }
+
+  .env-wrap {
+    width: 300px;
+    height: 188px;
+    position: relative;
+    cursor: pointer;
+    animation: env-float 3.5s ease-in-out infinite;
+    filter: drop-shadow(0 12px 24px rgba(176, 54, 103, 0.2));
+    transition: transform 0.15s;
+    user-select: none;
+  }
+
+  .env-wrap:hover  { transform: scale(1.04); }
+  .env-wrap:active { transform: scale(0.97); }
+
+  .env-wrap.env-opened {
+    animation: none;
+    pointer-events: none;
+  }
+
+  @keyframes env-float {
+    0%, 100% { transform: translateY(0); }
+    50%       { transform: translateY(-10px); }
+  }
+
+  .env-svg {
+    width: 100%;
+    height: 100%;
+    overflow: visible;
+  }
+
+  .env-flap {
+    transform-origin: 50% 0%;
+    transform-box: fill-box;
+  }
+
+  .env-flap.env-opening {
+    animation: env-openFlap 0.9s cubic-bezier(0.4, 0, 0.2, 1) forwards;
+  }
+
+  @keyframes env-openFlap {
+    0%   { transform: rotateX(0deg); }
+    100% { transform: rotateX(180deg); }
+  }
+
+  .env-heart-pulse {
+    transform-origin: center;
+    transform-box: fill-box;
+    animation: env-pulse 1.8s ease-in-out infinite;
+  }
+
+  @keyframes env-pulse {
+    0%, 100% { transform: scale(1); }
+    50%       { transform: scale(1.2); }
+  }
+
+  /* ── Letter card ── */
+  .env-letter {
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, calc(-50% + 55px)) scale(0.9);
+    width: 320px;
+    background: #fffbf4;
+    border: 0.5px solid #f0d0dc;
+    border-radius: 14px;
+    padding: 30px 28px 24px;
+    text-align: center;
+    opacity: 0;
+    pointer-events: none;
+    transition: opacity 0.9s cubic-bezier(0.2, 0, 0.2, 1),
+                transform 0.9s cubic-bezier(0.2, 0, 0.2, 1);
+    box-shadow: 0 20px 50px rgba(176, 54, 103, 0.14);
+    z-index: 10;
+  }
+
+  .env-letter.env-letter-visible {
+    opacity: 1;
+    transform: translate(-50%, -50%) scale(1);
+    pointer-events: auto;
+  }
+
+  .env-letter-deco {
+    position: absolute;
+    top: -1px;
+    left: 50%;
+    transform: translateX(-50%);
+    width: 60px;
+    height: 2px;
+    background: linear-gradient(90deg, transparent, #d4769a, transparent);
+    border-radius: 2px;
+  }
+
+  .env-letter-row {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    gap: 8px;
+    margin-bottom: 16px;
+  }
+
+  .env-letter-line {
+    flex: 1;
+    height: 0.5px;
+    background: #e8bfcc;
+  }
+
+  .env-letter-heart-icon {
+    color: #d4769a;
+    font-size: 11px;
+  }
+
+  .env-letter-script {
+    font-family: 'Pinyon Script', cursive;
+    font-size: 48px;
+    color: #b5436a;
+    line-height: 1;
+    margin-bottom: 4px;
+  }
+
+  .env-letter-names {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 20px;
+    font-weight: 300;
+    color: #6b2040;
+    letter-spacing: 0.05em;
+    margin-bottom: 12px;
+  }
+
+  .env-letter-divider {
+    width: 36px;
+    height: 0.5px;
+    background: #e8bfcc;
+    margin: 0 auto 12px;
+  }
+
+  .env-letter-body {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 15px;
+    font-weight: 300;
+    color: #8a4560;
+    line-height: 1.72;
+    letter-spacing: 0.02em;
+  }
+
+  .env-letter-date {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 19px;
+    font-weight: 400;
+    color: #b5436a;
+    letter-spacing: 0.14em;
+    margin-top: 16px;
+  }
+
+  .env-letter-city {
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 11px;
+    letter-spacing: 0.26em;
+    text-transform: uppercase;
+    color: #c9738a;
+    margin-top: 3px;
+  }
 `;
 
 const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
-  const theme = useTheme();
-  const [isOpening, setIsOpening] = useState(false);
-  const [showContent, setShowContent] = useState(false);
-  const [sparkles, setSparkles] = useState<
-    Array<{ id: number; left: string; top: string; delay: string }>
-  >([]);
+  const [opened, setOpened] = useState(false);
+  const [showLetter, setShowLetter] = useState(false);
+  const calledOnOpen = useRef(false);
 
-  // Generar estrellas brillantes aleatorias
-  useEffect(() => {
-    const newSparkles = [];
-    for (let i = 0; i < 20; i++) {
-      newSparkles.push({
-        id: i,
-        left: `${Math.random() * 100}%`,
-        top: `${Math.random() * 100}%`,
-        delay: `${Math.random() * 3}s`,
-      });
-    }
-    setSparkles(newSparkles);
-  }, []);
+  const [petals] = useState<Petal[]>(() =>
+    Array.from({ length: 26 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      duration: 8 + Math.random() * 8,
+      delay: Math.random() * 10,
+      size: 12 + Math.random() * 10,
+      emoji: PETAL_EMOJIS[Math.floor(Math.random() * PETAL_EMOJIS.length)],
+    })),
+  );
+
+  const [stars] = useState<Star[]>(() =>
+    Array.from({ length: 22 }, (_, i) => ({
+      id: i,
+      left: Math.random() * 100,
+      top: Math.random() * 100,
+      delay: Math.random() * 4,
+      duration: 2 + Math.random() * 3,
+    })),
+  );
 
   const handleOpen = () => {
-    setIsOpening(true);
+    if (opened) return;
+    setOpened(true);
 
-    // Después de la animación del sobre, mostrar el contenido
     setTimeout(() => {
-      setShowContent(true);
-
-      // Llamar a onOpen después de un pequeño retraso para mostrar el contenido
+      setShowLetter(true);
       setTimeout(() => {
-        onOpen();
-      }, 3500);
-    }, 1500);
+        if (!calledOnOpen.current) {
+          calledOnOpen.current = true;
+          onOpen();
+        }
+      }, 8500);
+    }, 900);
   };
 
   return (
-    <Box
-      sx={{
-        position: "fixed",
-        top: 0,
-        left: 0,
-        right: 0,
-        bottom: 0,
-        display: "flex",
-        alignItems: "center",
-        justifyContent: "center",
-        background: `linear-gradient(135deg, 
-          ${alpha(theme.palette.primary.dark, 0.1)} 0%, 
-          ${alpha(theme.palette.secondary.dark, 0.1)} 50%,
-          ${alpha(theme.palette.primary.dark, 0.1)} 100%)`,
-        backdropFilter: "blur(5px)",
-        zIndex: 9999,
-        overflow: "hidden",
-      }}
-    >
-      {/* Fondo con estrellas brillantes */}
-      {sparkles.map((sparkle) => (
-        <Box
-          key={sparkle.id}
-          sx={{
-            position: "absolute",
-            left: sparkle.left,
-            top: sparkle.top,
-            color: theme.palette.primary.main,
-            opacity: 0.3,
-            animation: `${sparkle} 4s infinite`,
-            animationDelay: sparkle.delay,
-            fontSize: { xs: "10px", sm: "15px" },
-            "&::before": {
-              content: '"✨"',
-            },
-          }}
-        />
-      ))}
+    <>
+      <style>{styles}</style>
 
-      {/* Contenedor principal */}
-      <Box
-        sx={{
-          position: "relative",
-          width: { xs: "300px", sm: "400px", md: "500px" },
-          height: { xs: "400px", sm: "500px", md: "600px" },
-          display: "flex",
-          flexDirection: "column",
-          alignItems: "center",
-          justifyContent: "center",
-        }}
-      >
-        {/* Texto romántico superior */}
-        <Fade in={!isOpening} timeout={2000}>
-          <Box
-            sx={{
-              textAlign: "center",
-              mb: 4,
-              animation: `${float} 3s infinite ease-in-out`,
-            }}
-          >
-            <Typography
-              variant="h3"
-              sx={{
-                fontFamily: "'Dancing Script', cursive",
-                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary.main} 100%)`,
-                WebkitBackgroundClip: "text",
-                WebkitTextFillColor: "transparent",
-                mb: 2,
-                fontSize: { xs: "2rem", sm: "2.5rem", md: "3rem" },
-              }}
-            >
-              Una invitación muy especial
-            </Typography>
-            <Typography
-              variant="h6"
-              sx={{
-                color: alpha(theme.palette.text.primary, 0.7),
-                fontStyle: "italic",
-                fontFamily: "'Georgia', serif",
-              }}
-            >
-              Toca el sobre para abrirlo
-            </Typography>
-          </Box>
-        </Fade>
-
-        {/* El Sobre */}
-        <Box
-          onClick={handleOpen}
-          sx={{
-            position: "relative",
-            width: { xs: "250px", sm: "300px", md: "350px" },
-            height: { xs: "150px", sm: "180px", md: "200px" },
-            cursor: "pointer",
-            transition: "transform 0.3s",
-            "&:hover:not(.opening)": {
-              transform: "scale(1.05)",
-              "& .envelope-flap": {
-                borderBottomColor: alpha(theme.palette.primary.main, 0.3),
-              },
-            },
-            ...(isOpening && {
-              pointerEvents: "none",
-            }),
-          }}
-        >
-          {/* Cuerpo del sobre */}
-          <Box
-            sx={{
-              position: "absolute",
-              bottom: 0,
-              width: "100%",
-              height: "80%",
-              background: `linear-gradient(145deg, 
-                ${alpha(theme.palette.primary.main, 0.2)} 0%, 
-                ${alpha(theme.palette.secondary.main, 0.2)} 100%)`,
-              border: `3px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-              borderRadius: "10px",
-              boxShadow: `0 20px 40px ${alpha(theme.palette.common.black, 0.2)}`,
-              backdropFilter: "blur(10px)",
-              "&::before": {
-                content: '""',
-                position: "absolute",
-                top: 0,
-                left: "10%",
-                width: "80%",
-                height: "2px",
-                background: `linear-gradient(90deg, transparent, ${alpha(theme.palette.primary.main, 0.5)}, transparent)`,
-              },
-            }}
-          >
-            {/* Sombra interior */}
-            <Box
-              sx={{
-                position: "absolute",
-                top: "20%",
-                left: "10%",
-                width: "80%",
-                height: "60%",
-                background: `linear-gradient(145deg, 
-                  ${alpha(theme.palette.common.white, 0.2)} 0%, 
-                  transparent 100%)`,
-                borderRadius: "5px",
-              }}
-            />
-          </Box>
-
-          {/* Solapa del sobre (triángulo) */}
-          <Box
-            className="envelope-flap"
-            sx={{
-              position: "absolute",
-              top: 0,
-              left: 0,
-              width: "100%",
-              height: "50%",
-              background: `linear-gradient(145deg, 
-                ${alpha(theme.palette.primary.light, 0.3)} 0%, 
-                ${alpha(theme.palette.secondary.light, 0.3)} 100%)`,
-              border: `3px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-              borderBottom: "none",
-              borderRadius: "10px 10px 0 0",
-              transformOrigin: "top",
-              transition: "all 0.3s",
-              animation: isOpening
-                ? `${flapOpen} 1.5s ease-in-out forwards`
-                : "none",
-              zIndex: 2,
-              "&::before": {
-                content: '""',
-                position: "absolute",
-                bottom: "-20px",
-                left: "50%",
-                transform: "translateX(-50%)",
-                width: 0,
-                height: 0,
-                borderLeft: "150px solid transparent",
-                borderRight: "150px solid transparent",
-                borderTop: `40px solid ${alpha(theme.palette.primary.light, 0.2)}`,
-                opacity: 0.5,
-              },
+      <div className="env-scene">
+        {/* Stars */}
+        {stars.map((s) => (
+          <div
+            key={s.id}
+            className="env-star"
+            style={{
+              left: `${s.left}%`,
+              top: `${s.top}%`,
+              animationDelay: `${s.delay}s`,
+              animationDuration: `${s.duration}s`,
             }}
           />
+        ))}
 
-          {/* Contenido que emerge del sobre */}
-          <Fade in={showContent} timeout={1000}>
-            <Box
-              sx={{
-                position: "absolute",
-                top: "-100%",
-                left: "5%",
-                width: "90%",
-                minHeight: "200px",
-                background: `linear-gradient(145deg, 
-                  ${alpha(theme.palette.common.white, 0.95)} 0%, 
-                  ${alpha(theme.palette.grey[50], 0.95)} 100%)`,
-                border: `3px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-                borderRadius: "15px",
-                padding: "20px",
-                boxShadow: `0 20px 40px ${alpha(theme.palette.common.black, 0.2)}`,
-                backdropFilter: "blur(10px)",
-                zIndex: 3,
-                display: "flex",
-                flexDirection: "column",
-                alignItems: "center",
-                justifyContent: "center",
-                animation: `${float} 3s infinite ease-in-out`,
-              }}
-            >
-              <Zoom in={showContent} timeout={1500}>
-                <Box sx={{ textAlign: "center" }}>
-                  <Box
-                    sx={{
-                      display: "flex",
-                      justifyContent: "center",
-                      gap: 2,
-                      mb: 2,
-                    }}
-                  >
-                    <HeartIcon
-                      sx={{
-                        color: theme.palette.secondary.main,
-                        fontSize: 40,
-                        animation: `${heartBeat} 2s infinite`,
-                      }}
-                    />
-                    <DiamondIcon
-                      sx={{
-                        color: theme.palette.primary.main,
-                        fontSize: 40,
-                        animation: `${sparkle} 3s infinite`,
-                      }}
-                    />
-                  </Box>
-
-                  <Typography
-                    variant="h4"
-                    sx={{
-                      fontFamily: "'Dancing Script', cursive",
-                      color: theme.palette.primary.main,
-                      mb: 2,
-                    }}
-                  >
-                    ¡Ha llegado tu invitación!
-                  </Typography>
-
-                  <Typography
-                    variant="body1"
-                    sx={{
-                      color: alpha(theme.palette.text.primary, 0.8),
-                      mb: 3,
-                      fontStyle: "italic",
-                    }}
-                  >
-                    Con mucho amor y alegría, te invitamos a celebrar nuestro
-                    matrimonio
-                  </Typography>
-
-                  <Box
-                    sx={{
-                      display: "flex",
-                      alignItems: "center",
-                      justifyContent: "center",
-                      gap: 1,
-                      color: theme.palette.secondary.main,
-                    }}
-                  >
-                    <Typography variant="body2">
-                      Descubre todos los detalles
-                    </Typography>
-                    <RightIcon sx={{ animation: `${float} 1s infinite` }} />
-                  </Box>
-                </Box>
-              </Zoom>
-            </Box>
-          </Fade>
-
-          {/* Decoración del sobre */}
-          <Box
-            sx={{
-              position: "absolute",
-              top: "30%",
-              left: "50%",
-              transform: "translateX(-50%)",
-              display: "flex",
-              gap: 1,
-              zIndex: 1,
+        {/* Petals */}
+        {petals.map((p) => (
+          <div
+            key={p.id}
+            className="env-petal"
+            style={{
+              left: `${p.left}%`,
+              fontSize: `${p.size}px`,
+              animationDuration: `${p.duration}s`,
+              animationDelay: `${p.delay}s`,
             }}
           >
-            <HeartIcon
-              sx={{
-                color: alpha(theme.palette.secondary.main, 0.6),
-                fontSize: { xs: 20, sm: 25 },
-                animation: `${heartBeat} 3s infinite`,
-              }}
-            />
-            <HeartIcon
-              sx={{
-                color: alpha(theme.palette.primary.main, 0.6),
-                fontSize: { xs: 20, sm: 25 },
-                animation: `${heartBeat} 3s infinite 0.5s`,
-              }}
-            />
-            <HeartIcon
-              sx={{
-                color: alpha(theme.palette.secondary.main, 0.6),
-                fontSize: { xs: 20, sm: 25 },
-                animation: `${heartBeat} 3s infinite 1s`,
-              }}
-            />
-          </Box>
+            {p.emoji}
+          </div>
+        ))}
 
-          {/* Sello de cera decorativo */}
-          <Zoom in={!isOpening}>
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: "20%",
-                right: "15%",
-                width: "40px",
-                height: "40px",
-                borderRadius: "50%",
-                background: `linear-gradient(145deg, 
-                  ${theme.palette.primary.main} 0%, 
-                  ${theme.palette.secondary.main} 100%)`,
-                display: "flex",
-                alignItems: "center",
-                justifyContent: "center",
-                boxShadow: `0 4px 8px ${alpha(theme.palette.common.black, 0.2)}`,
-                zIndex: 1,
-                "&::before": {
-                  content: '"❤️"',
-                  fontSize: "20px",
-                },
-              }}
-            />
-          </Zoom>
-        </Box>
+        <div className="env-center">
+          {/* Heading */}
+          <div className={`env-pretitle${opened ? " env-fade-out" : ""}`}>
+            Para ti
+          </div>
+          <div className={`env-subtitle${opened ? " env-fade-out" : ""}`}>
+            Toca el sobre para abrir la invitación
+          </div>
 
-       
-      </Box>
+          {/* Envelope */}
+          <div
+            className={`env-wrap${opened ? " env-opened" : ""}`}
+            onClick={handleOpen}
+            role="button"
+            aria-label="Abrir invitación"
+            tabIndex={0}
+            onKeyDown={(e) => e.key === "Enter" && handleOpen()}
+          >
+            <svg
+              className="env-svg"
+              viewBox="0 0 300 188"
+              xmlns="http://www.w3.org/2000/svg"
+            >
+              <defs>
+                <linearGradient id="env-bodyGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#fff6f8" />
+                  <stop offset="100%" stopColor="#fce8ef" />
+                </linearGradient>
+                <linearGradient id="env-flapGrad" x1="0" y1="0" x2="0" y2="1">
+                  <stop offset="0%" stopColor="#fce8ef" />
+                  <stop offset="100%" stopColor="#f9d0de" />
+                </linearGradient>
+              </defs>
 
-      {/* Estilos globales para fuentes */}
-      <style>
-        {`
-          @import url('https://fonts.googleapis.com/css2?family=Dancing+Script:wght@400;700&display=swap');
-        `}
-      </style>
-    </Box>
+              {/* Envelope body */}
+              <rect
+                x="0"
+                y="56"
+                width="300"
+                height="132"
+                rx="8"
+                fill="url(#env-bodyGrad)"
+                stroke="#f0c4d4"
+                strokeWidth="0.8"
+              />
+
+              {/* Left wing */}
+              <polygon
+                points="0,62 0,188 130,128"
+                fill="#fde0e9"
+                stroke="#f0c4d4"
+                strokeWidth="0.6"
+              />
+
+              {/* Right wing */}
+              <polygon
+                points="300,62 300,188 170,128"
+                fill="#fde0e9"
+                stroke="#f0c4d4"
+                strokeWidth="0.6"
+              />
+
+              {/* Bottom fold */}
+              <polygon
+                points="0,188 300,188 150,116"
+                fill="#f9d0de"
+                stroke="#f0c4d4"
+                strokeWidth="0.6"
+              />
+
+              {/* Flap */}
+              <g className={`env-flap${opened ? " env-opening" : ""}`}>
+                <polygon
+                  points="0,62 300,62 150,148"
+                  fill="url(#env-flapGrad)"
+                  stroke="#f0c4d4"
+                  strokeWidth="0.8"
+                />
+              </g>
+
+              {/* Wax seal */}
+              <circle
+                cx="150"
+                cy="116"
+                r="22"
+                fill="#fff0f4"
+                stroke="#f0c4d4"
+                strokeWidth="0.8"
+              />
+
+              {/* Heart in seal */}
+              <path
+                className="env-heart-pulse"
+                d="M150,124 C147.5,119.5 139,114 139,107.5 C139,103.5 141.8,101 145.5,101 C147.2,101 148.8,101.7 150,103.2 C151.2,101.7 152.8,101 154.5,101 C158.2,101 161,103.5 161,107.5 C161,114 152.5,119.5 150,124 Z"
+                fill="#e8748a"
+              />
+
+              {/* Rose decorations */}
+              <text x="18" y="95" fontSize="14" opacity="0.5">
+                🌸
+              </text>
+              <text x="265" y="95" fontSize="14" opacity="0.5">
+                🌸
+              </text>
+            </svg>
+          </div>
+
+          {/* Letter */}
+          <div
+            className={`env-letter${showLetter ? " env-letter-visible" : ""}`}
+          >
+            <div className="env-letter-deco" />
+
+            <div className="env-letter-row">
+              <div className="env-letter-line" />
+              <span className="env-letter-heart-icon">♥</span>
+              <div className="env-letter-line" />
+            </div>
+
+            <div className="env-letter-script">Con Amor</div>
+            <div className="env-letter-names">Jesús &amp; Ana Gabriela</div>
+            <div className="env-letter-divider" />
+
+            <div className="env-letter-body">
+              Con todo el amor de nuestros corazones,
+              <br />
+              te invitamos a celebrar el inicio
+              <br />
+              de nuestra nueva vida juntos.
+            </div>
+
+            <div className="env-letter-date">26 · Septiembre · 2026</div>
+            <div className="env-letter-city">Grand Jardín</div>
+
+            <div className="env-letter-row" style={{ marginTop: 18 }}>
+              <div className="env-letter-line" />
+              <span className="env-letter-heart-icon">♥</span>
+              <div className="env-letter-line" />
+            </div>
+          </div>
+        </div>
+      </div>
+    </>
   );
 };
 
