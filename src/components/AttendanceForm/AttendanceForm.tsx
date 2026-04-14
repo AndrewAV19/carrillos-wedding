@@ -45,7 +45,7 @@ interface AttendanceFormProps {
 }
 
 const AttendanceForm: React.FC<AttendanceFormProps> = ({
-  numeroNovio = "3239499621",
+  numeroNovio = "+13239499621",
   onClose,
 }) => {
   const theme = useTheme();
@@ -119,33 +119,34 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
 
     if (formData.confirmacion === "si") {
       mensajeWhatsApp = encodeURIComponent(
-        `🎉 *¡CONFIRMO ASISTENCIA!* 🎉\n` +
+        `CONFIRMACIÓN DE ASISTENCIA\n` +
           `═══════════════════════════\n\n` +
-          `Queridos Jesús Carrillo Salcedo y Ana Gabriela López Aguilar, ¡qué emoción! 💖\n\n` +
-          `📌 *Mi confirmación:*\n` +
+          `Queridos Jesús Carrillo Salcedo y Ana Gabriela López Aguilar:\n\n` +
+          `Con gran alegría confirmo que tendré el honor de acompañarlos en un día tan especial en sus vidas.\n\n` +
           `━━━━━━━━━━━━━━━━\n` +
-          `✅ *Asistiré:* ¡SÍ, con mucho gusto! ✨\n` +
-          `👥 *Acompañantes:* ${formData.acompanantes}\n` +
+          `Asistiré con gusto.\n` +
+          `Número de acompañantes: ${formData.acompanantes}\n` +
           `━━━━━━━━━━━━━━━━\n\n` +
-          `${formData.mensaje ? `💌 *Un mensaje para ti:*\n"${formData.mensaje}"\n\n` : ""}` +
-          `¡Nos vemos en la boda! Que sea un día inolvidable 🎊\n\n` +
+          `${formData.mensaje ? `Mensaje:\n"${formData.mensaje}"\n\n` : ""}` +
+          `Será un verdadero placer compartir con ustedes este momento tan importante.\n` +
+          `Deseo de corazón que su boda esté llena de amor, felicidad y bendiciones.\n\n` +
           `Con cariño,\n` +
-          `${formData.nombre} 💫`,
+          `${formData.nombre}`,
       );
     } else {
       mensajeWhatsApp = encodeURIComponent(
-        `💔 *NO PODRÉ ASISTIR* 💔\n` +
+        `CONFIRMACIÓN\n` +
           `═══════════════════════════\n\n` +
-          `Queridos Ana Gabriela López Aguilar y Jesús Carrillo Salcedo ,\n\n` +
-          `📌 *Mi confirmación:*\n` +
+          `Queridos Jesús Carrillo Salcedo y Ana Gabriela López Aguilar:\n\n` +
+          `Con mucha sinceridad, lamento no poder acompañarlos en esta ocasión tan especial.\n\n` +
           `━━━━━━━━━━━━━━━━\n` +
-          `❌ *Asistiré:* Lamentablemente NO podré acompañarlos\n` +
+          `No podré asistir.\n` +
           `━━━━━━━━━━━━━━━━\n\n` +
-          `${formData.mensaje ? `💌 *Un mensaje para ti:*\n"${formData.mensaje}"\n\n` : ""}` +
-          `Aunque no pueda estar presente, estaré celebrando desde donde esté. ` +
-          `¡Que tengan el día más hermoso del mundo! 🌟\n\n` +
+          `${formData.mensaje ? `Mensaje:\n"${formData.mensaje}"\n\n` : ""}` +
+          `A pesar de la distancia, les envío mis mejores deseos en este día tan importante.\n` +
+          `Que su unión esté llena de amor, alegría y bendiciones hoy y siempre.\n\n` +
           `Con cariño,\n` +
-          `${formData.nombre} 💕`,
+          `${formData.nombre}`,
       );
     }
 
