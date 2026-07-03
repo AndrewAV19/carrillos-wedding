@@ -459,7 +459,7 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
             </div>
 
             <div className="env-letter-script">Con Amor</div>
-            <div className="env-letter-names">Jesús &amp; Ana Gabriela</div>
+            <div className="env-letter-names">Jesús &amp; Gabriela</div>
             <div className="env-letter-divider" />
 
             <div className="env-letter-body">
