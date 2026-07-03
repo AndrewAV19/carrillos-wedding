@@ -4,15 +4,6 @@ interface EnvelopeOpeningProps {
   onOpen: () => void;
 }
 
-interface Petal {
-  id: number;
-  left: number;
-  duration: number;
-  delay: number;
-  size: number;
-  emoji: string;
-}
-
 interface Star {
   id: number;
   left: number;
@@ -20,8 +11,6 @@ interface Star {
   delay: number;
   duration: number;
 }
-
-const PETAL_EMOJIS = ["🌸", "🌺", "✿", "❀"];
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&display=swap');
@@ -49,21 +38,6 @@ const styles = `
   @keyframes env-twinkle {
     0%, 100% { opacity: 0.2; transform: scale(1); }
     50% { opacity: 0.9; transform: scale(1.8); }
-  }
-
-  .env-petal {
-    position: absolute;
-    top: -30px;
-    pointer-events: none;
-    animation: env-fall linear infinite;
-    opacity: 0;
-  }
-
-  @keyframes env-fall {
-    0%   { transform: translateY(0) rotate(0deg); opacity: 0; }
-    10%  { opacity: 0.7; }
-    90%  { opacity: 0.4; }
-    100% { transform: translateY(110vh) rotate(540deg); opacity: 0; }
   }
 
   .env-center {
@@ -268,17 +242,6 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
   const [showLetter, setShowLetter] = useState(false);
   const calledOnOpen = useRef(false);
 
-  const [petals] = useState<Petal[]>(() =>
-    Array.from({ length: 26 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      duration: 8 + Math.random() * 8,
-      delay: Math.random() * 10,
-      size: 12 + Math.random() * 10,
-      emoji: PETAL_EMOJIS[Math.floor(Math.random() * PETAL_EMOJIS.length)],
-    })),
-  );
-
   const [stars] = useState<Star[]>(() =>
     Array.from({ length: 22 }, (_, i) => ({
       id: i,
@@ -321,22 +284,6 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
               animationDuration: `${s.duration}s`,
             }}
           />
-        ))}
-
-        {/* Petals */}
-        {petals.map((p) => (
-          <div
-            key={p.id}
-            className="env-petal"
-            style={{
-              left: `${p.left}%`,
-              fontSize: `${p.size}px`,
-              animationDuration: `${p.duration}s`,
-              animationDelay: `${p.delay}s`,
-            }}
-          >
-            {p.emoji}
-          </div>
         ))}
 
         <div className="env-center">

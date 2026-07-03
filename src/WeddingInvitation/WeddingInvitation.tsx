@@ -344,8 +344,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           <Typography sx={{ fontSize: "2rem", color: alpha(gold, 0.35), lineHeight: 1, mb: 1, animation: "wi-float 6s ease-in-out infinite", display: "block" }}>
             ♛
           </Typography>
-          <Typography sx={{ fontFamily: "'Cormorant Garamond', serif", fontSize: "0.68rem", letterSpacing: "0.4em", textTransform: "uppercase", color: alpha(rose, 0.55), mb: 2 }}>
-            Invitación de nuestra boda
+          <Typography sx={{ mb: 4, fontFamily: "'Cormorant Garamond', serif", fontSize: "0.68rem", letterSpacing: "0.4em", textTransform: "uppercase", color: alpha(rose, 0.55) }}>
+            Hay momentos en la vida que son especiales por sí solos, pero compartirlos con quienes más amamos los hace inolvidables. Por eso, queremos que sean parte del día en que unimos nuestras vidas.
           </Typography>
 
           <Typography sx={{ fontFamily: "'Pinyon Script', cursive", fontSize: { xs: "3.2rem", sm: "4.2rem" }, color: rose, lineHeight: 1, mb: 0.5, animation: "wi-float 5s ease-in-out infinite", display: "block" }}>
@@ -359,7 +359,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Box>
 
           <Typography sx={{ fontFamily: "'Pinyon Script', cursive", fontSize: { xs: "3.2rem", sm: "4.2rem" }, color: rose, lineHeight: 1, mb: 2, animation: "wi-float 5.5s ease-in-out infinite 0.5s", display: "block" }}>
-            {novia.split(" ")[0]}
+            {novia.split(" ")[1]}
           </Typography>
 
           <Typography sx={{ fontFamily: "'Cormorant Garamond', serif", fontSize: { xs: "0.9rem", sm: "1rem" }, fontWeight: 300, color: alpha(ink, 0.6), letterSpacing: "0.06em", mb: 0.5 }}>
