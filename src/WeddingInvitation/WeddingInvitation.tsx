@@ -126,7 +126,9 @@ interface WeddingInvitationProps {
   novia?: string;
   fecha?: string;
   hora?: string;
+  horaFiesta?: string;
   lugar?: string;
+  lugarCeremonia?: string;
   direccion?: string;
   mensaje?: string;
   historia?: string;
@@ -198,7 +200,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   novia = "Ana Gabriela López Aguilar",
   fecha = "26 de Septiembre, 2026",
   hora = "5:00 PM",
+  horaFiesta = "7:00 PM",
   lugar = "Grand Jardín",
+  lugarCeremonia = "Parroquia Santa Mónica",
   direccion = "La Barca, Jalisco",
   mensaje = "Con la bendición de Dios y nuestros padres, nos unimos en matrimonio y queremos compartir esta alegría contigo.",
   historia = `Quién diría que 13 años después terminaríamos juntos...`,
@@ -414,10 +418,10 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
 
         {/* Detail cards */}
         <Grid container spacing={2} sx={{ mb: 4 }}>
-          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={CalendarIcon} title="Fecha"      value={fecha}             sub="Sábado"        delay={0}   /></Grid>
-          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={TimeIcon}     title="Ceremonia"  value={hora}                                  delay={150} /></Grid>
-          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={ChurchIcon}   title="Lugar"      value={lugar}             sub={direccion}     delay={300} /></Grid>
-          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={DryCleaningIcon} title="Vestimenta" value={codigoVestimenta} sub={codigoDresscode} delay={450} /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={CalendarIcon} title="Fecha"         value={fecha}             sub="Sábado"          delay={0}   /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={TimeIcon}     title="Ceremonia"     value={lugarCeremonia}    sub={hora}            delay={150} /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={ChurchIcon}   title="Lugar"         value={lugar}             sub={horaFiesta}      delay={300} /></Grid>
+          <Grid size={{ xs: 12, sm: 6 }}><DetailCard icon={DryCleaningIcon} title="Vestimenta" value={codigoVestimenta}  sub={codigoDresscode} delay={450} /></Grid>
         </Grid>
 
         {/* Nav buttons */}
