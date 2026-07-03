@@ -1,5 +1,5 @@
 // components/WeddingInvitation.tsx
-import React, { useState, useEffect, useRef, memo } from "react";
+import React, { useState, useEffect, memo } from "react";
 import {
   Box,
   Card,
@@ -32,11 +32,137 @@ import {
   Close as CloseIcon,
   Church as ChurchIcon,
   ConfirmationNumber as ConfirmationNumberIcon,
+  Palette as PaletteIcon,
 } from "@mui/icons-material";
 import HistorySection from "../components/HistorySection/HistorySection";
 import Gallery from "../components/Gallery/Gallery";
 import MusicPlayer from "../components/MusicPlayer/MusicPlayer";
 import AttendanceForm from "../components/AttendanceForm/AttendanceForm";
+
+// Añade este componente después de tus imports
+const ColorPaletteModal = ({ imageUrl }: { imageUrl: string }) => {
+  const [open, setOpen] = useState(false);
+
+  return (
+    <>
+      {/* Botón flotante circular - como el de música */}
+      <IconButton
+        onClick={() => setOpen(true)}
+        sx={{
+          position: 'fixed',
+          bottom: 104,
+          right: 24,
+          zIndex: 9999,
+          width: 56,
+          height: 56,
+          background: `linear-gradient(135deg, #8B4C6B, #C17B97)`,
+          color: '#fff',
+          boxShadow: '0 4px 20px rgba(139, 76, 107, 0.4)',
+          '&:hover': {
+            transform: 'scale(1.1)',
+            boxShadow: '0 8px 30px rgba(139, 76, 107, 0.5)',
+          },
+          transition: 'all 0.3s ease',
+          border: '2px solid rgba(255,255,255,0.3)',
+          backdropFilter: 'blur(10px)',
+          '& .MuiSvgIcon-root': {
+            fontSize: '1.5rem',
+          },
+        }}
+      >
+        <PaletteIcon />
+      </IconButton>
+
+      {/* Modal con la imagen */}
+      <Modal
+        open={open}
+        onClose={() => setOpen(false)}
+        closeAfterTransition
+        BackdropComponent={Backdrop}
+        BackdropProps={{
+          timeout: 500,
+          sx: {
+            backdropFilter: 'blur(8px)',
+            background: 'rgba(0,0,0,0.7)',
+          }
+        }}
+      >
+        <Fade in={open}>
+          <Box sx={{
+            position: 'absolute',
+            top: '50%',
+            left: '50%',
+            transform: 'translate(-50%, -50%)',
+            maxWidth: '90%',
+            maxHeight: '90%',
+            outline: 'none',
+            borderRadius: '16px',
+            overflow: 'hidden',
+            boxShadow: '0 24px 80px rgba(0,0,0,0.5)',
+            border: '2px solid rgba(255,255,255,0.1)',
+          }}>
+            {/* Botón cerrar */}
+            <IconButton
+              onClick={() => setOpen(false)}
+              sx={{
+                position: 'absolute',
+                top: 12,
+                right: 12,
+                zIndex: 10,
+                background: 'rgba(0,0,0,0.6)',
+                color: '#fff',
+                backdropFilter: 'blur(4px)',
+                '&:hover': {
+                  background: 'rgba(0,0,0,0.8)',
+                  transform: 'rotate(90deg)',
+                },
+                transition: 'all 0.3s ease',
+                width: 40,
+                height: 40,
+              }}
+            >
+              <CloseIcon />
+            </IconButton>
+
+            {/* Título de la paleta */}
+            <Box sx={{
+              position: 'absolute',
+              bottom: 0,
+              left: 0,
+              right: 0,
+              p: 3,
+              background: 'linear-gradient(transparent, rgba(0,0,0,0.7))',
+              color: '#fff',
+              zIndex: 10,
+            }}>
+              <Typography sx={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: '1.2rem',
+                fontWeight: 500,
+                letterSpacing: '0.06em',
+                textAlign: 'center',
+              }}>
+                Paleta de colores
+              </Typography>
+            </Box>
+
+            {/* Imagen */}
+            <img
+              src={imageUrl}
+              alt="Paleta de colores"
+              style={{
+                maxWidth: '100%',
+                maxHeight: '90vh',
+                display: 'block',
+                objectFit: 'contain',
+              }}
+            />
+          </Box>
+        </Fade>
+      </Modal>
+    </>
+  );
+};
 
 // ─────────────────────────────────────────────────────────────
 // CountdownTimer — aislado con memo para que su setInterval
@@ -205,7 +331,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   lugarCeremonia = "Parroquia Santa Mónica",
   direccion = "La Barca, Jalisco",
   mensaje = "Con la bendición de Dios y nuestros padres, nos unimos en matrimonio y queremos compartir esta alegría contigo.",
-  historia = `Quién diría que 13 años después terminaríamos juntos...`,
+  historia = `Lo que comenzó como un sueño de niños, Dios lo hizo realidad. 13 años después, el destino nos ha traído de vuelta al mismo punto: al abrazo de quien siempre fue nuestro destino.`,
   fotos = [],
   codigoVestimenta = "Formal",
   frasePersonal = "Y en un beso, supimos que era para siempre",
@@ -219,27 +345,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   >("invitation");
   const [openModal, setOpenModal] = useState(false);
 
-  // Partículas en refs: se inicializan una sola vez y nunca
-  // provocan re-renders al actualizarse.
-  const petals = useRef(
-    Array.from({ length: 20 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      duration: 10 + Math.random() * 10,
-      delay: Math.random() * 14,
-      size: 12 + Math.random() * 8,
-      emoji: ["🌸", "🌺", "✿", "❀"][Math.floor(Math.random() * 4)],
-    }))
-  );
-  const stars = useRef(
-    Array.from({ length: 18 }, (_, i) => ({
-      id: i,
-      left: Math.random() * 100,
-      top: Math.random() * 100,
-      delay: Math.random() * 5,
-      duration: 2.5 + Math.random() * 3,
-    }))
-  );
+ 
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -527,16 +633,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   return (
     <>
       <style>{ROMANTIC_STYLES}</style>
+       <ColorPaletteModal imageUrl="/pcolores.jpeg" />
 
-      {/* Partículas — leídas de refs, se montan una sola vez */}
-      {stars.current.map((s) => (
-        <div key={s.id} className="wi-star" style={{ left: `${s.left}%`, top: `${s.top}%`, animationDelay: `${s.delay}s`, animationDuration: `${s.duration}s` }} />
-      ))}
-      {petals.current.map((p) => (
-        <div key={p.id} className="wi-petal" style={{ left: `${p.left}%`, fontSize: `${p.size}px`, animationDuration: `${p.duration}s`, animationDelay: `${p.delay}s` }}>
-          {p.emoji}
-        </div>
-      ))}
+     
 
       {/* Fondo */}
       <Box sx={{

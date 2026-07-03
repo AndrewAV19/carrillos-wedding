@@ -257,16 +257,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                   letterSpacing: "0.05em",
                 }}
               >
-                ✦ Un adelanto de nuestro amor en movimiento ✦
-              </Typography>
-              <Typography
-                variant="body2"
-                sx={{
-                  color: theme.palette.text.secondary,
-                  mt: 1,
-                }}
-              >
-                Los momentos más especiales capturados para siempre
+                El tiempo y la distancia desafiaron nuestro camino, pero el hilo que nos une no se rompe; solo nos guió hasta aquí. <br/> Los tiempos de Dios son perfectos.
               </Typography>
             </Box>
           </Paper>

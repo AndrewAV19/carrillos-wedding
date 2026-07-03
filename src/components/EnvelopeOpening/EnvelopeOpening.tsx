@@ -418,7 +418,6 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
             </div>
 
             <div className="env-letter-date">26 · Septiembre · 2026</div>
-            <div className="env-letter-city">Grand Jardín</div>
 
             <div className="env-letter-row" style={{ marginTop: 18 }}>
               <div className="env-letter-line" />
