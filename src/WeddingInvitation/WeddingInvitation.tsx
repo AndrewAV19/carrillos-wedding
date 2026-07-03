@@ -337,7 +337,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   frasePersonal = "Y en un beso, supimos que era para siempre",
   coordenadasGPS = { lat: 20.301798, lng: -102.539874 },
   codigoDresscode = "Nos reservamos el blanco",
-  notasAdicionales = "No olvides traer tu mejor sonrisa y muchas ganas de celebrar",
+  notasAdicionales = "Nuestra boda será una celebración muy íntima y especial. Por ello, hemos reservado lugares específicos para quienes más queremos; si estás en nuestra lista, es porque eres pieza fundamental en nuestra historia. Te pedimos confirmar tu asistencia lo antes posible, ya que cada detalle está planeado pensando para ti.",
 }) => {
 
   const [activeSection, setActiveSection] = useState<
@@ -682,7 +682,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                   ¡Nos encantaría que nos acompañes en este día tan especial!
                 </Typography>
                 <Chip
-                  label={`${novio.split(" ")[0]} & ${novia.split(" ")[0]}`}
+                  label={`${novio.split(" ")[0]} & ${novia.split(" ")[1]}`}
                   sx={{ fontFamily: "'Cormorant Garamond', serif", background: rosePale, color: rose, border: `0.5px solid ${alpha(rose, 0.3)}` }}
                 />
               </Box>

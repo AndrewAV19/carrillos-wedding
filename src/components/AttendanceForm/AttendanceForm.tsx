@@ -563,7 +563,7 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
                   value={formData.acompanantes}
                   onChange={handleChange}
                   inputProps={{ min: 0, max: 10 }}
-                  helperText="Máximo 10 personas (compartiremos la alegría juntos) ✨"
+                 
                   FormHelperTextProps={{
                     sx: {
                       fontStyle: "italic",

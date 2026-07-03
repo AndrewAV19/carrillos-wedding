@@ -412,9 +412,9 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
             <div className="env-letter-body">
               Con todo el amor de nuestros corazones,
               <br />
-              te invitamos a celebrar el inicio
+              te invitamos a celebrar junto a nosotros
               <br />
-              de nuestra nueva vida juntos.
+              nuestra maravillosa unión.
             </div>
 
             <div className="env-letter-date">26 · Septiembre · 2026</div>
