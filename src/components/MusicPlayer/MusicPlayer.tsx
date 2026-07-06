@@ -1,17 +1,7 @@
 // components/MusicPlayer.tsx
 import React, { useState, useRef, useEffect } from "react";
-import {
-  IconButton,
-  Box,
-  Paper,
-  useTheme,
-  alpha,
-  Zoom,
-} from "@mui/material";
-import {
-  PlayArrow as PlayIcon,
-  Pause as PauseIcon,
-} from "@mui/icons-material";
+import { IconButton, Box, Paper, useTheme, alpha, Zoom } from "@mui/material";
+import { PlayArrow as PlayIcon, Pause as PauseIcon } from "@mui/icons-material";
 
 const MusicPlayer: React.FC = () => {
   const theme = useTheme();
@@ -38,15 +28,15 @@ const MusicPlayer: React.FC = () => {
       setIsAudioReady(false);
     };
 
-    audioRef.current.addEventListener('canplay', handleCanPlay);
-    audioRef.current.addEventListener('error', handleError);
+    audioRef.current.addEventListener("canplay", handleCanPlay);
+    audioRef.current.addEventListener("error", handleError);
 
     // Limpiar al desmontar
     return () => {
       if (audioRef.current) {
         audioRef.current.pause();
-        audioRef.current.removeEventListener('canplay', handleCanPlay);
-        audioRef.current.removeEventListener('error', handleError);
+        audioRef.current.removeEventListener("canplay", handleCanPlay);
+        audioRef.current.removeEventListener("error", handleError);
         audioRef.current = null;
       }
     };
@@ -89,8 +79,9 @@ const MusicPlayer: React.FC = () => {
     <Box
       sx={{
         position: "fixed",
-        bottom: 20,
+        top: "60%",
         right: 20,
+        transform: "translateY(-50%)",
         zIndex: 1000,
       }}
     >
@@ -111,13 +102,13 @@ const MusicPlayer: React.FC = () => {
             justifyContent: "center",
           }}
         >
-          <IconButton 
-            onClick={togglePlay} 
-            sx={{ 
+          <IconButton
+            onClick={togglePlay}
+            sx={{
               color: "white",
-              transition: 'transform 0.3s',
-              '&:hover': {
-                transform: 'scale(1.1)',
+              transition: "transform 0.3s",
+              "&:hover": {
+                transform: "scale(1.1)",
                 bgcolor: alpha(theme.palette.common.white, 0.1),
               },
             }}
