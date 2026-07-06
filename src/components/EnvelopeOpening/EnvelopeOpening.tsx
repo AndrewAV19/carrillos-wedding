@@ -22,7 +22,7 @@ const styles = `
     align-items: center;
     justify-content: center;
     overflow: hidden;
-    background: radial-gradient(ellipse at 50% 60%, #fff5f7 0%, #fef0f4 40%, #fce8f0 100%);
+    background: radial-gradient(ellipse at 50% 60%, #faf0f5 0%, #f5e8ef 35%, #ede0e8 65%, #e8d5e0 100%);
   }
 
   .env-star {
@@ -30,14 +30,14 @@ const styles = `
     width: 3px;
     height: 3px;
     border-radius: 50%;
-    background: #e8a0b4;
+    background: #d4a8b8;
     animation: env-twinkle 3s ease-in-out infinite;
     pointer-events: none;
   }
 
   @keyframes env-twinkle {
-    0%, 100% { opacity: 0.2; transform: scale(1); }
-    50% { opacity: 0.9; transform: scale(1.8); }
+    0%, 100% { opacity: 0.15; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.8); }
   }
 
   .env-center {
@@ -52,7 +52,7 @@ const styles = `
   .env-pretitle {
     font-family: 'Pinyon Script', cursive;
     font-size: 44px;
-    color: #b5436a;
+    color: #8b5a6b;
     line-height: 1;
     margin-bottom: 4px;
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -62,7 +62,7 @@ const styles = `
     font-family: 'Cormorant Garamond', serif;
     font-size: 13px;
     letter-spacing: 0.2em;
-    color: #c9738a;
+    color: #a87a8a;
     text-transform: uppercase;
     margin-bottom: 28px;
     transition: opacity 0.6s ease, transform 0.6s ease;
@@ -80,7 +80,7 @@ const styles = `
     position: relative;
     cursor: pointer;
     animation: env-float 3.5s ease-in-out infinite;
-    filter: drop-shadow(0 12px 24px rgba(176, 54, 103, 0.2));
+    filter: drop-shadow(0 12px 24px rgba(139, 90, 107, 0.15));
     transition: transform 0.15s;
     user-select: none;
   }
@@ -118,15 +118,32 @@ const styles = `
     100% { transform: rotateX(180deg); }
   }
 
-  .env-heart-pulse {
+  .env-rings-sparkle {
     transform-origin: center;
     transform-box: fill-box;
-    animation: env-pulse 1.8s ease-in-out infinite;
+    animation: env-sparkle 2.5s ease-in-out infinite;
   }
 
-  @keyframes env-pulse {
-    0%, 100% { transform: scale(1); }
-    50%       { transform: scale(1.2); }
+  @keyframes env-sparkle {
+    0%, 100% { opacity: 1; transform: scale(1); }
+    50% { opacity: 0.7; transform: scale(1.05); }
+  }
+
+  .env-ring1 {
+    transform-origin: 150px 116px;
+    transform-box: fill-box;
+    animation: env-ringFloat 3s ease-in-out infinite;
+  }
+
+  .env-ring2 {
+    transform-origin: 150px 116px;
+    transform-box: fill-box;
+    animation: env-ringFloat 3s ease-in-out infinite 0.5s;
+  }
+
+  @keyframes env-ringFloat {
+    0%, 100% { transform: translateY(0); }
+    50% { transform: translateY(-2px); }
   }
 
   /* ── Letter card ── */
@@ -135,17 +152,18 @@ const styles = `
     top: 50%;
     left: 50%;
     transform: translate(-50%, calc(-50% + 55px)) scale(0.9);
-    width: 320px;
-    background: #fffbf4;
-    border: 0.5px solid #f0d0dc;
-    border-radius: 14px;
-    padding: 30px 28px 24px;
+    width: 340px;
+    background: linear-gradient(135deg, #fffbf8 0%, #fdf7f5 100%);
+    border: 0.5px solid #e8d0d8;
+    border-radius: 16px;
+    padding: 34px 30px 28px;
     text-align: center;
     opacity: 0;
     pointer-events: none;
     transition: opacity 0.9s cubic-bezier(0.2, 0, 0.2, 1),
                 transform 0.9s cubic-bezier(0.2, 0, 0.2, 1);
-    box-shadow: 0 20px 50px rgba(176, 54, 103, 0.14);
+    box-shadow: 0 25px 60px rgba(139, 90, 107, 0.12), 
+                0 8px 20px rgba(139, 90, 107, 0.06);
     z-index: 10;
   }
 
@@ -160,9 +178,9 @@ const styles = `
     top: -1px;
     left: 50%;
     transform: translateX(-50%);
-    width: 60px;
+    width: 80px;
     height: 2px;
-    background: linear-gradient(90deg, transparent, #d4769a, transparent);
+    background: linear-gradient(90deg, transparent, #c9a0b0, #d4a8b8, #c9a0b0, transparent);
     border-radius: 2px;
   }
 
@@ -177,54 +195,54 @@ const styles = `
   .env-letter-line {
     flex: 1;
     height: 0.5px;
-    background: #e8bfcc;
+    background: #e4cdd5;
   }
 
   .env-letter-heart-icon {
-    color: #d4769a;
+    color: #c9a0b0;
     font-size: 11px;
   }
 
   .env-letter-script {
     font-family: 'Pinyon Script', cursive;
-    font-size: 48px;
-    color: #b5436a;
+    font-size: 50px;
+    color: #8b5a6b;
     line-height: 1;
     margin-bottom: 4px;
   }
 
   .env-letter-names {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 20px;
+    font-size: 22px;
     font-weight: 300;
-    color: #6b2040;
+    color: #5a3a45;
     letter-spacing: 0.05em;
-    margin-bottom: 12px;
+    margin-bottom: 14px;
   }
 
   .env-letter-divider {
-    width: 36px;
+    width: 40px;
     height: 0.5px;
-    background: #e8bfcc;
-    margin: 0 auto 12px;
+    background: #e4cdd5;
+    margin: 0 auto 14px;
   }
 
   .env-letter-body {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 15px;
+    font-size: 15.5px;
     font-weight: 300;
-    color: #8a4560;
-    line-height: 1.72;
+    color: #7a5a68;
+    line-height: 1.8;
     letter-spacing: 0.02em;
   }
 
   .env-letter-date {
     font-family: 'Cormorant Garamond', serif;
-    font-size: 19px;
+    font-size: 20px;
     font-weight: 400;
-    color: #b5436a;
+    color: #8b5a6b;
     letter-spacing: 0.14em;
-    margin-top: 16px;
+    margin-top: 18px;
   }
 
   .env-letter-city {
@@ -232,7 +250,7 @@ const styles = `
     font-size: 11px;
     letter-spacing: 0.26em;
     text-transform: uppercase;
-    color: #c9738a;
+    color: #a87a8a;
     margin-top: 3px;
   }
 `;
@@ -311,13 +329,26 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
             >
               <defs>
                 <linearGradient id="env-bodyGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#fff6f8" />
-                  <stop offset="100%" stopColor="#fce8ef" />
+                  <stop offset="0%" stopColor="#fcf6f8" />
+                  <stop offset="100%" stopColor="#f5e8ef" />
                 </linearGradient>
                 <linearGradient id="env-flapGrad" x1="0" y1="0" x2="0" y2="1">
-                  <stop offset="0%" stopColor="#fce8ef" />
-                  <stop offset="100%" stopColor="#f9d0de" />
+                  <stop offset="0%" stopColor="#f5e8ef" />
+                  <stop offset="100%" stopColor="#eddce5" />
                 </linearGradient>
+                <linearGradient id="ringGold" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#e8c878" />
+                  <stop offset="50%" stopColor="#f5e0a0" />
+                  <stop offset="100%" stopColor="#d4b060" />
+                </linearGradient>
+                <linearGradient id="ringSilver" x1="0" y1="0" x2="1" y2="1">
+                  <stop offset="0%" stopColor="#d8d8d8" />
+                  <stop offset="50%" stopColor="#f0f0f0" />
+                  <stop offset="100%" stopColor="#c0c0c0" />
+                </linearGradient>
+                <filter id="ringShadow">
+                  <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodOpacity="0.2" />
+                </filter>
               </defs>
 
               {/* Envelope body */}
@@ -328,31 +359,31 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
                 height="132"
                 rx="8"
                 fill="url(#env-bodyGrad)"
-                stroke="#f0c4d4"
+                stroke="#e4cdd5"
                 strokeWidth="0.8"
               />
 
               {/* Left wing */}
               <polygon
                 points="0,62 0,188 130,128"
-                fill="#fde0e9"
-                stroke="#f0c4d4"
+                fill="#f5e5ec"
+                stroke="#e4cdd5"
                 strokeWidth="0.6"
               />
 
               {/* Right wing */}
               <polygon
                 points="300,62 300,188 170,128"
-                fill="#fde0e9"
-                stroke="#f0c4d4"
+                fill="#f5e5ec"
+                stroke="#e4cdd5"
                 strokeWidth="0.6"
               />
 
               {/* Bottom fold */}
               <polygon
                 points="0,188 300,188 150,116"
-                fill="#f9d0de"
-                stroke="#f0c4d4"
+                fill="#eddce5"
+                stroke="#e4cdd5"
                 strokeWidth="0.6"
               />
 
@@ -361,33 +392,111 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
                 <polygon
                   points="0,62 300,62 150,148"
                   fill="url(#env-flapGrad)"
-                  stroke="#f0c4d4"
+                  stroke="#e4cdd5"
                   strokeWidth="0.8"
                 />
               </g>
 
-              {/* Wax seal */}
+              {/* Wax seal background */}
               <circle
                 cx="150"
                 cy="116"
-                r="22"
-                fill="#fff0f4"
-                stroke="#f0c4d4"
+                r="24"
+                fill="#fcf6f8"
+                stroke="#e4cdd5"
                 strokeWidth="0.8"
               />
-
-              {/* Heart in seal */}
-              <path
-                className="env-heart-pulse"
-                d="M150,124 C147.5,119.5 139,114 139,107.5 C139,103.5 141.8,101 145.5,101 C147.2,101 148.8,101.7 150,103.2 C151.2,101.7 152.8,101 154.5,101 C158.2,101 161,103.5 161,107.5 C161,114 152.5,119.5 150,124 Z"
-                fill="#e8748a"
+              
+              {/* Inner decorative circle */}
+              <circle
+                cx="150"
+                cy="116"
+                r="20"
+                fill="none"
+                stroke="#d4a8b8"
+                strokeWidth="0.5"
+                strokeDasharray="3 3"
               />
 
+              {/* ── ANILLOS DE COMPROMISO ── */}
+              <g filter="url(#ringShadow)">
+                {/* Anillo 1 (Oro) - Izquierda */}
+                <g className="env-ring1">
+                  {/* Banda del anillo */}
+                  <ellipse
+                    cx="143"
+                    cy="116"
+                    rx="12"
+                    ry="6"
+                    fill="none"
+                    stroke="url(#ringGold)"
+                    strokeWidth="2.5"
+                    transform="rotate(-15, 143, 116)"
+                  />
+                  {/* Diamante del anillo 1 */}
+                  <polygon
+                    points="143,109 144.5,111 143,113 141.5,111"
+                    fill="#e8f4f8"
+                    stroke="#c0d8e0"
+                    strokeWidth="0.5"
+                    opacity="0.9"
+                  />
+                  {/* Brillos del diamante */}
+                  <circle cx="143" cy="110" r="0.8" fill="white" opacity="0.8" />
+                  <circle cx="142.5" cy="111.5" r="0.5" fill="white" opacity="0.6" />
+                </g>
+
+                {/* Anillo 2 (Plata) - Derecha, entrelazado */}
+                <g className="env-ring2">
+                  {/* Banda del anillo */}
+                  <ellipse
+                    cx="157"
+                    cy="116"
+                    rx="12"
+                    ry="6"
+                    fill="none"
+                    stroke="url(#ringSilver)"
+                    strokeWidth="2.5"
+                    transform="rotate(15, 157, 116)"
+                  />
+                  {/* Diamante del anillo 2 */}
+                  <polygon
+                    points="157,109 158.5,111 157,113 155.5,111"
+                    fill="#e8f4f8"
+                    stroke="#c0d8e0"
+                    strokeWidth="0.5"
+                    opacity="0.9"
+                  />
+                  {/* Brillos del diamante */}
+                  <circle cx="157" cy="110" r="0.8" fill="white" opacity="0.8" />
+                  <circle cx="156.5" cy="111.5" r="0.5" fill="white" opacity="0.6" />
+                </g>
+              </g>
+
+              {/* Partículas de brillo alrededor de los anillos */}
+              <g className="env-rings-sparkle">
+                <circle cx="138" cy="112" r="0.8" fill="#e8c878" opacity="0.6">
+                  <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="162" cy="112" r="0.8" fill="#e8c878" opacity="0.6">
+                  <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" begin="0.7s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="150" cy="106" r="0.6" fill="#fff" opacity="0.5">
+                  <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" begin="1.2s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="135" cy="119" r="0.6" fill="#fff" opacity="0.4">
+                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.8s" begin="0.4s" repeatCount="indefinite" />
+                </circle>
+                <circle cx="165" cy="119" r="0.6" fill="#fff" opacity="0.4">
+                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.8s" begin="1s" repeatCount="indefinite" />
+                </circle>
+              </g>
+
               {/* Rose decorations */}
-              <text x="18" y="95" fontSize="14" opacity="0.5">
+              <text x="18" y="95" fontSize="14" opacity="0.4">
                 🌸
               </text>
-              <text x="265" y="95" fontSize="14" opacity="0.5">
+              <text x="265" y="95" fontSize="14" opacity="0.4">
                 🌸
               </text>
             </svg>
