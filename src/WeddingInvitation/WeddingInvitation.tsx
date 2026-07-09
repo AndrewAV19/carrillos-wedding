@@ -1,5 +1,5 @@
 // components/WeddingInvitation.tsx
-import React, { useState, useEffect, memo } from "react";
+import React, { useState, useEffect, memo, useRef } from "react";
 import {
   Box,
   Card,
@@ -57,12 +57,12 @@ const ColorPaletteModal = ({ imageUrl }: { imageUrl: string }) => {
           zIndex: 9999,
           width: 56,
           height: 56,
-          background: `linear-gradient(135deg, #8B4C6B, #C17B97)`,
+          background: `linear-gradient(135deg, #C2255C, #E8618F)`,
           color: "#fff",
-          boxShadow: "0 4px 20px rgba(139, 76, 107, 0.4)",
+          boxShadow: "0 4px 20px rgba(194, 37, 92, 0.45)",
           "&:hover": {
             transform: "translateY(-50%) scale(1.1)",
-            boxShadow: "0 8px 30px rgba(139, 76, 107, 0.5)",
+            boxShadow: "0 8px 30px rgba(194, 37, 92, 0.55)",
           },
           transition: "all 0.3s ease",
           border: "2px solid rgba(255,255,255,0.3)",
@@ -167,9 +167,6 @@ const ColorPaletteModal = ({ imageUrl }: { imageUrl: string }) => {
 
 // ─────────────────────────────────────────────────────────────
 // Bougainvillea — foto real de buganbilia (PNG fondo transparente)
-// Coloca tus imágenes en /public/flowers/bougan-1.png, bougan-2.png,
-// bougan-3.png (recorte con fondo transparente, ej. con remove.bg
-// o descargadas con licencia libre de Pngtree/Vecteezy/Freepik).
 // ─────────────────────────────────────────────────────────────
 const Bougainvillea = ({
   size = 90,
@@ -242,31 +239,31 @@ const GoldCorner = ({
         <path
           d="M2 46 L2 12 Q2 2 12 2 L46 2"
           fill="none"
-          stroke="#C9A96E"
-          strokeWidth="1.3"
-          opacity="0.75"
+          stroke="#E8A33D"
+          strokeWidth="1.4"
+          opacity="0.85"
         />
         <path
           d="M2 28 Q 20 28 28 8"
           fill="none"
-          stroke="#C9A96E"
-          strokeWidth="0.9"
-          opacity="0.5"
+          stroke="#E8A33D"
+          strokeWidth="1"
+          opacity="0.6"
         />
-        <circle cx="11" cy="11" r="3" fill="#C9A96E" opacity="0.65" />
+        <circle cx="11" cy="11" r="3" fill="#E8A33D" opacity="0.75" />
         <path
           d="M11 11 Q 4 4 -3 7"
           fill="none"
-          stroke="#C9A96E"
-          strokeWidth="0.7"
-          opacity="0.4"
+          stroke="#E8A33D"
+          strokeWidth="0.8"
+          opacity="0.5"
         />
         <path
           d="M11 11 Q 18 4 25 8"
           fill="none"
-          stroke="#C9A96E"
-          strokeWidth="0.7"
-          opacity="0.4"
+          stroke="#E8A33D"
+          strokeWidth="0.8"
+          opacity="0.5"
         />
       </svg>
     </Box>
@@ -275,118 +272,183 @@ const GoldCorner = ({
 
 // ─────────────────────────────────────────────────────────────
 // BougainvilleaScatter — distribución estética de flores alrededor
-// de la tarjeta, con variación de tamaño/rotación para que no se
-// vea simétrico ni artificial.
+// de la tarjeta, con cálculo automático basado en el tamaño real
 // ─────────────────────────────────────────────────────────────
-const BougainvilleaScatter = () => (
-  <>
-    {/* Esquina superior izquierda — racimo grande */}
-    <Box
-      className="wi-bougan"
-      sx={
-        {
-          position: "absolute",
-          top: -8,
-          left: -26,
-          zIndex: 2,
-          "--r": "-12deg",
-        } as any
-      }
-    >
-      <Bougainvillea size={110} rotate={16} src="/flowers/bougan-1.png" />
-    </Box>
- {/* Esquina superior derecha — racimo grande */}
-    <Box
-      className="wi-bougan"
-      sx={
-        {
-          position: "absolute",
-          top: -8,
-          right: -26,
-          zIndex: 2,
-          "--r": "-12deg",
-        } as any
-      }
-    >
-      <Bougainvillea size={110} rotate={-256} src="/flowers/bougan-1.png" />
-    </Box>
+interface BougainvilleaScatterProps {
+  cardHeight?: number; // Altura de la tarjeta en píxeles
+  flowerSpacing?: number; // Espaciado entre flores
+  minPosition?: number; // Posición mínima desde el borde superior
+  maxPosition?: number; // Posición máxima desde el borde inferior
+}
 
-    {/* Esquina inferior derecha — racimo grande, volteado para variar */}
-    <Box
-      className="wi-bougan"
-      sx={
-        {
-          position: "absolute",
-          bottom: -30,
-          right: -24,
-          zIndex: 2,
-          animationDelay: "1.1s",
-          "--r": "168deg",
-        } as any
-      }
-    >
-      <Bougainvillea size={100} src="/flowers/bougan-4.png" flip />
-    </Box>
-    {/* Esquina inferior izquierda — racimo grande, volteado para variar */}
-     <Box
-      className="wi-bougan"
-      sx={
-        {
-          position: "absolute",
-          bottom: -20,
-          left: -24,
-          zIndex: 2,
-          animationDelay: "1.1s",
-          "--r": "168deg",
-        } as any
-      }
-    >
-      <Bougainvillea size={100} rotate={-256} src="/flowers/bougan-4.png" flip />
-    </Box>
-   
-    {/* Detalle suelto a la derecha, más discreto */}
-    <Box
-      className="wi-bougan"
-      sx={
-        {
-          position: "absolute",
-          top: 600,
-          right: -6,
-          zIndex: 2,
-          opacity: 0.85,
-          animationDelay: "0.3s",
-          "--r": "55deg",
-        } as any
-      }
-    >
-      <Bougainvillea size={36} rotate={65} src="/flowers/bougan-3.png" />
-    </Box>
-    {/* Detalle suelto a la izquierda, más discreto */}
-     <Box
-      className="wi-bougan"
-      sx={
-        {
-          position: "absolute",
-          top: 600,
-          left: -20,
-          zIndex: 0,
-          opacity: 0.85,
-          animationDelay: "0.3s",
-          "--r": "55deg",
-        } as any
-      }
-    >
-      <Bougainvillea size={36} rotate={265} src="/flowers/bougan-3.png" />
-    </Box>
-  </>
-);
+const BougainvilleaScatter = ({
+  cardHeight = 1000,
+  flowerSpacing = 85,
+  minPosition = 150,
+  maxPosition = 200,
+}: BougainvilleaScatterProps = {}) => {
+  // Calcular posiciones automáticamente
+  const calculateFlowerPositions = () => {
+    const positions = [];
+    const startPosition = minPosition;
+    const endPosition = cardHeight - maxPosition;
+
+    // Calcular cuántas flores caben
+    const numberOfFlowers = Math.floor((endPosition - startPosition) / flowerSpacing);
+    
+    // Generar posiciones distribuidas uniformemente
+    for (let i = 0; i < numberOfFlowers; i++) {
+      // Posición base con distribución uniforme
+      const basePos = startPosition + (i * (endPosition - startPosition)) / (numberOfFlowers - 1 || 1);
+      
+      // Añadir variación aleatoria para que no sea perfectamente uniforme
+      const variation = Math.floor(Math.random() * 30 - 15);
+      const finalPos = Math.max(startPosition, Math.min(endPosition, basePos + variation));
+      positions.push(finalPos);
+    }
+
+    return positions;
+  };
+
+  const [flowerPositions, setFlowerPositions] = useState<number[]>([]);
+
+  useEffect(() => {
+    setFlowerPositions(calculateFlowerPositions());
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [cardHeight, flowerSpacing, minPosition, maxPosition]);
+
+  // Si no hay posiciones, no renderizar nada
+  if (flowerPositions.length === 0) {
+    return null;
+  }
+
+  return (
+    <>
+      {/* Esquina superior izquierda — racimo grande */}
+      <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -8,
+            left: -26,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={16} src="/flowers/bougan-1.png" />
+      </Box>
+
+      {/* Esquina superior derecha — racimo grande */}
+      <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -8,
+            right: -26,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={-256} src="/flowers/bougan-1.png" />
+      </Box>
+
+      {/* Esquina inferior derecha — racimo grande, volteado para variar */}
+      <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -30,
+            right: -24,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={100} src="/flowers/bougan-4.png" flip />
+      </Box>
+
+      {/* Esquina inferior izquierda — racimo grande, volteado para variar */}
+      <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -20,
+            left: -24,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={100} rotate={-256} src="/flowers/bougan-4.png" flip />
+      </Box>
+
+      {/* Lado derecho - flores calculadas automáticamente */}
+      {flowerPositions.map((topPosition, index) => (
+        <Box
+          key={`right-${index}`}
+          className="wi-bougan"
+          sx={
+            {
+              position: "absolute",
+              top: topPosition,
+              right: -6,
+              zIndex: 2,
+              opacity: 0.85,
+              animationDelay: `${0.3 + (index * 0.04)}s`,
+              "--r": "55deg",
+            } as any
+          }
+        >
+          <Bougainvillea
+            size={36 + (index % 3) * 5}
+            rotate={65 + (index * 7) % 20 - 10}
+            src="/flowers/bougan-3.png"
+          />
+        </Box>
+      ))}
+
+      {/* Lado izquierdo - flores calculadas automáticamente */}
+      {flowerPositions.map((topPosition, index) => (
+        <Box
+          key={`left-${index}`}
+          className="wi-bougan"
+          sx={
+            {
+              position: "absolute",
+              top: topPosition,
+              left: -20,
+              zIndex: 0,
+              opacity: 0.85,
+              animationDelay: `${0.3 + (index * 0.04)}s`,
+              "--r": "55deg",
+            } as any
+          }
+        >
+          <Bougainvillea
+            size={36 + (index % 3) * 5}
+            rotate={265 + (index * 7) % 20 - 10}
+            src="/flowers/bougan-3.png"
+          />
+        </Box>
+      ))}
+    </>
+  );
+};
 
 // ─────────────────────────────────────────────────────────────
 // CountdownTimer — aislado con memo para que su setInterval
 // no provoque re-renders en el componente padre cada segundo.
 // ─────────────────────────────────────────────────────────────
 const CountdownTimer = memo(
-  ({ rose, rosePale }: { rose: string; rosePale: string; ink: string }) => {
+  ({ rose, rosePale, ink }: { rose: string; rosePale: string; ink: string }) => {
     const [cd, setCd] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
@@ -433,7 +495,7 @@ const CountdownTimer = memo(
                 justifyContent: "center",
                 borderRadius: "12px",
                 background: `linear-gradient(145deg, ${rosePale}, #fff)`,
-                border: `0.5px solid ${alpha(rose, 0.2)}`,
+                border: `1px solid ${alpha(rose, 0.35)}`,
                 mb: 0.75,
               }}
             >
@@ -441,7 +503,7 @@ const CountdownTimer = memo(
                 sx={{
                   fontFamily: "'Cormorant Garamond', serif",
                   fontSize: { xs: "1.5rem", sm: "1.8rem" },
-                  fontWeight: 500,
+                  fontWeight: 600,
                   color: rose,
                   lineHeight: 1,
                 }}
@@ -455,7 +517,8 @@ const CountdownTimer = memo(
                 fontSize: "0.65rem",
                 letterSpacing: "0.2em",
                 textTransform: "uppercase",
-                color: alpha(rose, 0.6),
+                color: alpha(rose, 0.8),
+                fontWeight: 600,
               }}
             >
               {l}
@@ -576,10 +639,35 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     "invitation" | "history" | "gallery" | "details"
   >("invitation");
   const [openModal, setOpenModal] = useState(false);
+  const [cardHeight, setCardHeight] = useState(1200);
+  const cardRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activeSection]);
+
+  // Medir la altura real de la tarjeta después de renderizar
+  useEffect(() => {
+    const measureCard = () => {
+      if (cardRef.current) {
+        const height = cardRef.current.offsetHeight;
+        if (height > 0) {
+          setCardHeight(height);
+        }
+      }
+    };
+
+    // Medir después del render inicial
+    const timeoutId = setTimeout(measureCard, 100);
+    
+    // Re-medir cuando cambie la ventana
+    window.addEventListener('resize', measureCard);
+    
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener('resize', measureCard);
+    };
+  }, [activeSection]); // Re-medir cuando cambia la sección
 
   const openMaps = () => {
     if (coordenadasGPS) {
@@ -591,11 +679,12 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   };
 
   // ── Palette ──────────────────────────────────────────
-  const rose = "#8B4C6B";
-  const roseL = "#C17B97";
-  const rosePale = "#F7EBF0";
-  const gold = "#C9A96E";
-  const goldDark = "#A9824A";
+  const rose = "#C2255C";
+  const roseL = "#E8618F";
+  const roseDeep = "#8E1743";
+  const rosePale = "#FBE1EA";
+  const gold = "#E8A33D";
+  const goldDark = "#C97B1F";
   const cream = "#FFFBF6";
   const ink = "#3D1F2D";
 
@@ -608,7 +697,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         fontFamily: "'Cormorant Garamond', serif",
         fontSize: "1.1rem",
         color: gold,
-        opacity: 0.7,
+        opacity: 0.9,
         mx: 1,
       }}
     >
@@ -630,8 +719,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       <Box
         sx={{
           flex: 1,
-          height: "0.5px",
-          background: `linear-gradient(90deg, transparent, ${alpha(rose, 0.4)})`,
+          height: "1px",
+          background: `linear-gradient(90deg, transparent, ${alpha(rose, 0.65)})`,
         }}
       />
       <Ornament />
@@ -642,7 +731,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             fontSize: "0.72rem",
             letterSpacing: "0.28em",
             textTransform: "uppercase",
-            color: roseL,
+            color: roseDeep,
+            fontWeight: 600,
           }}
         >
           {label}
@@ -652,22 +742,21 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       <Box
         sx={{
           flex: 1,
-          height: "0.5px",
-          background: `linear-gradient(90deg, ${alpha(rose, 0.4)}, transparent)`,
+          height: "1px",
+          background: `linear-gradient(90deg, ${alpha(rose, 0.65)}, transparent)`,
         }}
       />
     </Box>
   );
 
-  // Marco doble dorado — reemplaza los antiguos bordes simples arriba/abajo
   const GoldFrameLine = () => (
     <Box sx={{ position: "relative" }}>
       <Box
         sx={{
           width: "100%",
           height: 2,
-          background: `linear-gradient(90deg, transparent, ${gold} 30%, ${roseL} 50%, ${gold} 70%, transparent)`,
-          opacity: 0.5,
+          background: `linear-gradient(90deg, transparent, ${gold} 30%, ${rose} 50%, ${gold} 70%, transparent)`,
+          opacity: 0.75,
         }}
       />
       <Box
@@ -676,7 +765,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           height: 1,
           mx: "auto",
           mt: "3px",
-          background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.4)}, transparent)`,
+          background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.6)}, transparent)`,
         }}
       />
     </Box>
@@ -703,17 +792,17 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           p: { xs: 2.5, sm: 3 },
           height: "100%",
           background: cream,
-          border: `0.5px solid ${alpha(gold, 0.4)}`,
+          border: `1px solid ${alpha(gold, 0.55)}`,
           borderRadius: "20px",
-          boxShadow: `0 4px 24px ${alpha(rose, 0.07)}`,
-          "&:hover": { boxShadow: `0 16px 40px ${alpha(rose, 0.16)}` },
+          boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
+          "&:hover": { boxShadow: `0 16px 40px ${alpha(rose, 0.25)}` },
           position: "relative",
           overflow: "hidden",
           "&::after": {
             content: '""',
             position: "absolute",
             inset: 0,
-            background: `radial-gradient(circle at 90% 10%, ${alpha(gold, 0.06)} 0%, transparent 60%)`,
+            background: `radial-gradient(circle at 90% 10%, ${alpha(gold, 0.1)} 0%, transparent 60%)`,
             pointerEvents: "none",
           },
         }}
@@ -724,7 +813,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             top: 8,
             right: 12,
             fontSize: "1.8rem",
-            color: alpha(gold, 0.12),
+            color: alpha(gold, 0.2),
             fontFamily: "'Cormorant Garamond', serif",
             lineHeight: 1,
           }}
@@ -738,8 +827,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               height: 44,
               borderRadius: "12px",
               flexShrink: 0,
-              background: `linear-gradient(135deg, ${alpha(rose, 0.1)}, ${alpha(gold, 0.12)})`,
-              border: `0.5px solid ${alpha(rose, 0.2)}`,
+              background: `linear-gradient(135deg, ${alpha(rose, 0.18)}, ${alpha(gold, 0.22)})`,
+              border: `1px solid ${alpha(rose, 0.35)}`,
               display: "flex",
               alignItems: "center",
               justifyContent: "center",
@@ -754,7 +843,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 fontSize: "0.7rem",
                 letterSpacing: "0.22em",
                 textTransform: "uppercase",
-                color: alpha(rose, 0.55),
+                color: roseDeep,
+                fontWeight: 600,
                 mb: 0.3,
               }}
             >
@@ -776,8 +866,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 sx={{
                   fontFamily: "'Cormorant Garamond', serif",
                   fontSize: "0.88rem",
-                  color: alpha(ink, 0.5),
+                  color: goldDark,
                   fontStyle: "italic",
+                  fontWeight: 600,
                   mt: 0.3,
                 }}
               >
@@ -804,7 +895,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           <Typography
             sx={{
               fontSize: "2rem",
-              color: alpha(gold, 0.35),
+              color: alpha(gold, 0.55),
               lineHeight: 1,
               mb: 1,
               animation: "wi-float 6s ease-in-out infinite",
@@ -820,7 +911,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontSize: "0.68rem",
               letterSpacing: "0.4em",
               textTransform: "uppercase",
-              color: alpha(rose, 0.55),
+              color: roseDeep,
+              fontWeight: 600,
             }}
           >
             Hay momentos en la vida que son especiales por sí solos, pero
@@ -855,17 +947,18 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             <Box
               sx={{
                 flex: 1,
-                height: "0.5px",
-                background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.5)})`,
+                height: "1px",
+                background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.7)})`,
               }}
             />
             <Typography
               sx={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: "1rem",
-                color: gold,
+                color: goldDark,
                 mx: 2,
                 fontStyle: "italic",
+                fontWeight: 600,
               }}
             >
               &amp;
@@ -873,8 +966,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             <Box
               sx={{
                 flex: 1,
-                height: "0.5px",
-                background: `linear-gradient(90deg, ${alpha(gold, 0.5)}, transparent)`,
+                height: "1px",
+                background: `linear-gradient(90deg, ${alpha(gold, 0.7)}, transparent)`,
               }}
             />
           </Box>
@@ -897,8 +990,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             sx={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: { xs: "0.9rem", sm: "1rem" },
-              fontWeight: 300,
-              color: alpha(ink, 0.6),
+              fontWeight: 400,
+              color: alpha(ink, 0.75),
               letterSpacing: "0.06em",
               mb: 0.5,
             }}
@@ -909,8 +1002,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             sx={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: { xs: "0.9rem", sm: "1rem" },
-              fontWeight: 300,
-              color: alpha(ink, 0.6),
+              fontWeight: 400,
+              color: alpha(ink, 0.75),
               letterSpacing: "0.06em",
               mb: 3,
             }}
@@ -923,8 +1016,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: { xs: "1.05rem", sm: "1.15rem" },
               fontStyle: "italic",
-              fontWeight: 300,
-              color: roseL,
+              fontWeight: 500,
+              color: roseDeep,
               mb: 3,
             }}
           >
@@ -946,7 +1039,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 fontSize: "0.68rem",
                 letterSpacing: "0.3em",
                 textTransform: "uppercase",
-                color: alpha(rose, 0.5),
+                color: roseDeep,
+                fontWeight: 600,
                 mb: 2.5,
               }}
             >
@@ -982,8 +1076,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               <Box
                 sx={{
                   width: 32,
-                  height: "0.5px",
-                  background: alpha(gold, 0.4),
+                  height: "1px",
+                  background: alpha(gold, 0.6),
                 }}
               />
               <Typography
@@ -998,8 +1092,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               <Box
                 sx={{
                   width: 32,
-                  height: "0.5px",
-                  background: alpha(gold, 0.4),
+                  height: "1px",
+                  background: alpha(gold, 0.6),
                 }}
               />
             </Box>
@@ -1026,9 +1120,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               sx={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: { xs: "1.05rem", sm: "1.15rem" },
-                fontWeight: 300,
+                fontWeight: 400,
                 fontStyle: "italic",
-                color: alpha(ink, 0.75),
+                color: alpha(ink, 0.85),
                 lineHeight: 1.9,
               }}
             >
@@ -1108,16 +1202,18 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 fontSize: "0.88rem",
                 letterSpacing: "0.06em",
                 textTransform: "none",
-                color: goldDark,
-                border: `0.5px solid ${alpha(gold, 0.4)}`,
-                background: cream,
+                fontWeight: 600,
+                color: "#fff",
+                border: `1px solid ${alpha(rose, 0.5)}`,
+                background: `linear-gradient(135deg, ${rose}, ${roseL})`,
                 borderRadius: "100px",
                 px: 2.5,
                 py: 0.8,
+                boxShadow: `0 4px 14px ${alpha(rose, 0.3)}`,
 
                 "&:hover": {
-                  background: rosePale,
-                  borderColor: gold,
+                  background: `linear-gradient(135deg, ${roseDeep}, ${rose})`,
+                  borderColor: rose,
                 },
               }}
             >
@@ -1139,16 +1235,16 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontSize: "1rem",
               letterSpacing: "0.12em",
               textTransform: "none",
-              fontWeight: 500,
+              fontWeight: 600,
               background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-              boxShadow: `0 8px 28px ${alpha(goldDark, 0.35)}`,
+              boxShadow: `0 8px 28px ${alpha(goldDark, 0.45)}`,
               color: "#fff",
               borderRadius: "100px",
               px: 4,
               py: 1.4,
               "&:hover": {
                 background: `linear-gradient(135deg, ${alpha(gold, 0.95)} 0%, ${goldDark} 100%)`,
-                boxShadow: `0 12px 36px ${alpha(goldDark, 0.45)}`,
+                boxShadow: `0 12px 36px ${alpha(goldDark, 0.55)}`,
                 transform: "translateY(-2px)",
               },
               transition: "all 0.3s ease",
@@ -1163,7 +1259,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             fontFamily: "'Cormorant Garamond', serif",
             fontSize: "0.85rem",
             fontStyle: "italic",
-            color: alpha(rose, 0.5),
+            color: alpha(roseDeep, 0.8),
             textAlign: "center",
             mt: 1,
           }}
@@ -1201,17 +1297,17 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             p: 4,
             textAlign: "center",
             background: cream,
-            border: `0.5px solid ${alpha(rose, 0.15)}`,
+            border: `1px solid ${alpha(rose, 0.3)}`,
             borderRadius: "20px",
-            boxShadow: `0 4px 24px ${alpha(rose, 0.07)}`,
+            boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
           }}
         >
-          <LocationIcon sx={{ fontSize: 48, color: roseL, mb: 2 }} />
+          <LocationIcon sx={{ fontSize: 48, color: rose, mb: 2 }} />
           <Typography
             sx={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "1.2rem",
-              fontWeight: 500,
+              fontWeight: 600,
               color: ink,
               mb: 0.5,
             }}
@@ -1223,7 +1319,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "1rem",
               fontStyle: "italic",
-              color: alpha(ink, 0.55),
+              color: alpha(ink, 0.7),
               mb: 3,
             }}
           >
@@ -1237,8 +1333,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "0.95rem",
               textTransform: "none",
+              fontWeight: 600,
               background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-              boxShadow: `0 8px 28px ${alpha(goldDark, 0.3)}`,
+              boxShadow: `0 8px 28px ${alpha(goldDark, 0.4)}`,
               color: "#fff",
               borderRadius: "100px",
               px: 4,
@@ -1259,17 +1356,17 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             mt: 8,
             textAlign: "center",
             background: cream,
-            border: `0.5px solid ${alpha(rose, 0.15)}`,
+            border: `1px solid ${alpha(rose, 0.3)}`,
             borderRadius: "20px",
-            boxShadow: `0 4px 24px ${alpha(rose, 0.07)}`,
+            boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
           }}
         >
-          <LocationIcon sx={{ fontSize: 48, color: roseL, mb: 2 }} />
+          <LocationIcon sx={{ fontSize: 48, color: rose, mb: 2 }} />
           <Typography
             sx={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "1.2rem",
-              fontWeight: 500,
+              fontWeight: 600,
               color: ink,
               mb: 0.5,
             }}
@@ -1281,7 +1378,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "1rem",
               fontStyle: "italic",
-              color: alpha(ink, 0.55),
+              color: alpha(ink, 0.7),
               mb: 3,
             }}
           >
@@ -1295,8 +1392,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "0.95rem",
               textTransform: "none",
+              fontWeight: 600,
               background: `linear-gradient(135deg, ${gold} 0%, ${goldDark} 100%)`,
-              boxShadow: `0 8px 28px ${alpha(goldDark, 0.3)}`,
+              boxShadow: `0 8px 28px ${alpha(goldDark, 0.4)}`,
               color: "#fff",
               borderRadius: "100px",
               px: 4,
@@ -1341,11 +1439,11 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           inset: 0,
           zIndex: -1,
           overflowX: "hidden",
-          border: `0.5px solid ${alpha(gold, 0.3)}`,
+          border: `1px solid ${alpha(gold, 0.4)}`,
           background: `
-          radial-gradient(ellipse at 20% 20%, ${alpha(rose, 0.07)} 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 80%, ${alpha(gold, 0.06)} 0%, transparent 50%),
-          radial-gradient(ellipse at 50% 50%, ${alpha(roseL, 0.04)} 0%, transparent 70%),
+          radial-gradient(ellipse at 20% 20%, ${alpha(rose, 0.12)} 0%, transparent 50%),
+          radial-gradient(ellipse at 80% 80%, ${alpha(gold, 0.1)} 0%, transparent 50%),
+          radial-gradient(ellipse at 50% 50%, ${alpha(roseL, 0.08)} 0%, transparent 70%),
           #fdf8f5
         `,
         }}
@@ -1353,7 +1451,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
 
       <Container
         maxWidth="sm"
-        sx={{ py: 4, position: "relative", zIndex: 1,   }}
+        sx={{ py: 4, position: "relative", zIndex: 1 }}
       >
         <MusicPlayer />
 
@@ -1383,7 +1481,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 boxShadow: `0 32px 80px ${alpha(ink, 0.25)}`,
                 p: 4,
                 outline: "none",
-                border: `0.5px solid ${alpha(rose, 0.25)}`,
+                border: `1px solid ${alpha(rose, 0.4)}`,
               }}
             >
               <IconButton
@@ -1392,7 +1490,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                   position: "absolute",
                   right: 12,
                   top: 12,
-                  color: alpha(rose, 0.5),
+                  color: alpha(rose, 0.7),
                   "&:hover": { color: rose, transform: "rotate(90deg)" },
                   transition: "all 0.3s",
                 }}
@@ -1424,7 +1522,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                     fontFamily: "'Cormorant Garamond', serif",
                     fontSize: "0.95rem",
                     fontStyle: "italic",
-                    color: alpha(ink, 0.55),
+                    color: alpha(ink, 0.7),
                     mb: 2,
                   }}
                 >
@@ -1434,9 +1532,10 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                   label={`${novio.split(" ")[0]} & ${novia.split(" ")[1]}`}
                   sx={{
                     fontFamily: "'Cormorant Garamond', serif",
+                    fontWeight: 600,
                     background: rosePale,
-                    color: rose,
-                    border: `0.5px solid ${alpha(rose, 0.3)}`,
+                    color: roseDeep,
+                    border: `1px solid ${alpha(rose, 0.45)}`,
                   }}
                 />
               </Box>
@@ -1463,9 +1562,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 height: 44,
                 background: rose,
                 color: "#fff",
-                "&:hover": { background: roseL, transform: "scale(1.1)" },
+                "&:hover": { background: roseDeep, transform: "scale(1.1)" },
                 transition: "all 0.3s",
-                boxShadow: `0 4px 16px ${alpha(rose, 0.4)}`,
+                boxShadow: `0 4px 16px ${alpha(rose, 0.5)}`,
               }}
             >
               <LeftIcon />
@@ -1475,12 +1574,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
 
         {/* Tarjeta principal */}
         <Card
+          ref={cardRef}
           elevation={0}
           sx={{
             borderRadius: "28px",
-            background: `linear-gradient(160deg, ${cream} 0%, #fff 60%, ${alpha(rosePale, 0.4)} 100%)`,
-            border: `0.5px solid ${alpha(rose, 0.15)}`,
-            boxShadow: `0 2px 8px ${alpha(rose, 0.05)}, 0 16px 48px ${alpha(rose, 0.1)}, 0 40px 80px ${alpha(ink, 0.06)}`,
+            background: `linear-gradient(160deg, ${cream} 0%, #fff 60%, ${alpha(rosePale, 0.6)} 100%)`,
+            border: `1px solid ${alpha(rose, 0.3)}`,
+            boxShadow: `0 2px 8px ${alpha(rose, 0.08)}, 0 16px 48px ${alpha(rose, 0.18)}, 0 40px 80px ${alpha(ink, 0.1)}`,
             overflow: "visible",
             position: "relative",
             "&::before": {
@@ -1488,7 +1588,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               position: "absolute",
               inset: -1,
               borderRadius: "28px",
-              background: `linear-gradient(135deg, ${alpha(gold, 0.2)}, transparent 40%, ${alpha(roseL, 0.15)} 100%)`,
+              background: `linear-gradient(135deg, ${alpha(gold, 0.35)}, transparent 40%, ${alpha(roseL, 0.3)} 100%)`,
               zIndex: -1,
             },
           }}
@@ -1499,8 +1599,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           <GoldCorner position="bl" />
           <GoldCorner position="br" />
 
-          {/* Buganbilias distribuidas en las esquinas de la tarjeta */}
-          <BougainvilleaScatter />
+          {/* Buganbilias distribuidas automáticamente según la altura real */}
+          <BougainvilleaScatter
+            cardHeight={cardHeight}
+            flowerSpacing={85}
+            minPosition={150}
+            maxPosition={200}
+          />
 
           <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
             {renderSection()}
