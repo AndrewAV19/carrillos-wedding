@@ -295,6 +295,21 @@ const BougainvilleaScatter = () => (
     >
       <Bougainvillea size={110} rotate={16} src="/flowers/bougan-1.png" />
     </Box>
+ {/* Esquina superior derecha — racimo grande */}
+    <Box
+      className="wi-bougan"
+      sx={
+        {
+          position: "absolute",
+          top: -8,
+          right: -26,
+          zIndex: 2,
+          "--r": "-12deg",
+        } as any
+      }
+    >
+      <Bougainvillea size={110} rotate={-256} src="/flowers/bougan-1.png" />
+    </Box>
 
     {/* Esquina inferior derecha — racimo grande, volteado para variar */}
     <Box
@@ -312,21 +327,23 @@ const BougainvilleaScatter = () => (
     >
       <Bougainvillea size={100} src="/flowers/bougan-4.png" flip />
     </Box>
-    {/* Ramita pequeña que acompaña */}
-    <Box
+    {/* Esquina inferior izquierda — racimo grande, volteado para variar */}
+     <Box
       className="wi-bougan"
       sx={
         {
           position: "absolute",
-          bottom: -4,
-          right: 46,
+          bottom: -20,
+          left: -24,
           zIndex: 2,
-          animationDelay: "1.7s",
-          "--r": "142deg",
+          animationDelay: "1.1s",
+          "--r": "168deg",
         } as any
       }
-    ></Box>
-
+    >
+      <Bougainvillea size={100} rotate={-256} src="/flowers/bougan-4.png" flip />
+    </Box>
+   
     {/* Detalle suelto a la derecha, más discreto */}
     <Box
       className="wi-bougan"
@@ -343,6 +360,23 @@ const BougainvilleaScatter = () => (
       }
     >
       <Bougainvillea size={36} rotate={65} src="/flowers/bougan-3.png" />
+    </Box>
+    {/* Detalle suelto a la izquierda, más discreto */}
+     <Box
+      className="wi-bougan"
+      sx={
+        {
+          position: "absolute",
+          top: 600,
+          left: -20,
+          zIndex: 0,
+          opacity: 0.85,
+          animationDelay: "0.3s",
+          "--r": "55deg",
+        } as any
+      }
+    >
+      <Bougainvillea size={36} rotate={265} src="/flowers/bougan-3.png" />
     </Box>
   </>
 );
