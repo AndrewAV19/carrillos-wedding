@@ -275,10 +275,10 @@ const GoldCorner = ({
 // de la tarjeta, con cálculo automático basado en el tamaño real
 // ─────────────────────────────────────────────────────────────
 interface BougainvilleaScatterProps {
-  cardHeight?: number; // Altura de la tarjeta en píxeles
-  flowerSpacing?: number; // Espaciado entre flores
-  minPosition?: number; // Posición mínima desde el borde superior
-  maxPosition?: number; // Posición máxima desde el borde inferior
+  cardHeight?: number;
+  flowerSpacing?: number;
+  minPosition?: number;
+  maxPosition?: number;
 }
 
 const BougainvilleaScatter = ({
@@ -287,21 +287,15 @@ const BougainvilleaScatter = ({
   minPosition = 150,
   maxPosition = 200,
 }: BougainvilleaScatterProps = {}) => {
-  // Calcular posiciones automáticamente
   const calculateFlowerPositions = () => {
     const positions = [];
     const startPosition = minPosition;
     const endPosition = cardHeight - maxPosition;
 
-    // Calcular cuántas flores caben
     const numberOfFlowers = Math.floor((endPosition - startPosition) / flowerSpacing);
     
-    // Generar posiciones distribuidas uniformemente
     for (let i = 0; i < numberOfFlowers; i++) {
-      // Posición base con distribución uniforme
       const basePos = startPosition + (i * (endPosition - startPosition)) / (numberOfFlowers - 1 || 1);
-      
-      // Añadir variación aleatoria para que no sea perfectamente uniforme
       const variation = Math.floor(Math.random() * 30 - 15);
       const finalPos = Math.max(startPosition, Math.min(endPosition, basePos + variation));
       positions.push(finalPos);
@@ -314,10 +308,8 @@ const BougainvilleaScatter = ({
 
   useEffect(() => {
     setFlowerPositions(calculateFlowerPositions());
-    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [cardHeight, flowerSpacing, minPosition, maxPosition]);
 
-  // Si no hay posiciones, no renderizar nada
   if (flowerPositions.length === 0) {
     return null;
   }
@@ -327,15 +319,13 @@ const BougainvilleaScatter = ({
       {/* Esquina superior izquierda — racimo grande */}
       <Box
         className="wi-bougan"
-        sx={
-          {
-            position: "absolute",
-            top: -8,
-            left: -26,
-            zIndex: 2,
-            "--r": "-12deg",
-          } as any
-        }
+        sx={{
+          position: "absolute",
+          top: -8,
+          left: -26,
+          zIndex: 2,
+          "--r": "-12deg",
+        } as any}
       >
         <Bougainvillea size={110} rotate={16} src="/flowers/bougan-1.png" />
       </Box>
@@ -343,15 +333,13 @@ const BougainvilleaScatter = ({
       {/* Esquina superior derecha — racimo grande */}
       <Box
         className="wi-bougan"
-        sx={
-          {
-            position: "absolute",
-            top: -8,
-            right: -26,
-            zIndex: 2,
-            "--r": "-12deg",
-          } as any
-        }
+        sx={{
+          position: "absolute",
+          top: -8,
+          right: -26,
+          zIndex: 2,
+          "--r": "-12deg",
+        } as any}
       >
         <Bougainvillea size={110} rotate={-256} src="/flowers/bougan-1.png" />
       </Box>
@@ -359,16 +347,14 @@ const BougainvilleaScatter = ({
       {/* Esquina inferior derecha — racimo grande, volteado para variar */}
       <Box
         className="wi-bougan"
-        sx={
-          {
-            position: "absolute",
-            bottom: -30,
-            right: -24,
-            zIndex: 2,
-            animationDelay: "1.1s",
-            "--r": "168deg",
-          } as any
-        }
+        sx={{
+          position: "absolute",
+          bottom: -12,
+          right: -24,
+          zIndex: 2,
+          animationDelay: "1.1s",
+          "--r": "168deg",
+        } as any}
       >
         <Bougainvillea size={100} src="/flowers/bougan-4.png" flip />
       </Box>
@@ -376,16 +362,14 @@ const BougainvilleaScatter = ({
       {/* Esquina inferior izquierda — racimo grande, volteado para variar */}
       <Box
         className="wi-bougan"
-        sx={
-          {
-            position: "absolute",
-            bottom: -20,
-            left: -24,
-            zIndex: 2,
-            animationDelay: "1.1s",
-            "--r": "168deg",
-          } as any
-        }
+        sx={{
+          position: "absolute",
+          bottom: -20,
+          left: -24,
+          zIndex: 2,
+          animationDelay: "1.1s",
+          "--r": "168deg",
+        } as any}
       >
         <Bougainvillea size={100} rotate={-256} src="/flowers/bougan-4.png" flip />
       </Box>
@@ -395,20 +379,18 @@ const BougainvilleaScatter = ({
         <Box
           key={`right-${index}`}
           className="wi-bougan"
-          sx={
-            {
-              position: "absolute",
-              top: topPosition,
-              right: -6,
-              zIndex: 2,
-              opacity: 0.85,
-              animationDelay: `${0.3 + (index * 0.04)}s`,
-              "--r": "55deg",
-            } as any
-          }
+          sx={{
+            position: "absolute",
+            top: topPosition,
+            right: -6,
+            zIndex: 2,
+            opacity: 0.85,
+            animationDelay: `${0.3 + (index * 0.04)}s`,
+            "--r": "55deg",
+          } as any}
         >
           <Bougainvillea
-            size={36 + (index % 3) * 5}
+            size={40 + (index % 3) * 5}
             rotate={65 + (index * 7) % 20 - 10}
             src="/flowers/bougan-3.png"
           />
@@ -420,20 +402,18 @@ const BougainvilleaScatter = ({
         <Box
           key={`left-${index}`}
           className="wi-bougan"
-          sx={
-            {
-              position: "absolute",
-              top: topPosition,
-              left: -20,
-              zIndex: 0,
-              opacity: 0.85,
-              animationDelay: `${0.3 + (index * 0.04)}s`,
-              "--r": "55deg",
-            } as any
-          }
+          sx={{
+            position: "absolute",
+            top: topPosition,
+            left: -20,
+            zIndex: 0,
+            opacity: 0.85,
+            animationDelay: `${0.3 + (index * 0.04)}s`,
+            "--r": "55deg",
+          } as any}
         >
           <Bougainvillea
-            size={36 + (index % 3) * 5}
+            size={40 + (index % 3) * 5}
             rotate={265 + (index * 7) % 20 - 10}
             src="/flowers/bougan-3.png"
           />
@@ -646,7 +626,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     window.scrollTo({ top: 0, behavior: "smooth" });
   }, [activeSection]);
 
-  // Medir la altura real de la tarjeta después de renderizar
   useEffect(() => {
     const measureCard = () => {
       if (cardRef.current) {
@@ -657,17 +636,14 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       }
     };
 
-    // Medir después del render inicial
     const timeoutId = setTimeout(measureCard, 100);
-    
-    // Re-medir cuando cambie la ventana
     window.addEventListener('resize', measureCard);
     
     return () => {
       clearTimeout(timeoutId);
       window.removeEventListener('resize', measureCard);
     };
-  }, [activeSection]); // Re-medir cuando cambia la sección
+  }, [activeSection]);
 
   const openMaps = () => {
     if (coordenadasGPS) {
@@ -678,7 +654,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     }
   };
 
-  // ── Palette ──────────────────────────────────────────
   const rose = "#C2255C";
   const roseL = "#E8618F";
   const roseDeep = "#8E1743";
@@ -687,8 +662,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   const goldDark = "#C97B1F";
   const cream = "#FFFBF6";
   const ink = "#3D1F2D";
-
-  // ── Shared micro-components ───────────────────────────
 
   const Ornament = () => (
     <Typography
@@ -791,7 +764,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         sx={{
           p: { xs: 2.5, sm: 3 },
           height: "100%",
-          background: cream,
+          background: alpha(cream, 0.85),
+          backdropFilter: "blur(2px)",
           border: `1px solid ${alpha(gold, 0.55)}`,
           borderRadius: "20px",
           boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
@@ -881,16 +855,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     </Fade>
   );
 
-  // ── Invitation section ────────────────────────────────
   const InvitationSection = () => (
     <Grow in timeout={900}>
       <Box>
-        {/* Top border — marco doble dorado */}
         <Box sx={{ mb: 4 }}>
           <GoldFrameLine />
         </Box>
 
-        {/* Hero */}
         <Box sx={{ textAlign: "center", mb: 5 }}>
           <Typography
             sx={{
@@ -1027,10 +998,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           <SectionDivider />
         </Box>
 
-        {/* Countdown — componente separado, su estado no sube al padre */}
         <CountdownTimer rose={rose} rosePale={rosePale} ink={ink} />
 
-        {/* Parents */}
         <Fade in timeout={1200}>
           <Box sx={{ textAlign: "center", mb: 4, px: 1 }}>
             <Typography
@@ -1113,7 +1082,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
 
         <SectionDivider label="El gran día" />
 
-        {/* Message */}
         <Fade in timeout={1400}>
           <Box sx={{ textAlign: "center", px: { xs: 1, sm: 3 }, mb: 4 }}>
             <Typography
@@ -1131,7 +1099,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Box>
         </Fade>
 
-        {/* Detail cards */}
         <Grid container spacing={2} sx={{ mb: 4 }}>
           <Grid size={{ xs: 12, sm: 6 }}>
             <DetailCard
@@ -1171,7 +1138,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Grid>
         </Grid>
 
-        {/* Nav buttons */}
         <Stack
           direction="row"
           spacing={1}
@@ -1222,7 +1188,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           ))}
         </Stack>
 
-        {/* CTA */}
         <Box sx={{ textAlign: "center", mb: 3 }}>
           <Button
             variant="contained"
@@ -1267,7 +1232,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           {notasAdicionales}
         </Typography>
 
-        {/* Bottom border — marco doble dorado */}
         <Box sx={{ mt: 4 }}>
           <GoldFrameLine />
         </Box>
@@ -1275,7 +1239,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     </Grow>
   );
 
-  // ── Location section ──────────────────────────────────
   const LocationSection = () => (
     <Slide direction="left" in mountOnEnter unmountOnExit>
       <Box className="wi-section-appear">
@@ -1296,7 +1259,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           sx={{
             p: 4,
             textAlign: "center",
-            background: cream,
+            background: alpha(cream, 0.85),
+            backdropFilter: "blur(2px)",
             border: `1px solid ${alpha(rose, 0.3)}`,
             borderRadius: "20px",
             boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
@@ -1355,7 +1319,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             p: 4,
             mt: 8,
             textAlign: "center",
-            background: cream,
+            background: alpha(cream, 0.85),
+            backdropFilter: "blur(2px)",
             border: `1px solid ${alpha(rose, 0.3)}`,
             borderRadius: "20px",
             boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
@@ -1411,7 +1376,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     </Slide>
   );
 
-  // ── Render ────────────────────────────────────────────
   const renderSection = () => {
     switch (activeSection) {
       case "history":
@@ -1432,20 +1396,18 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       <style>{ROMANTIC_STYLES}</style>
       <ColorPaletteModal imageUrl="/pcolores.jpeg" />
 
-      {/* Fondo */}
       <Box
         sx={{
           position: "fixed",
           inset: 0,
           zIndex: -1,
           overflowX: "hidden",
-          border: `1px solid ${alpha(gold, 0.4)}`,
           background: `
-          radial-gradient(ellipse at 20% 20%, ${alpha(rose, 0.12)} 0%, transparent 50%),
-          radial-gradient(ellipse at 80% 80%, ${alpha(gold, 0.1)} 0%, transparent 50%),
-          radial-gradient(ellipse at 50% 50%, ${alpha(roseL, 0.08)} 0%, transparent 70%),
-          #fdf8f5
-        `,
+            radial-gradient(ellipse at 20% 20%, ${alpha(rose, 0.12)} 0%, transparent 50%),
+            radial-gradient(ellipse at 80% 80%, ${alpha(gold, 0.1)} 0%, transparent 50%),
+            radial-gradient(ellipse at 50% 50%, ${alpha(roseL, 0.08)} 0%, transparent 70%),
+            #fdf8f5
+          `,
         }}
       />
 
@@ -1455,7 +1417,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       >
         <MusicPlayer />
 
-        {/* Modal de asistencia */}
         <Modal
           open={openModal}
           onClose={() => setOpenModal(false)}
@@ -1548,7 +1509,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Fade>
         </Modal>
 
-        {/* Botón regresar */}
         {activeSection !== "invitation" && (
           <Zoom in>
             <IconButton
@@ -1578,38 +1538,109 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           elevation={0}
           sx={{
             borderRadius: "28px",
-            background: `linear-gradient(160deg, ${cream} 0%, #fff 60%, ${alpha(rosePale, 0.6)} 100%)`,
+            overflow: "hidden",
+            position: "relative",
             border: `1px solid ${alpha(rose, 0.3)}`,
             boxShadow: `0 2px 8px ${alpha(rose, 0.08)}, 0 16px 48px ${alpha(rose, 0.18)}, 0 40px 80px ${alpha(ink, 0.1)}`,
-            overflow: "visible",
-            position: "relative",
-            "&::before": {
-              content: '""',
-              position: "absolute",
-              inset: -1,
-              borderRadius: "28px",
-              background: `linear-gradient(135deg, ${alpha(gold, 0.35)}, transparent 40%, ${alpha(roseL, 0.3)} 100%)`,
-              zIndex: -1,
-            },
           }}
         >
-          {/* Esquinas doradas decorativas */}
-          <GoldCorner position="tl" />
-          <GoldCorner position="tr" />
-          <GoldCorner position="bl" />
-          <GoldCorner position="br" />
+          {/* Fondo dentro de la tarjeta - DOS IMÁGENES SUPERPUESTAS */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              overflow: "hidden",
+            }}
+          >
+            {/* Primera imagen - parte superior */}
+            <Box
+              component="img"
+              src="/boda1.jpeg"
+              alt=""
+              aria-hidden="true"
+              sx={{
+                position: "absolute",
+                top: 0,
+                left: 0,
+                width: "100%",
+                height: "50%",
+                objectFit: "cover",
+                objectPosition: "53% top",
+                opacity: 1.5,
+                filter: "saturate(0.6) brightness(1.15)",
+                pointerEvents: "none",
+                userSelect: "none",
+              }}
+            />
+            
+           
 
-          {/* Buganbilias distribuidas automáticamente según la altura real */}
-          <BougainvilleaScatter
-            cardHeight={cardHeight}
-            flowerSpacing={85}
-            minPosition={150}
-            maxPosition={200}
+            {/* Capa de velo blanco para suavizar */}
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                background: `
+                  linear-gradient(to bottom,
+                    rgba(255,253,249,0.6) 0%,
+                    rgba(253,246,236,0.5) 30%,
+                    rgba(250,240,228,0.4) 60%,
+                    rgba(250,240,228,0.45) 100%
+                  )
+                `,
+                pointerEvents: "none",
+                zIndex: 0,
+              }}
+            />
+
+            {/* Blur sutil */}
+            <Box
+              sx={{
+                position: "absolute",
+                inset: 0,
+                background: "rgba(255,248,240,0.1)",
+                backdropFilter: "blur(1px)",
+                pointerEvents: "none",
+                zIndex: 0,
+              }}
+            />
+          </Box>
+
+          {/* Gradiente superpuesto para la tarjeta - MÁS TRANSPARENTE */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              background: `linear-gradient(160deg, ${alpha(cream, 0.6)} 0%, ${alpha("#fff", 0.5)} 60%, ${alpha(rosePale, 0.4)} 100%)`,
+            }}
           />
 
-          <CardContent sx={{ p: { xs: 3, sm: 4 } }}>
-            {renderSection()}
-          </CardContent>
+          {/* Contenido - con posición relativa para estar encima del fondo */}
+          <Box sx={{ position: "relative", zIndex: 1 }}>
+            <GoldCorner position="tl" />
+            <GoldCorner position="tr" />
+            <GoldCorner position="bl" />
+            <GoldCorner position="br" />
+
+            <BougainvilleaScatter
+              cardHeight={cardHeight}
+              flowerSpacing={85}
+              minPosition={150}
+              maxPosition={200}
+            />
+
+            <CardContent 
+              sx={{ 
+                p: { xs: 3, sm: 4 },
+                backgroundColor: 'transparent', // Fondo transparente
+                '&:last-child': { pb: { xs: 3, sm: 4 } } // Mantener padding consistente
+              }}
+            >
+              {renderSection()}
+            </CardContent>
+          </Box>
         </Card>
       </Container>
     </>
