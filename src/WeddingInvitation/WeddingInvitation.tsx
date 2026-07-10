@@ -620,7 +620,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   fotos = [],
   codigoVestimenta = "Formal",
   frasePersonal = "Y en un beso, supimos que era para siempre",
-  coordenadasGPS = { lat: 20.301798, lng: -102.539874 },
+  coordenadasGPS = { lat: 20.301798, lng: -102.539874 },  
   codigoDresscode = "Nos reservamos el blanco",
   notasAdicionales = "Nuestra boda será una celebración muy íntima y especial. Por ello, hemos reservado lugares específicos para quienes más queremos; si estás en nuestra lista, es porque eres pieza fundamental en nuestra historia. Te pedimos confirmar tu asistencia lo antes posible, ya que cada detalle está planeado pensando para ti.",
 }) => {
@@ -663,6 +663,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       );
     }
   };
+
+  const openMapsIglesia = () => {
+  window.open(
+    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3742.5188516411395!2d-102.54972!3d20.278779999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842ec2145c5f2387%3A0xd2e57aab01bade3b!2sSanta%20Monica%20parish%20of%20La%20Barca!5e0!3m2!1sen!2smx!4v1783645127070!5m2!1sen!2smx",
+    "_blank"
+  );
+};
 
   const rose = "#C2255C";
   const roseL = "#E8618F";
@@ -1310,7 +1317,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           <Button
             variant="contained"
             startIcon={<LocationIcon />}
-            onClick={openMaps}
+            onClick={openMapsIglesia}
             sx={{
               fontFamily: "'Cormorant Garamond', serif",
               fontSize: "0.95rem",
