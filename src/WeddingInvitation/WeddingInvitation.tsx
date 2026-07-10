@@ -41,14 +41,23 @@ import AttendanceForm from "../components/AttendanceForm/AttendanceForm";
 
 // ─────────────────────────────────────────────────────────────
 // ColorPaletteModal — botón flotante que muestra la paleta de colores
+// Ahora acepta props para control externo
 // ─────────────────────────────────────────────────────────────
-const ColorPaletteModal = ({ imageUrl }: { imageUrl: string }) => {
-  const [open, setOpen] = useState(false);
-
+const ColorPaletteModal = ({ 
+  imageUrl, 
+  open, 
+  onOpen, 
+  onClose 
+}: { 
+  imageUrl: string;
+  open: boolean;
+  onOpen: () => void;
+  onClose: () => void;
+}) => {
   return (
     <>
       <IconButton
-        onClick={() => setOpen(true)}
+        onClick={onOpen}
         sx={{
           position: "fixed",
           top: "50%",
@@ -74,7 +83,7 @@ const ColorPaletteModal = ({ imageUrl }: { imageUrl: string }) => {
 
       <Modal
         open={open}
-        onClose={() => setOpen(false)}
+        onClose={onClose}
         closeAfterTransition
         BackdropComponent={Backdrop}
         BackdropProps={{
@@ -102,7 +111,7 @@ const ColorPaletteModal = ({ imageUrl }: { imageUrl: string }) => {
             }}
           >
             <IconButton
-              onClick={() => setOpen(false)}
+              onClick={onClose}
               sx={{
                 position: "absolute",
                 top: 12,
@@ -619,6 +628,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     "invitation" | "history" | "gallery" | "details"
   >("invitation");
   const [openModal, setOpenModal] = useState(false);
+  const [openColorPalette, setOpenColorPalette] = useState(false);
   const [cardHeight, setCardHeight] = useState(1200);
   const cardRef = useRef<HTMLDivElement>(null);
 
@@ -750,17 +760,20 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     value,
     sub,
     delay = 0,
+    onClick,
   }: {
     icon: React.ElementType;
     title: string;
     value: string;
     sub?: string;
     delay?: number;
+    onClick?: () => void;
   }) => (
     <Fade in timeout={800 + delay}>
       <Paper
         className="wi-card-detail"
         elevation={0}
+        onClick={onClick}
         sx={{
           p: { xs: 2.5, sm: 3 },
           height: "100%",
@@ -769,7 +782,11 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           border: `1px solid ${alpha(gold, 0.55)}`,
           borderRadius: "20px",
           boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
-          "&:hover": { boxShadow: `0 16px 40px ${alpha(rose, 0.25)}` },
+          "&:hover": { 
+            boxShadow: `0 16px 40px ${alpha(rose, 0.25)}`,
+            ...(onClick && { transform: "translateY(-6px)" })
+          },
+          cursor: onClick ? 'pointer' : 'default',
           position: "relative",
           overflow: "hidden",
           "&::after": {
@@ -1129,6 +1146,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Grid>
           <Grid size={{ xs: 12, sm: 6 }}>
             <DetailCard
+              onClick={() => setOpenColorPalette(true)}
               icon={DryCleaningIcon}
               title="Vestimenta"
               value={codigoVestimenta}
@@ -1394,7 +1412,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   return (
     <>
       <style>{ROMANTIC_STYLES}</style>
-      <ColorPaletteModal imageUrl="/pcolores.jpeg" />
+      
+      <ColorPaletteModal 
+        imageUrl="/pcolores.jpeg"
+        open={openColorPalette}
+        onOpen={() => setOpenColorPalette(true)}
+        onClose={() => setOpenColorPalette(false)}
+      />
 
       <Box
         sx={{
@@ -1544,7 +1568,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             boxShadow: `0 2px 8px ${alpha(rose, 0.08)}, 0 16px 48px ${alpha(rose, 0.18)}, 0 40px 80px ${alpha(ink, 0.1)}`,
           }}
         >
-          {/* Fondo dentro de la tarjeta - DOS IMÁGENES SUPERPUESTAS */}
+          {/* Fondo dentro de la tarjeta */}
           <Box
             sx={{
               position: "absolute",
@@ -1553,7 +1577,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               overflow: "hidden",
             }}
           >
-            {/* Primera imagen - parte superior */}
             <Box
               component="img"
               src="/boda1.jpeg"
@@ -1574,9 +1597,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               }}
             />
             
-           
-
-            {/* Capa de velo blanco para suavizar */}
             <Box
               sx={{
                 position: "absolute",
@@ -1594,7 +1614,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               }}
             />
 
-            {/* Blur sutil */}
             <Box
               sx={{
                 position: "absolute",
@@ -1607,7 +1626,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             />
           </Box>
 
-          {/* Gradiente superpuesto para la tarjeta - MÁS TRANSPARENTE */}
           <Box
             sx={{
               position: "absolute",
@@ -1617,7 +1635,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             }}
           />
 
-          {/* Contenido - con posición relativa para estar encima del fondo */}
           <Box sx={{ position: "relative", zIndex: 1 }}>
             <GoldCorner position="tl" />
             <GoldCorner position="tr" />
@@ -1634,8 +1651,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             <CardContent 
               sx={{ 
                 p: { xs: 3, sm: 4 },
-                backgroundColor: 'transparent', // Fondo transparente
-                '&:last-child': { pb: { xs: 3, sm: 4 } } // Mantener padding consistente
+                backgroundColor: 'transparent',
+                '&:last-child': { pb: { xs: 3, sm: 4 } }
               }}
             >
               {renderSection()}
