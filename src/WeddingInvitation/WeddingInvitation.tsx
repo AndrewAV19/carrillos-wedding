@@ -283,14 +283,14 @@ const GoldCorner = ({
 // BougainvilleaScatter — distribución estética de flores alrededor
 // de la tarjeta, con cálculo automático basado en el tamaño real
 // ─────────────────────────────────────────────────────────────
-interface BougainvilleaScatterProps {
+export interface BougainvilleaScatterProps {
   cardHeight?: number;
   flowerSpacing?: number;
   minPosition?: number;
   maxPosition?: number;
 }
 
-const BougainvilleaScatter = ({
+export const BougainvilleaScatter = ({
   cardHeight = 1000,
   flowerSpacing = 5,
   minPosition = 150,
@@ -1438,6 +1438,19 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           {notasAdicionales}
         </Typography>
 
+         <Typography
+          sx={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "0.85rem",
+            fontStyle: "italic",
+            color: alpha(roseDeep, 0.8),
+            textAlign: "center",
+            mt: 1,
+          }}
+        >
+          Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener un detalle especial con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!
+        </Typography>
+
         <Box sx={{ mt: 4 }}>
           <GoldFrameLine />
         </Box>
@@ -1654,6 +1667,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 border: `1px solid ${alpha(rose, 0.4)}`,
               }}
             >
+              
+
+
               <IconButton
                 onClick={() => setOpenModal(false)}
                 sx={{
@@ -1709,11 +1725,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                   }}
                 />
               </Box>
+              
               <AttendanceForm
                 novio={novio}
                 novia={novia}
                 onClose={() => setOpenModal(false)}
               />
+              
             </Box>
           </Fade>
         </Modal>

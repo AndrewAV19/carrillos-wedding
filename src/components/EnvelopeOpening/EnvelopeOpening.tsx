@@ -1,4 +1,5 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef, useEffect } from "react";
+import { BougainvilleaScatter } from "../../WeddingInvitation/WeddingInvitation";
 
 interface EnvelopeOpeningProps {
   onOpen: () => void;
@@ -14,6 +15,19 @@ interface Star {
 
 const styles = `
   @import url('https://fonts.googleapis.com/css2?family=Cormorant+Garamond:ital,wght@0,300;0,400;1,300;1,400&family=Pinyon+Script&display=swap');
+
+  /* ── Bougainvillea (mismo movimiento que en la tarjeta principal) ── */
+  @keyframes wi-sway {
+    0%, 100% { transform: rotate(var(--r, 0deg)) translateY(0); }
+    50%       { transform: rotate(calc(var(--r, 0deg) + 3deg)) translateY(-3px); }
+  }
+  .wi-bougan {
+    animation: wi-sway 5s ease-in-out infinite;
+    transform-origin: 50% 50%;
+  }
+  @media (prefers-reduced-motion: reduce) {
+    .wi-bougan { animation: none; }
+  }
 
   .env-scene {
     position: fixed;
@@ -165,6 +179,7 @@ const styles = `
     box-shadow: 0 25px 60px rgba(139, 90, 107, 0.12), 
                 0 8px 20px rgba(139, 90, 107, 0.06);
     z-index: 10;
+    overflow: hidden;
   }
 
   .env-letter.env-letter-visible {
@@ -190,6 +205,8 @@ const styles = `
     justify-content: center;
     gap: 8px;
     margin-bottom: 16px;
+    position: relative;
+    z-index: 1;
   }
 
   .env-letter-line {
@@ -209,6 +226,8 @@ const styles = `
     color: #8b5a6b;
     line-height: 1;
     margin-bottom: 4px;
+    position: relative;
+    z-index: 1;
   }
 
   .env-letter-names {
@@ -218,6 +237,8 @@ const styles = `
     color: #5a3a45;
     letter-spacing: 0.05em;
     margin-bottom: 14px;
+    position: relative;
+    z-index: 1;
   }
 
   .env-letter-divider {
@@ -225,6 +246,8 @@ const styles = `
     height: 0.5px;
     background: #e4cdd5;
     margin: 0 auto 14px;
+    position: relative;
+    z-index: 1;
   }
 
   .env-letter-body {
@@ -234,6 +257,8 @@ const styles = `
     color: #7a5a68;
     line-height: 1.8;
     letter-spacing: 0.02em;
+    position: relative;
+    z-index: 1;
   }
 
   .env-letter-date {
@@ -243,6 +268,8 @@ const styles = `
     color: #8b5a6b;
     letter-spacing: 0.14em;
     margin-top: 18px;
+    position: relative;
+    z-index: 1;
   }
 
   .env-letter-city {
@@ -252,6 +279,8 @@ const styles = `
     text-transform: uppercase;
     color: #a87a8a;
     margin-top: 3px;
+    position: relative;
+    z-index: 1;
   }
 `;
 
@@ -259,6 +288,8 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
   const [opened, setOpened] = useState(false);
   const [showLetter, setShowLetter] = useState(false);
   const calledOnOpen = useRef(false);
+  const letterRef = useRef<HTMLDivElement>(null);
+  const [letterHeight, setLetterHeight] = useState(420);
 
   const [stars] = useState<Star[]>(() =>
     Array.from({ length: 22 }, (_, i) => ({
@@ -284,6 +315,28 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
       }, 8500);
     }, 900);
   };
+
+  // Mide la altura real de la notita una vez que se muestra,
+  // para que las flores (BougainvilleaScatter) se distribuyan
+  // correctamente a lo largo de todo su borde.
+  useEffect(() => {
+    if (!showLetter) return;
+
+    const measure = () => {
+      if (letterRef.current) {
+        const h = letterRef.current.offsetHeight;
+        if (h > 0) setLetterHeight(h);
+      }
+    };
+
+    const timeoutId = setTimeout(measure, 60);
+    window.addEventListener("resize", measure);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", measure);
+    };
+  }, [showLetter]);
 
   return (
     <>
@@ -347,7 +400,12 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
                   <stop offset="100%" stopColor="#c0c0c0" />
                 </linearGradient>
                 <filter id="ringShadow">
-                  <feDropShadow dx="0" dy="1" stdDeviation="1.5" floodOpacity="0.2" />
+                  <feDropShadow
+                    dx="0"
+                    dy="1"
+                    stdDeviation="1.5"
+                    floodOpacity="0.2"
+                  />
                 </filter>
               </defs>
 
@@ -406,7 +464,7 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
                 stroke="#e4cdd5"
                 strokeWidth="0.8"
               />
-              
+
               {/* Inner decorative circle */}
               <circle
                 cx="150"
@@ -442,8 +500,20 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
                     opacity="0.9"
                   />
                   {/* Brillos del diamante */}
-                  <circle cx="143" cy="110" r="0.8" fill="white" opacity="0.8" />
-                  <circle cx="142.5" cy="111.5" r="0.5" fill="white" opacity="0.6" />
+                  <circle
+                    cx="143"
+                    cy="110"
+                    r="0.8"
+                    fill="white"
+                    opacity="0.8"
+                  />
+                  <circle
+                    cx="142.5"
+                    cy="111.5"
+                    r="0.5"
+                    fill="white"
+                    opacity="0.6"
+                  />
                 </g>
 
                 {/* Anillo 2 (Plata) - Derecha, entrelazado */}
@@ -468,27 +538,68 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
                     opacity="0.9"
                   />
                   {/* Brillos del diamante */}
-                  <circle cx="157" cy="110" r="0.8" fill="white" opacity="0.8" />
-                  <circle cx="156.5" cy="111.5" r="0.5" fill="white" opacity="0.6" />
+                  <circle
+                    cx="157"
+                    cy="110"
+                    r="0.8"
+                    fill="white"
+                    opacity="0.8"
+                  />
+                  <circle
+                    cx="156.5"
+                    cy="111.5"
+                    r="0.5"
+                    fill="white"
+                    opacity="0.6"
+                  />
                 </g>
               </g>
 
               {/* Partículas de brillo alrededor de los anillos */}
               <g className="env-rings-sparkle">
                 <circle cx="138" cy="112" r="0.8" fill="#e8c878" opacity="0.6">
-                  <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" repeatCount="indefinite" />
+                  <animate
+                    attributeName="opacity"
+                    values="0.6;0.2;0.6"
+                    dur="2s"
+                    repeatCount="indefinite"
+                  />
                 </circle>
                 <circle cx="162" cy="112" r="0.8" fill="#e8c878" opacity="0.6">
-                  <animate attributeName="opacity" values="0.6;0.2;0.6" dur="2s" begin="0.7s" repeatCount="indefinite" />
+                  <animate
+                    attributeName="opacity"
+                    values="0.6;0.2;0.6"
+                    dur="2s"
+                    begin="0.7s"
+                    repeatCount="indefinite"
+                  />
                 </circle>
                 <circle cx="150" cy="106" r="0.6" fill="#fff" opacity="0.5">
-                  <animate attributeName="opacity" values="0.5;0.1;0.5" dur="2.5s" begin="1.2s" repeatCount="indefinite" />
+                  <animate
+                    attributeName="opacity"
+                    values="0.5;0.1;0.5"
+                    dur="2.5s"
+                    begin="1.2s"
+                    repeatCount="indefinite"
+                  />
                 </circle>
                 <circle cx="135" cy="119" r="0.6" fill="#fff" opacity="0.4">
-                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.8s" begin="0.4s" repeatCount="indefinite" />
+                  <animate
+                    attributeName="opacity"
+                    values="0.4;0.1;0.4"
+                    dur="2.8s"
+                    begin="0.4s"
+                    repeatCount="indefinite"
+                  />
                 </circle>
                 <circle cx="165" cy="119" r="0.6" fill="#fff" opacity="0.4">
-                  <animate attributeName="opacity" values="0.4;0.1;0.4" dur="2.8s" begin="1s" repeatCount="indefinite" />
+                  <animate
+                    attributeName="opacity"
+                    values="0.4;0.1;0.4"
+                    dur="2.8s"
+                    begin="1s"
+                    repeatCount="indefinite"
+                  />
                 </circle>
               </g>
 
@@ -504,8 +615,17 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
 
           {/* Letter */}
           <div
+            ref={letterRef}
             className={`env-letter${showLetter ? " env-letter-visible" : ""}`}
           >
+            {/* Flores de buganbilia en los bordes, igual que en la tarjeta principal */}
+            <BougainvilleaScatter
+              cardHeight={letterHeight}
+              flowerSpacing={20}
+              minPosition={100}
+              maxPosition={120}
+            />
+
             <div className="env-letter-deco" />
 
             <div className="env-letter-row">
