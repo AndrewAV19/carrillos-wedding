@@ -43,12 +43,12 @@ import AttendanceForm from "../components/AttendanceForm/AttendanceForm";
 // ColorPaletteModal — botón flotante que muestra la paleta de colores
 // Ahora acepta props para control externo
 // ─────────────────────────────────────────────────────────────
-const ColorPaletteModal = ({ 
-  imageUrl, 
-  open, 
-  onOpen, 
-  onClose 
-}: { 
+const ColorPaletteModal = ({
+  imageUrl,
+  open,
+  onOpen,
+  onClose,
+}: {
   imageUrl: string;
   open: boolean;
   onOpen: () => void;
@@ -292,7 +292,7 @@ interface BougainvilleaScatterProps {
 
 const BougainvilleaScatter = ({
   cardHeight = 1000,
-  flowerSpacing = 85,
+  flowerSpacing = 5,
   minPosition = 150,
   maxPosition = 200,
 }: BougainvilleaScatterProps = {}) => {
@@ -301,12 +301,19 @@ const BougainvilleaScatter = ({
     const startPosition = minPosition;
     const endPosition = cardHeight - maxPosition;
 
-    const numberOfFlowers = Math.floor((endPosition - startPosition) / flowerSpacing);
-    
+    const numberOfFlowers = Math.floor(
+      (endPosition - startPosition) / flowerSpacing,
+    );
+
     for (let i = 0; i < numberOfFlowers; i++) {
-      const basePos = startPosition + (i * (endPosition - startPosition)) / (numberOfFlowers - 1 || 1);
+      const basePos =
+        startPosition +
+        (i * (endPosition - startPosition)) / (numberOfFlowers - 1 || 1);
       const variation = Math.floor(Math.random() * 30 - 15);
-      const finalPos = Math.max(startPosition, Math.min(endPosition, basePos + variation));
+      const finalPos = Math.max(
+        startPosition,
+        Math.min(endPosition, basePos + variation),
+      );
       positions.push(finalPos);
     }
 
@@ -328,27 +335,103 @@ const BougainvilleaScatter = ({
       {/* Esquina superior izquierda — racimo grande */}
       <Box
         className="wi-bougan"
-        sx={{
-          position: "absolute",
-          top: -8,
-          left: -26,
-          zIndex: 2,
-          "--r": "-12deg",
-        } as any}
+        sx={
+          {
+            position: "absolute",
+            top: -8,
+            left: -26,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
       >
         <Bougainvillea size={110} rotate={16} src="/flowers/bougan-1.png" />
+      </Box>
+
+      <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -60,
+            left: 76,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
+      </Box>
+      <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -60,
+            left: 146,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
+      </Box>
+       <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -60,
+            left: 236,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
+      </Box>
+       <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -60,
+            left: 326,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
+      </Box>
+
+       <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            top: -60,
+            left: 416,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
       </Box>
 
       {/* Esquina superior derecha — racimo grande */}
       <Box
         className="wi-bougan"
-        sx={{
-          position: "absolute",
-          top: -8,
-          right: -26,
-          zIndex: 2,
-          "--r": "-12deg",
-        } as any}
+        sx={
+          {
+            position: "absolute",
+            top: -8,
+            right: -26,
+            zIndex: 2,
+            "--r": "-12deg",
+          } as any
+        }
       >
         <Bougainvillea size={110} rotate={-256} src="/flowers/bougan-1.png" />
       </Box>
@@ -356,31 +439,117 @@ const BougainvilleaScatter = ({
       {/* Esquina inferior derecha — racimo grande, volteado para variar */}
       <Box
         className="wi-bougan"
-        sx={{
-          position: "absolute",
-          bottom: -12,
-          right: -24,
-          zIndex: 2,
-          animationDelay: "1.1s",
-          "--r": "168deg",
-        } as any}
+        sx={
+          {
+            position: "absolute",
+            bottom: -26,
+            right: -14,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
       >
-        <Bougainvillea size={100} src="/flowers/bougan-4.png" flip />
+        <Bougainvillea size={110} rotate={256} src="/flowers/bougan-1.png" flip />
+      </Box>
+
+       <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -56,
+            right: 54,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+      </Box>
+
+         <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -56,
+            right: 124,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+      </Box>
+        <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -56,
+            right: 194,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+      </Box>
+         <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -56,
+            right: 274,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+      </Box>
+        <Box
+        className="wi-bougan"
+        sx={
+          {
+            position: "absolute",
+            bottom: -56,
+            right: 384,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
+      >
+        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
       </Box>
 
       {/* Esquina inferior izquierda — racimo grande, volteado para variar */}
       <Box
         className="wi-bougan"
-        sx={{
-          position: "absolute",
-          bottom: -20,
-          left: -24,
-          zIndex: 2,
-          animationDelay: "1.1s",
-          "--r": "168deg",
-        } as any}
+        sx={
+          {
+            position: "absolute",
+            bottom: -10,
+            left: -24,
+            zIndex: 2,
+            animationDelay: "1.1s",
+            "--r": "168deg",
+          } as any
+        }
       >
-        <Bougainvillea size={100} rotate={-256} src="/flowers/bougan-4.png" flip />
+        <Bougainvillea
+          size={100}
+          rotate={-356}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
 
       {/* Lado derecho - flores calculadas automáticamente */}
@@ -388,19 +557,21 @@ const BougainvilleaScatter = ({
         <Box
           key={`right-${index}`}
           className="wi-bougan"
-          sx={{
-            position: "absolute",
-            top: topPosition,
-            right: -6,
-            zIndex: 2,
-            opacity: 0.85,
-            animationDelay: `${0.3 + (index * 0.04)}s`,
-            "--r": "55deg",
-          } as any}
+          sx={
+            {
+              position: "absolute",
+              top: topPosition,
+              right: -8,
+              zIndex: 2,
+              opacity: 0.85,
+              animationDelay: `${0.3 + index * 0.04}s`,
+              "--r": "55deg",
+            } as any
+          }
         >
           <Bougainvillea
             size={40 + (index % 3) * 5}
-            rotate={65 + (index * 7) % 20 - 10}
+            rotate={-100 + ((index * 7) % 20) - 10}
             src="/flowers/bougan-3.png"
           />
         </Box>
@@ -411,19 +582,21 @@ const BougainvilleaScatter = ({
         <Box
           key={`left-${index}`}
           className="wi-bougan"
-          sx={{
-            position: "absolute",
-            top: topPosition,
-            left: -20,
-            zIndex: 0,
-            opacity: 0.85,
-            animationDelay: `${0.3 + (index * 0.04)}s`,
-            "--r": "55deg",
-          } as any}
+          sx={
+            {
+              position: "absolute",
+              top: topPosition,
+              left: -20,
+              zIndex: 0,
+              opacity: 0.85,
+              animationDelay: `${0.3 + index * 0.04}s`,
+              "--r": "55deg",
+            } as any
+          }
         >
           <Bougainvillea
             size={40 + (index % 3) * 5}
-            rotate={265 + (index * 7) % 20 - 10}
+            rotate={100 + ((index * 7) % 20) - 10}
             src="/flowers/bougan-3.png"
           />
         </Box>
@@ -437,7 +610,15 @@ const BougainvilleaScatter = ({
 // no provoque re-renders en el componente padre cada segundo.
 // ─────────────────────────────────────────────────────────────
 const CountdownTimer = memo(
-  ({ rose, rosePale, ink }: { rose: string; rosePale: string; ink: string }) => {
+  ({
+    rose,
+    rosePale,
+    ink,
+  }: {
+    rose: string;
+    rosePale: string;
+    ink: string;
+  }) => {
     const [cd, setCd] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
     useEffect(() => {
@@ -620,7 +801,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   fotos = [],
   codigoVestimenta = "Formal",
   frasePersonal = "Y en un beso, supimos que era para siempre",
-  coordenadasGPS = { lat: 20.301798, lng: -102.539874 },  
+  coordenadasGPS = { lat: 20.301798, lng: -102.539874 },
   codigoDresscode = "Nos reservamos el blanco",
   notasAdicionales = "Nuestra boda será una celebración muy íntima y especial. Por ello, hemos reservado lugares específicos para quienes más queremos; si estás en nuestra lista, es porque eres pieza fundamental en nuestra historia. Te pedimos confirmar tu asistencia lo antes posible, ya que cada detalle está planeado pensando para ti.",
 }) => {
@@ -647,11 +828,11 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     };
 
     const timeoutId = setTimeout(measureCard, 100);
-    window.addEventListener('resize', measureCard);
-    
+    window.addEventListener("resize", measureCard);
+
     return () => {
       clearTimeout(timeoutId);
-      window.removeEventListener('resize', measureCard);
+      window.removeEventListener("resize", measureCard);
     };
   }, [activeSection]);
 
@@ -665,11 +846,11 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   };
 
   const openMapsIglesia = () => {
-  window.open(
-    "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3742.5188516411395!2d-102.54972!3d20.278779999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842ec2145c5f2387%3A0xd2e57aab01bade3b!2sSanta%20Monica%20parish%20of%20La%20Barca!5e0!3m2!1sen!2smx!4v1783645127070!5m2!1sen!2smx",
-    "_blank"
-  );
-};
+    window.open(
+      "https://www.google.com/maps/embed?pb=!1m18!1m12!1m3!1d3742.5188516411395!2d-102.54972!3d20.278779999999998!2m3!1f0!2f0!3f0!3m2!1i1024!2i768!4f13.1!3m3!1m2!1s0x842ec2145c5f2387%3A0xd2e57aab01bade3b!2sSanta%20Monica%20parish%20of%20La%20Barca!5e0!3m2!1sen!2smx!4v1783645127070!5m2!1sen!2smx",
+      "_blank",
+    );
+  };
 
   const rose = "#C2255C";
   const roseL = "#E8618F";
@@ -789,11 +970,11 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           border: `1px solid ${alpha(gold, 0.55)}`,
           borderRadius: "20px",
           boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
-          "&:hover": { 
+          "&:hover": {
             boxShadow: `0 16px 40px ${alpha(rose, 0.25)}`,
-            ...(onClick && { transform: "translateY(-6px)" })
+            ...(onClick && { transform: "translateY(-6px)" }),
           },
-          cursor: onClick ? 'pointer' : 'default',
+          cursor: onClick ? "pointer" : "default",
           position: "relative",
           overflow: "hidden",
           "&::after": {
@@ -1419,8 +1600,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   return (
     <>
       <style>{ROMANTIC_STYLES}</style>
-      
-      <ColorPaletteModal 
+
+      <ColorPaletteModal
         imageUrl="/pcolores.jpeg"
         open={openColorPalette}
         onOpen={() => setOpenColorPalette(true)}
@@ -1442,10 +1623,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         }}
       />
 
-      <Container
-        maxWidth="sm"
-        sx={{ py: 4, position: "relative", zIndex: 1 }}
-      >
+      <Container maxWidth="sm" sx={{ py: 4, position: "relative", zIndex: 1 }}>
         <MusicPlayer />
 
         <Modal
@@ -1603,7 +1781,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 userSelect: "none",
               }}
             />
-            
+
             <Box
               sx={{
                 position: "absolute",
@@ -1650,16 +1828,16 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
 
             <BougainvilleaScatter
               cardHeight={cardHeight}
-              flowerSpacing={85}
-              minPosition={150}
-              maxPosition={200}
+              flowerSpacing={20}
+              minPosition={100}
+              maxPosition={120}
             />
 
-            <CardContent 
-              sx={{ 
+            <CardContent
+              sx={{
                 p: { xs: 3, sm: 4 },
-                backgroundColor: 'transparent',
-                '&:last-child': { pb: { xs: 3, sm: 4 } }
+                backgroundColor: "transparent",
+                "&:last-child": { pb: { xs: 3, sm: 4 } },
               }}
             >
               {renderSection()}
