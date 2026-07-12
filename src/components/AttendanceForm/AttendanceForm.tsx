@@ -21,6 +21,8 @@ import {
   Grow,
   Fade,
   Zoom,
+  Snackbar,
+  SnackbarContent,
 } from "@mui/material";
 import {
   Send as SendIcon,
@@ -33,6 +35,7 @@ import {
   Celebration as CelebrationIcon,
   Spa as SpaIcon,
   Diamond as DiamondIcon,
+  Favorite as FavoriteIcon,
 } from "@mui/icons-material";
 
 interface AttendanceFormProps {
@@ -70,6 +73,9 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
   const [telefonoValido, setTelefonoValido] = useState(true);
   const [hoverSi, setHoverSi] = useState(false);
   const [hoverNo, setHoverNo] = useState(false);
+
+  // Estado para el Toast
+  const [toastOpen, setToastOpen] = useState(false);
 
   const handleChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     const { name, value, checked, type } = e.target;
@@ -167,14 +173,18 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
         mode: "no-cors",
       },
     );
-    window.open(
-      `https://wa.me/${numeroNovio}?text=${mensajeWhatsApp}`,
-      "_blank",
-    );
+    // window.open(
+    //   `https://wa.me/${numeroNovio}?text=${mensajeWhatsApp}`,
+    //   "_blank",
+    // );
+
+    // Mostrar Toast de éxito
+    setToastOpen(true);
 
     setEnviado(true);
     setError("");
 
+    // Esperar 3.5 segundos para mostrar el toast, luego cerrar el modal
     setTimeout(() => {
       setEnviado(false);
       setFormData({
@@ -186,8 +196,20 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
         autorizacion: false,
       });
       setTelefonoValido(true);
-      if (onClose) onClose();
-    }, 4000);
+
+      // Cerrar el toast antes de cerrar el modal
+      setToastOpen(false);
+
+      // Cerrar el modal después de un pequeño retraso
+      setTimeout(() => {
+        if (onClose) onClose();
+      }, 400);
+    }, 3500);
+  };
+
+  // Manejar cierre del Toast
+  const handleToastClose = () => {
+    setToastOpen(false);
   };
 
   // Estilos románticos compartidos
@@ -222,609 +244,731 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
   };
 
   return (
-    <Slide direction="up" in={true} mountOnEnter unmountOnExit timeout={800}>
-      <Box sx={{ position: "relative" }}>
-        <Box
-          sx={{
-            position: "absolute",
-            top: -20,
-            left: "50%",
-            transform: "translateX(-50%)",
-            color: alpha(theme.palette.primary.main, 0.3),
-            fontSize: "3rem",
-            zIndex: 0,
-          }}
-        ></Box>
-
-        <form onSubmit={handleSubmit}>
+    <>
+      <Slide direction="up" in={true} mountOnEnter unmountOnExit timeout={800}>
+        <Box sx={{ position: "relative" }}>
           <Box
             sx={{
-              display: "flex",
-              flexDirection: "column",
-              gap: 3,
-              position: "relative",
-              zIndex: 1,
+              position: "absolute",
+              top: -20,
+              left: "50%",
+              transform: "translateX(-50%)",
+              color: alpha(theme.palette.primary.main, 0.3),
+              fontSize: "3rem",
+              zIndex: 0,
             }}
-          >
-            <Fade in={true} timeout={1000}>
-              <Box sx={{ textAlign: "center", mb: 2 }}>
-                <Typography
-                  variant="h6"
-                  sx={{
-                    fontFamily: '"Playfair Display", "Georgia", serif',
-                    color: theme.palette.primary.main,
-                    fontWeight: 600,
-                    letterSpacing: "0.5px",
-                    mb: 1,
-                  }}
-                >
-                  Confirma tu presencia
-                </Typography>
-                <Typography
-                  variant="body2"
-                  sx={{
-                    color: theme.palette.text.secondary,
-                    fontStyle: "italic",
-                    maxWidth: "80%",
-                    mx: "auto",
-                  }}
-                >
-                  Tu respuesta llegará directamente a los novios 💌
-                </Typography>
-              </Box>
-            </Fade>
+          ></Box>
 
-            {enviado && (
-              <Zoom in={true}>
-                <Alert
-                  severity="success"
-                  icon={<CelebrationIcon fontSize="inherit" />}
-                  sx={{
-                    mb: 2,
-                    animation: "pulse 2s infinite",
-                    borderRadius: 3,
-                    background: `linear-gradient(135deg, ${alpha(theme.palette.success.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0.1)} 100%)`,
-                    border: `1px solid ${alpha(theme.palette.success.main, 0.3)}`,
-                  }}
-                >
+          <form onSubmit={handleSubmit}>
+            <Box
+              sx={{
+                display: "flex",
+                flexDirection: "column",
+                gap: 3,
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              <Fade in={true} timeout={1000}>
+                <Box sx={{ textAlign: "center", mb: 2 }}>
                   <Typography
-                    variant="body1"
-                    fontWeight="600"
-                    sx={{ fontFamily: '"Playfair Display", serif' }}
-                  >
-                    ¡Gracias por confirmar! 💖
-                  </Typography>
-                  <Typography variant="caption">
-                    Tu mensaje ha sido enviado a los novios
-                  </Typography>
-                </Alert>
-              </Zoom>
-            )}
-
-            {error && (
-              <Slide direction="right" in={true}>
-                <Alert
-                  severity="error"
-                  icon={<HeartBorderIcon fontSize="inherit" />}
-                  onClose={() => setError("")}
-                  sx={{
-                    borderRadius: 3,
-                    border: `1px solid ${alpha(theme.palette.error.main, 0.3)}`,
-                  }}
-                >
-                  {error}
-                </Alert>
-              </Slide>
-            )}
-
-            {/* Campo de nombre con diseño romántico */}
-            <TextField
-              fullWidth
-              label="Tu nombre completo"
-              name="nombre"
-              value={formData.nombre}
-              onChange={handleChange}
-              required
-              variant="outlined"
-              placeholder="¿Cómo te llamas? Queremos saberlo 💫"
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Avatar
-                      sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: alpha(theme.palette.primary.main, 0.1),
-                        border: `2px solid ${alpha(theme.palette.primary.main, 0.3)}`,
-                      }}
-                    >
-                      <PersonIcon
-                        sx={{ fontSize: 18, color: theme.palette.primary.main }}
-                      />
-                    </Avatar>
-                  </InputAdornment>
-                ),
-              }}
-              sx={romanticTextField}
-            />
-
-            {/* Campo de teléfono mejorado */}
-            <TextField
-              fullWidth
-              label="Tu número de WhatsApp"
-              name="telefono"
-              value={formData.telefono}
-              onChange={handleTelefonoChange}
-              required
-              variant="outlined"
-              placeholder="Ej: +52 123 456 7890"
-              error={!telefonoValido && formData.telefono !== ""}
-              helperText={
-                !telefonoValido && formData.telefono !== ""
-                  ? "Este número no es válido, ¿lo revisamos? 💕"
-                  : "Incluye código de país (ej: +52) 📱"
-              }
-              FormHelperTextProps={{
-                sx: {
-                  fontStyle: "italic",
-                  color:
-                    !telefonoValido && formData.telefono !== ""
-                      ? theme.palette.error.main
-                      : theme.palette.text.secondary,
-                },
-              }}
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment position="start">
-                    <Avatar
-                      sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: alpha(theme.palette.success.main, 0.1),
-                        border: `2px solid ${alpha(theme.palette.success.main, 0.3)}`,
-                      }}
-                    >
-                      <PhoneIcon
-                        sx={{ fontSize: 18, color: theme.palette.success.main }}
-                      />
-                    </Avatar>
-                  </InputAdornment>
-                ),
-              }}
-              sx={romanticTextField}
-            />
-
-            <Divider sx={{ my: 1 }}>
-              <Chip
-                label="Tu respuesta"
-                size="medium"
-                icon={<HeartIcon />}
-                sx={{
-                  bgcolor: alpha(theme.palette.primary.main, 0.1),
-                  borderRadius: 20,
-                  px: 2,
-                  "& .MuiChip-label": {
-                    fontFamily: '"Playfair Display", serif',
-                    fontWeight: 500,
-                  },
-                }}
-              />
-            </Divider>
-
-            {/* Opciones de asistencia con diseño romántico */}
-            <FormControl component="fieldset">
-              <FormLabel
-                component="legend"
-                sx={{
-                  color: theme.palette.text.primary,
-                  fontWeight: 500,
-                  mb: 2,
-                  fontFamily: '"Playfair Display", serif',
-                  textAlign: "center",
-                  width: "100%",
-                }}
-              >
-                ¿Acompañarás a los novios en su gran día?
-              </FormLabel>
-              <RadioGroup
-                row
-                name="confirmacion"
-                value={formData.confirmacion}
-                onChange={handleChange}
-                sx={{ justifyContent: "center", gap: 3 }}
-              >
-                <Grow in={true} timeout={800}>
-                  <Paper
-                    elevation={formData.confirmacion === "si" ? 4 : 1}
-                    onMouseEnter={() => setHoverSi(true)}
-                    onMouseLeave={() => setHoverSi(false)}
-                    onClick={() =>
-                      setFormData((prev) => ({ ...prev, confirmacion: "si" }))
-                    }
+                    variant="h6"
                     sx={{
-                      p: 2,
-                      border: `2px solid ${
-                        formData.confirmacion === "si"
-                          ? theme.palette.success.main
-                          : hoverSi
-                            ? alpha(theme.palette.success.main, 0.5)
-                            : alpha(theme.palette.grey[400], 0.3)
-                      }`,
-                      borderRadius: 4,
-                      bgcolor:
-                        formData.confirmacion === "si"
-                          ? alpha(theme.palette.success.main, 0.08)
-                          : "transparent",
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transform: hoverSi ? "scale(1.05)" : "scale(1)",
-                      cursor: "pointer",
-                      minWidth: 140,
-                      textAlign: "center",
+                      fontFamily: '"Playfair Display", "Georgia", serif',
+                      color: theme.palette.primary.main,
+                      fontWeight: 600,
+                      letterSpacing: "0.5px",
+                      mb: 1,
                     }}
                   >
-                    <Box
+                    Confirma tu presencia
+                  </Typography>
+                  <Typography
+                    variant="body2"
+                    sx={{
+                      color: theme.palette.text.secondary,
+                      fontStyle: "italic",
+                      maxWidth: "80%",
+                      mx: "auto",
+                    }}
+                  >
+                    Tu respuesta llegará directamente a los novios 💌
+                  </Typography>
+                </Box>
+              </Fade>
+
+              {enviado && (
+                <Zoom in={true}>
+                  <Alert
+                    severity="success"
+                    icon={<CelebrationIcon fontSize="inherit" />}
+                    sx={{
+                      mb: 2,
+                      animation: "pulse 2s infinite",
+                      borderRadius: 3,
+                      background: `linear-gradient(135deg, ${alpha(theme.palette.success.main, 0.1)} 0%, ${alpha(theme.palette.primary.main, 0.1)} 100%)`,
+                      border: `1px solid ${alpha(theme.palette.success.main, 0.3)}`,
+                    }}
+                  >
+                    <Typography
+                      variant="body1"
+                      fontWeight="600"
+                      sx={{ fontFamily: '"Playfair Display", serif' }}
+                    >
+                      ¡Gracias por confirmar! 💖
+                    </Typography>
+                    <Typography variant="caption">
+                      Tu mensaje ha sido enviado a los novios
+                    </Typography>
+                  </Alert>
+                </Zoom>
+              )}
+
+              {error && (
+                <Slide direction="right" in={true}>
+                  <Alert
+                    severity="error"
+                    icon={<HeartBorderIcon fontSize="inherit" />}
+                    onClose={() => setError("")}
+                    sx={{
+                      borderRadius: 3,
+                      border: `1px solid ${alpha(theme.palette.error.main, 0.3)}`,
+                    }}
+                  >
+                    {error}
+                  </Alert>
+                </Slide>
+              )}
+
+              {/* Campo de nombre con diseño romántico */}
+              <TextField
+                fullWidth
+                label="Tu nombre completo"
+                name="nombre"
+                value={formData.nombre}
+                onChange={handleChange}
+                required
+                variant="outlined"
+                placeholder="¿Cómo te llamas? Queremos saberlo 💫"
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Avatar
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          bgcolor: alpha(theme.palette.primary.main, 0.1),
+                          border: `2px solid ${alpha(theme.palette.primary.main, 0.3)}`,
+                        }}
+                      >
+                        <PersonIcon
+                          sx={{
+                            fontSize: 18,
+                            color: theme.palette.primary.main,
+                          }}
+                        />
+                      </Avatar>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={romanticTextField}
+              />
+
+              {/* Campo de teléfono mejorado */}
+              <TextField
+                fullWidth
+                label="Tu número de WhatsApp"
+                name="telefono"
+                value={formData.telefono}
+                onChange={handleTelefonoChange}
+                required
+                variant="outlined"
+                placeholder="Ej: +52 123 456 7890"
+                error={!telefonoValido && formData.telefono !== ""}
+                helperText={
+                  !telefonoValido && formData.telefono !== ""
+                    ? "Este número no es válido, ¿lo revisamos? 💕"
+                    : "Incluye código de país (ej: +52) 📱"
+                }
+                FormHelperTextProps={{
+                  sx: {
+                    fontStyle: "italic",
+                    color:
+                      !telefonoValido && formData.telefono !== ""
+                        ? theme.palette.error.main
+                        : theme.palette.text.secondary,
+                  },
+                }}
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment position="start">
+                      <Avatar
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          bgcolor: alpha(theme.palette.success.main, 0.1),
+                          border: `2px solid ${alpha(theme.palette.success.main, 0.3)}`,
+                        }}
+                      >
+                        <PhoneIcon
+                          sx={{
+                            fontSize: 18,
+                            color: theme.palette.success.main,
+                          }}
+                        />
+                      </Avatar>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={romanticTextField}
+              />
+
+              <Divider sx={{ my: 1 }}>
+                <Chip
+                  label="Tu respuesta"
+                  size="medium"
+                  icon={<HeartIcon />}
+                  sx={{
+                    bgcolor: alpha(theme.palette.primary.main, 0.1),
+                    borderRadius: 20,
+                    px: 2,
+                    "& .MuiChip-label": {
+                      fontFamily: '"Playfair Display", serif',
+                      fontWeight: 500,
+                    },
+                  }}
+                />
+              </Divider>
+
+              {/* Opciones de asistencia con diseño romántico */}
+              <FormControl component="fieldset">
+                <FormLabel
+                  component="legend"
+                  sx={{
+                    color: theme.palette.text.primary,
+                    fontWeight: 500,
+                    mb: 2,
+                    fontFamily: '"Playfair Display", serif',
+                    textAlign: "center",
+                    width: "100%",
+                  }}
+                >
+                  ¿Acompañarás a los novios en su gran día?
+                </FormLabel>
+                <RadioGroup
+                  row
+                  name="confirmacion"
+                  value={formData.confirmacion}
+                  onChange={handleChange}
+                  sx={{ justifyContent: "center", gap: 3 }}
+                >
+                  <Grow in={true} timeout={800}>
+                    <Paper
+                      elevation={formData.confirmacion === "si" ? 4 : 1}
+                      onMouseEnter={() => setHoverSi(true)}
+                      onMouseLeave={() => setHoverSi(false)}
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, confirmacion: "si" }))
+                      }
                       sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 1,
+                        p: 2,
+                        border: `2px solid ${
+                          formData.confirmacion === "si"
+                            ? theme.palette.success.main
+                            : hoverSi
+                              ? alpha(theme.palette.success.main, 0.5)
+                              : alpha(theme.palette.grey[400], 0.3)
+                        }`,
+                        borderRadius: 4,
+                        bgcolor:
+                          formData.confirmacion === "si"
+                            ? alpha(theme.palette.success.main, 0.08)
+                            : "transparent",
+                        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                        transform: hoverSi ? "scale(1.05)" : "scale(1)",
+                        cursor: "pointer",
+                        minWidth: 140,
+                        textAlign: "center",
                       }}
                     >
                       <Box
                         sx={{
-                          fontSize: "2.5rem",
-                          animation: hoverSi
-                            ? "heartBeat 1.3s infinite"
-                            : "none",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 1,
                         }}
                       >
-                        💖
-                      </Box>
-                      <Typography
-                        sx={{
-                          fontWeight: 600,
-                          color: theme.palette.success.main,
-                          fontFamily: '"Playfair Display", serif',
-                        }}
-                      >
-                        ¡Sí, confirmo!
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Estaré allí 🎊
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grow>
-
-                <Grow in={true} timeout={1000}>
-                  <Paper
-                    elevation={formData.confirmacion === "no" ? 4 : 1}
-                    onMouseEnter={() => setHoverNo(true)}
-                    onMouseLeave={() => setHoverNo(false)}
-                    onClick={() =>
-                      setFormData((prev) => ({ ...prev, confirmacion: "no" }))
-                    }
-                    sx={{
-                      p: 2,
-                      border: `2px solid ${
-                        formData.confirmacion === "no"
-                          ? theme.palette.error.main
-                          : hoverNo
-                            ? alpha(theme.palette.error.main, 0.5)
-                            : alpha(theme.palette.grey[400], 0.3)
-                      }`,
-                      borderRadius: 4,
-                      bgcolor:
-                        formData.confirmacion === "no"
-                          ? alpha(theme.palette.error.main, 0.05)
-                          : "transparent",
-                      transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                      transform: hoverNo ? "scale(1.05)" : "scale(1)",
-                      cursor: "pointer",
-                      minWidth: 140,
-                      textAlign: "center",
-                    }}
-                  >
-                    <Box
-                      sx={{
-                        display: "flex",
-                        flexDirection: "column",
-                        alignItems: "center",
-                        gap: 1,
-                      }}
-                    >
-                      <Box sx={{ fontSize: "2.5rem" }}>💔</Box>
-                      <Typography
-                        sx={{
-                          fontWeight: 600,
-                          color: theme.palette.error.main,
-                          fontFamily: '"Playfair Display", serif',
-                        }}
-                      >
-                        No podré ir
-                      </Typography>
-                      <Typography variant="caption" color="text.secondary">
-                        Lo siento mucho 😔
-                      </Typography>
-                    </Box>
-                  </Paper>
-                </Grow>
-              </RadioGroup>
-            </FormControl>
-
-            {/* Campo de acompañantes mejorado */}
-            {formData.confirmacion === "si" && (
-              <Zoom in={true}>
-                <TextField
-                  fullWidth
-                  label="¿Cuántos te acompañarán?"
-                  name="acompanantes"
-                  type="number"
-                  value={formData.acompanantes}
-                  onChange={handleChange}
-                  inputProps={{ min: 0, max: 10 }}
-                 
-                  FormHelperTextProps={{
-                    sx: {
-                      fontStyle: "italic",
-                      color: theme.palette.text.secondary,
-                    },
-                  }}
-                  InputProps={{
-                    startAdornment: (
-                      <InputAdornment position="start">
-                        <Avatar
+                        <Box
                           sx={{
-                            width: 32,
-                            height: 32,
-                            bgcolor: alpha(theme.palette.info.main, 0.1),
-                            border: `2px solid ${alpha(theme.palette.info.main, 0.3)}`,
+                            fontSize: "2.5rem",
+                            animation: hoverSi
+                              ? "heartBeat 1.3s infinite"
+                              : "none",
                           }}
                         >
-                          <GroupIcon
-                            sx={{
-                              fontSize: 18,
-                              color: theme.palette.info.main,
-                            }}
-                          />
-                        </Avatar>
-                      </InputAdornment>
-                    ),
-                  }}
-                  sx={romanticTextField}
-                />
-              </Zoom>
-            )}
+                          💖
+                        </Box>
+                        <Typography
+                          sx={{
+                            fontWeight: 600,
+                            color: theme.palette.success.main,
+                            fontFamily: '"Playfair Display", serif',
+                          }}
+                        >
+                          ¡Sí, confirmo!
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          Estaré allí 🎊
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  </Grow>
 
-            {/* Mensaje personal mejorado */}
-            <TextField
-              fullWidth
-              label="Mensaje para los novios"
-              name="mensaje"
-              value={formData.mensaje}
-              onChange={handleChange}
-              multiline
-              rows={3}
-              variant="outlined"
-              placeholder={
-                formData.confirmacion === "si"
-                  ? "Escribe algo especial para los novios... Una felicitación, un recuerdo, lo que quieras decirle 💌"
-                  : "Aunque no puedas ir, puedes dejarle un mensaje a los novios... 💕"
-              }
-              InputProps={{
-                startAdornment: (
-                  <InputAdornment
-                    position="start"
-                    sx={{ alignSelf: "flex-start", mt: 2 }}
-                  >
-                    <Avatar
+                  <Grow in={true} timeout={1000}>
+                    <Paper
+                      elevation={formData.confirmacion === "no" ? 4 : 1}
+                      onMouseEnter={() => setHoverNo(true)}
+                      onMouseLeave={() => setHoverNo(false)}
+                      onClick={() =>
+                        setFormData((prev) => ({ ...prev, confirmacion: "no" }))
+                      }
                       sx={{
-                        width: 32,
-                        height: 32,
-                        bgcolor: alpha(theme.palette.warning.main, 0.1),
-                        border: `2px solid ${alpha(theme.palette.warning.main, 0.3)}`,
+                        p: 2,
+                        border: `2px solid ${
+                          formData.confirmacion === "no"
+                            ? theme.palette.error.main
+                            : hoverNo
+                              ? alpha(theme.palette.error.main, 0.5)
+                              : alpha(theme.palette.grey[400], 0.3)
+                        }`,
+                        borderRadius: 4,
+                        bgcolor:
+                          formData.confirmacion === "no"
+                            ? alpha(theme.palette.error.main, 0.05)
+                            : "transparent",
+                        transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                        transform: hoverNo ? "scale(1.05)" : "scale(1)",
+                        cursor: "pointer",
+                        minWidth: 140,
+                        textAlign: "center",
                       }}
                     >
-                      <MessageIcon
-                        sx={{ fontSize: 18, color: theme.palette.warning.main }}
-                      />
-                    </Avatar>
-                  </InputAdornment>
-                ),
-              }}
-              sx={romanticTextField}
-            />
-
-            <Divider sx={{ my: 1 }}>
-              <SpaIcon
-                sx={{
-                  color: alpha(theme.palette.primary.main, 0.5),
-                  fontSize: 20,
-                }}
-              />
-            </Divider>
-
-            {/* Checkbox de autorización mejorado */}
-            <Fade in={true} timeout={1500}>
-              <Paper
-                elevation={formData.autorizacion ? 3 : 0}
-                sx={{
-                  p: 2.5,
-                  bgcolor: formData.autorizacion
-                    ? alpha(theme.palette.primary.main, 0.04)
-                    : "transparent",
-                  borderRadius: 3,
-                  border: `2px solid ${
-                    formData.autorizacion
-                      ? theme.palette.primary.main
-                      : alpha(theme.palette.primary.main, 0.2)
-                  }`,
-                  transition: "all 0.4s ease",
-                  cursor: "pointer",
-                  "&:hover": {
-                    borderColor: theme.palette.primary.main,
-                    bgcolor: alpha(theme.palette.primary.main, 0.02),
-                  },
-                }}
-                onClick={() =>
-                  setFormData((prev) => ({
-                    ...prev,
-                    autorizacion: !prev.autorizacion,
-                  }))
-                }
-              >
-                <FormControlLabel
-                  control={
-                    <Radio
-                      name="autorizacion"
-                      checked={formData.autorizacion}
-                      onChange={handleChange}
-                      color="primary"
-                      value={true}
-                      icon={<HeartBorderIcon />}
-                      checkedIcon={<HeartIcon />}
-                    />
-                  }
-                  label={
-                    <Box>
-                      <Typography
-                        variant="body2"
-                        fontWeight="600"
+                      <Box
                         sx={{
-                          fontFamily: '"Playfair Display", serif',
-                          color: formData.autorizacion
-                            ? theme.palette.primary.main
-                            : "inherit",
+                          display: "flex",
+                          flexDirection: "column",
+                          alignItems: "center",
+                          gap: 1,
                         }}
                       >
-                        Confirmo que quiero enviar este mensaje a los novios
-                      </Typography>
-                      <Typography
-                        variant="caption"
-                        color="text.secondary"
-                        sx={{ display: "block", mt: 0.5 }}
-                      >
-                        Se abrirá WhatsApp para compartir tu confirmación
-                        directamente con los novios 💕
-                      </Typography>
-                    </Box>
-                  }
-                  sx={{ m: 0, width: "100%" }}
-                />
-              </Paper>
-            </Fade>
+                        <Box sx={{ fontSize: "2.5rem" }}>💔</Box>
+                        <Typography
+                          sx={{
+                            fontWeight: 600,
+                            color: theme.palette.error.main,
+                            fontFamily: '"Playfair Display", serif',
+                          }}
+                        >
+                          No podré ir
+                        </Typography>
+                        <Typography variant="caption" color="text.secondary">
+                          Lo siento mucho 😔
+                        </Typography>
+                      </Box>
+                    </Paper>
+                  </Grow>
+                </RadioGroup>
+              </FormControl>
 
-            {/* Botón de envío mejorado */}
-            <Button
-              type="submit"
-              variant="contained"
-              color="primary"
-              size="large"
-              fullWidth
-              endIcon={<SendIcon />}
-              startIcon={<DiamondIcon />}
-              disabled={!formData.autorizacion}
+              {/* Campo de acompañantes mejorado */}
+              {formData.confirmacion === "si" && (
+                <Zoom in={true}>
+                  <TextField
+                    fullWidth
+                    label="¿Cuántos te acompañarán?"
+                    name="acompanantes"
+                    type="number"
+                    value={formData.acompanantes}
+                    onChange={handleChange}
+                    inputProps={{ min: 0, max: 10 }}
+                    FormHelperTextProps={{
+                      sx: {
+                        fontStyle: "italic",
+                        color: theme.palette.text.secondary,
+                      },
+                    }}
+                    InputProps={{
+                      startAdornment: (
+                        <InputAdornment position="start">
+                          <Avatar
+                            sx={{
+                              width: 32,
+                              height: 32,
+                              bgcolor: alpha(theme.palette.info.main, 0.1),
+                              border: `2px solid ${alpha(theme.palette.info.main, 0.3)}`,
+                            }}
+                          >
+                            <GroupIcon
+                              sx={{
+                                fontSize: 18,
+                                color: theme.palette.info.main,
+                              }}
+                            />
+                          </Avatar>
+                        </InputAdornment>
+                      ),
+                    }}
+                    sx={romanticTextField}
+                  />
+                </Zoom>
+              )}
+
+              {/* Mensaje personal mejorado */}
+              <TextField
+                fullWidth
+                label="Mensaje para los novios"
+                name="mensaje"
+                value={formData.mensaje}
+                onChange={handleChange}
+                multiline
+                rows={3}
+                variant="outlined"
+                placeholder={
+                  formData.confirmacion === "si"
+                    ? "Escribe algo especial para los novios... Una felicitación, un recuerdo, lo que quieras decirle 💌"
+                    : "Aunque no puedas ir, puedes dejarle un mensaje a los novios... 💕"
+                }
+                InputProps={{
+                  startAdornment: (
+                    <InputAdornment
+                      position="start"
+                      sx={{ alignSelf: "flex-start", mt: 2 }}
+                    >
+                      <Avatar
+                        sx={{
+                          width: 32,
+                          height: 32,
+                          bgcolor: alpha(theme.palette.warning.main, 0.1),
+                          border: `2px solid ${alpha(theme.palette.warning.main, 0.3)}`,
+                        }}
+                      >
+                        <MessageIcon
+                          sx={{
+                            fontSize: 18,
+                            color: theme.palette.warning.main,
+                          }}
+                        />
+                      </Avatar>
+                    </InputAdornment>
+                  ),
+                }}
+                sx={romanticTextField}
+              />
+
+              <Divider sx={{ my: 1 }}>
+                <SpaIcon
+                  sx={{
+                    color: alpha(theme.palette.primary.main, 0.5),
+                    fontSize: 20,
+                  }}
+                />
+              </Divider>
+
+              {/* Checkbox de autorización mejorado */}
+              <Fade in={true} timeout={1500}>
+                <Paper
+                  elevation={formData.autorizacion ? 3 : 0}
+                  sx={{
+                    p: 2.5,
+                    bgcolor: formData.autorizacion
+                      ? alpha(theme.palette.primary.main, 0.04)
+                      : "transparent",
+                    borderRadius: 3,
+                    border: `2px solid ${
+                      formData.autorizacion
+                        ? theme.palette.primary.main
+                        : alpha(theme.palette.primary.main, 0.2)
+                    }`,
+                    transition: "all 0.4s ease",
+                    cursor: "pointer",
+                    "&:hover": {
+                      borderColor: theme.palette.primary.main,
+                      bgcolor: alpha(theme.palette.primary.main, 0.02),
+                    },
+                  }}
+                  onClick={() =>
+                    setFormData((prev) => ({
+                      ...prev,
+                      autorizacion: !prev.autorizacion,
+                    }))
+                  }
+                >
+                  <FormControlLabel
+                    control={
+                      <Radio
+                        name="autorizacion"
+                        checked={formData.autorizacion}
+                        onChange={handleChange}
+                        color="primary"
+                        value={true}
+                        icon={<HeartBorderIcon />}
+                        checkedIcon={<HeartIcon />}
+                      />
+                    }
+                    label={
+                      <Box>
+                        <Typography
+                          variant="body2"
+                          fontWeight="600"
+                          sx={{
+                            fontFamily: '"Playfair Display", serif',
+                            color: formData.autorizacion
+                              ? theme.palette.primary.main
+                              : "inherit",
+                          }}
+                        >
+                          Confirmo que quiero enviar este mensaje a los novios
+                        </Typography>
+                      </Box>
+                    }
+                    sx={{ m: 0, width: "100%" }}
+                  />
+                </Paper>
+              </Fade>
+
+              {/* Botón de envío mejorado */}
+              <Button
+                type="submit"
+                variant="contained"
+                color="primary"
+                size="large"
+                fullWidth
+                endIcon={<SendIcon />}
+                startIcon={<DiamondIcon />}
+                disabled={!formData.autorizacion}
+                sx={{
+                  borderRadius: 40,
+                  py: 2,
+                  textTransform: "none",
+                  fontSize: "1.2rem",
+                  fontFamily: '"Playfair Display", serif',
+                  fontWeight: 600,
+                  letterSpacing: "1px",
+                  background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || theme.palette.primary.dark} 100%)`,
+                  "&:hover": {
+                    transform: "translateY(-4px) scale(1.02)",
+                    boxShadow: `0 12px 24px ${alpha(theme.palette.primary.main, 0.4)}`,
+                    background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.secondary?.dark || theme.palette.primary.main} 100%)`,
+                  },
+                  "&:disabled": {
+                    background: alpha(theme.palette.grey[400], 0.5),
+                  },
+                  transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
+                  mt: 3,
+                  border: `1px solid ${alpha(theme.palette.common.white, 0.3)}`,
+                  backdropFilter: "blur(5px)",
+                }}
+              >
+                Enviar Confirmación a los novios
+              </Button>
+
+              <Fade in={true} timeout={2000}>
+                <Typography
+                  variant="caption"
+                  color="text.secondary"
+                  align="center"
+                  sx={{
+                    mt: 1,
+                    fontStyle: "italic",
+                    display: "flex",
+                    alignItems: "center",
+                    justifyContent: "center",
+                    gap: 1,
+                  }}
+                >
+                  <HeartIcon
+                    sx={{
+                      fontSize: 14,
+                      color: alpha(theme.palette.primary.main, 0.5),
+                    }}
+                  />
+                  Tu mensaje llegará directo a los novios
+                  <HeartIcon
+                    sx={{
+                      fontSize: 14,
+                      color: alpha(theme.palette.primary.main, 0.5),
+                    }}
+                  />
+                </Typography>
+              </Fade>
+
+              {/* Efecto de flores decorativas */}
+              <Box
+                sx={{
+                  position: "absolute",
+                  bottom: -30,
+                  left: -20,
+                  fontSize: "4rem",
+                  opacity: 0.2,
+                  transform: "rotate(-15deg)",
+                  pointerEvents: "none",
+                  zIndex: 0,
+                }}
+              >
+                🌸
+              </Box>
+              <Box
+                sx={{
+                  position: "absolute",
+                  top: -20,
+                  right: -20,
+                  fontSize: "4rem",
+                  opacity: 0.2,
+                  transform: "rotate(25deg)",
+                  pointerEvents: "none",
+                  zIndex: 0,
+                }}
+              >
+                🌺
+              </Box>
+            </Box>
+          </form>
+
+          <style>
+            {`
+              @keyframes heartBeat {
+                0% { transform: scale(1); }
+                14% { transform: scale(1.3); }
+                28% { transform: scale(1); }
+                42% { transform: scale(1.3); }
+                70% { transform: scale(1); }
+              }
+              
+              @keyframes float {
+                0% { transform: translateY(0px) scale(1); }
+                50% { transform: translateY(-10px) scale(1.05); }
+                100% { transform: translateY(0px) scale(1); }
+              }
+            `}
+          </style>
+        </Box>
+      </Slide>
+
+      {/* Toast de confirmación ROMÁNTICO y CENTRADO */}
+      <Snackbar
+        open={toastOpen}
+        autoHideDuration={3500}
+        onClose={handleToastClose}
+        anchorOrigin={{ vertical: "center", horizontal: "center" }}
+        sx={{
+          "& .MuiSnackbar-root": {
+            zIndex: 9999,
+          },
+        }}
+        TransitionComponent={Zoom}
+      >
+        <SnackbarContent
+          sx={{
+            backgroundColor: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || theme.palette.primary.dark} 100%)`,
+            color: theme.palette.common.white,
+            borderRadius: 4,
+            boxShadow: `0 12px 48px ${alpha(theme.palette.primary.main, 0.5)}`,
+            border: `2px solid ${alpha(theme.palette.common.white, 0.3)}`,
+            backdropFilter: "blur(20px)",
+            minWidth: { xs: "320px", sm: "450px" },
+            maxWidth: "500px",
+            padding: theme.spacing(3, 4),
+            animation: "float 2s ease-in-out infinite",
+            "& .MuiSnackbarContent-message": {
+              display: "flex",
+              flexDirection: "column",
+              alignItems: "center",
+              justifyContent: "center",
+              width: "100%",
+              padding: 0,
+              textAlign: "center",
+            },
+            "& .MuiSnackbarContent-action": {
+              paddingLeft: 0,
+              marginLeft: 0,
+            },
+          }}
+          message={
+            <Box
               sx={{
-                borderRadius: 40,
-                py: 2,
-                textTransform: "none",
-                fontSize: "1.2rem",
-                fontFamily: '"Playfair Display", serif',
-                fontWeight: 600,
-                letterSpacing: "1px",
-                background: `linear-gradient(135deg, ${theme.palette.primary.main} 0%, ${theme.palette.secondary?.main || theme.palette.primary.dark} 100%)`,
-                "&:hover": {
-                  transform: "translateY(-4px) scale(1.02)",
-                  boxShadow: `0 12px 24px ${alpha(theme.palette.primary.main, 0.4)}`,
-                  background: `linear-gradient(135deg, ${theme.palette.primary.dark} 0%, ${theme.palette.secondary?.dark || theme.palette.primary.main} 100%)`,
-                },
-                "&:disabled": {
-                  background: alpha(theme.palette.grey[400], 0.5),
-                },
-                transition: "all 0.4s cubic-bezier(0.4, 0, 0.2, 1)",
-                mt: 3,
-                border: `1px solid ${alpha(theme.palette.common.white, 0.3)}`,
-                backdropFilter: "blur(5px)",
+                display: "flex",
+                flexDirection: "column",
+                alignItems: "center",
+                gap: 1.5,
+                width: "100%",
               }}
             >
-              Enviar Confirmación a los novios
-            </Button>
-
-            <Fade in={true} timeout={2000}>
-              <Typography
-                variant="caption"
-                color="text.secondary"
-                align="center"
+              <Box
                 sx={{
-                  mt: 1,
-                  fontStyle: "italic",
                   display: "flex",
                   alignItems: "center",
-                  justifyContent: "center",
+                  gap: 2,
+                  mb: 0.5,
+                }}
+              >
+                <FavoriteIcon
+                  sx={{
+                    fontSize: 40,
+                    animation: "heartBeat 1.5s ease-in-out infinite",
+                    filter: `drop-shadow(0 0 20px ${alpha(theme.palette.common.white, 0.5)})`,
+                  }}
+                />
+                <Typography
+                  sx={{
+                    fontFamily: '"Playfair Display", serif',
+                    fontWeight: 700,
+                    fontSize: { xs: "1.5rem", sm: "1.8rem" },
+                    letterSpacing: "1px",
+                    textShadow: `0 2px 8px ${alpha(theme.palette.common.black, 0.2)}`,
+                  }}
+                >
+                  ¡Mensaje Enviado! 💖
+                </Typography>
+              </Box>
+
+              <Box
+                sx={{
+                  display: "flex",
+                  flexDirection: "column",
+                  alignItems: "center",
                   gap: 1,
                 }}
               >
-                <HeartIcon
+                <Typography
                   sx={{
-                    fontSize: 14,
-                    color: alpha(theme.palette.primary.main, 0.5),
+                    fontFamily: '"Playfair Display", serif',
+                    fontSize: { xs: "1rem", sm: "1.1rem" },
+                    fontWeight: 400,
+                    opacity: 0.95,
+                    textShadow: `0 1px 4px ${alpha(theme.palette.common.black, 0.15)}`,
                   }}
-                />
-                Tu mensaje llegará directo a los novios
-                <HeartIcon
+                >
+                  Tu mensaje llegó al corazón de los novios ✨
+                </Typography>
+                <Box
                   sx={{
-                    fontSize: 14,
-                    color: alpha(theme.palette.primary.main, 0.5),
+                    display: "flex",
+                    gap: 1,
+                    mt: 0.5,
+                    fontSize: "1.5rem",
                   }}
-                />
-              </Typography>
-            </Fade>
-
-            {/* Efecto de flores decorativas */}
-            <Box
-              sx={{
-                position: "absolute",
-                bottom: -30,
-                left: -20,
-                fontSize: "4rem",
-                opacity: 0.2,
-                transform: "rotate(-15deg)",
-                pointerEvents: "none",
-                zIndex: 0,
-              }}
-            >
-              🌸
+                >
+                  <span>💝</span>
+                  <span>🌸</span>
+                  <span>💝</span>
+                </Box>
+              </Box>
             </Box>
-            <Box
-              sx={{
-                position: "absolute",
-                top: -20,
-                right: -20,
-                fontSize: "4rem",
-                opacity: 0.2,
-                transform: "rotate(25deg)",
-                pointerEvents: "none",
-                zIndex: 0,
-              }}
-            >
-              🌺
-            </Box>
-          </Box>
-        </form>
-
-        <style>
-          {`
-            @keyframes heartBeat {
-              0% { transform: scale(1); }
-              14% { transform: scale(1.3); }
-              28% { transform: scale(1); }
-              42% { transform: scale(1.3); }
-              70% { transform: scale(1); }
-            }
-          `}
-        </style>
-      </Box>
-    </Slide>
+          }
+        />
+      </Snackbar>
+    </>
   );
 };
 
