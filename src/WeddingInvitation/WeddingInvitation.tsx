@@ -880,6 +880,81 @@ const RomanticCarousel = memo(
 );
 
 // ─────────────────────────────────────────────────────────────
+// SingleImageCarousel — carrusel con una sola imagen (estilo igual al RomanticCarousel)
+// ─────────────────────────────────────────────────────────────
+const SingleImageCarousel = memo(
+  ({
+    image,
+    rose,
+    gold,
+    cream,
+  }: {
+    image: string;
+    rose: string;
+    gold: string;
+    cream: string;
+  }) => {
+    return (
+      <Box sx={{ mb: 5 }}>
+        <Box
+          sx={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "4 / 5",
+            maxHeight: 460,
+            mx: "auto",
+            borderRadius: "20px",
+            overflow: "hidden",
+            border: `2px solid ${alpha(gold, 0.55)}`,
+            boxShadow: `0 16px 48px ${alpha(rose, 0.22)}`,
+          }}
+        >
+          <Box
+            component="img"
+            src={image}
+            alt="Foto de la pareja"
+            sx={{
+              position: "absolute",
+              inset: 0,
+              width: "100%",
+              height: "100%",
+              objectFit: "cover",
+              transition: "transform 6s ease",
+              "&:hover": {
+                transform: "scale(1.05)",
+              },
+            }}
+          />
+
+          {/* Velo degradado inferior para legibilidad */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              background: `linear-gradient(to bottom, transparent 60%, ${alpha("#2A1420", 0.55)} 100%)`,
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* Marco dorado interior */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 8,
+              border: `1px solid ${alpha(cream, 0.5)}`,
+              borderRadius: "14px",
+              pointerEvents: "none",
+            }}
+          />
+
+         
+        </Box>
+      </Box>
+    );
+  },
+);
+
+// ─────────────────────────────────────────────────────────────
 
 interface WeddingInvitationProps {
   novio?: string;
@@ -1588,8 +1663,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Box>
         </Fade>
 
-        <RomanticCarousel
-          images={["/boda20.jpeg", "/boda21.jpeg"]}
+        <SingleImageCarousel
+          image="/boda18.jpeg"
           rose={rose}
           gold={gold}
           cream={cream}
@@ -1734,6 +1809,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             Confirmar asistencia
           </Button>
         </Box>
+
+          <RomanticCarousel
+          images={["/boda20.jpeg", "/boda21.jpeg"]}
+          rose={rose}
+          gold={gold}
+          cream={cream}
+        />
 
         <NoteCard
           icon={SparkleIcon}
