@@ -1,4 +1,3 @@
-// components/WeddingInvitation.tsx
 import React, { useState, useEffect, memo, useRef } from "react";
 import {
   Box,
@@ -41,10 +40,6 @@ import Gallery from "../components/Gallery/Gallery";
 import MusicPlayer from "../components/MusicPlayer/MusicPlayer";
 import AttendanceForm from "../components/AttendanceForm/AttendanceForm";
 
-// ─────────────────────────────────────────────────────────────
-// ColorPaletteModal — botón flotante que muestra la paleta de colores
-// Ahora acepta props para control externo
-// ─────────────────────────────────────────────────────────────
 const ColorPaletteModal = ({
   imageUrl,
   open,
@@ -176,9 +171,6 @@ const ColorPaletteModal = ({
   );
 };
 
-// ─────────────────────────────────────────────────────────────
-// Bougainvillea — foto real de buganbilia (PNG fondo transparente)
-// ─────────────────────────────────────────────────────────────
 const Bougainvillea = ({
   size = 90,
   rotate = 0,
@@ -208,9 +200,6 @@ const Bougainvillea = ({
   />
 );
 
-// ─────────────────────────────────────────────────────────────
-// GoldCorner — esquina decorativa en dorado (flourish)
-// ─────────────────────────────────────────────────────────────
 const GoldCorner = ({
   position,
   size = 74,
@@ -281,10 +270,6 @@ const GoldCorner = ({
   );
 };
 
-// ─────────────────────────────────────────────────────────────
-// BougainvilleaScatter — distribución estética de flores alrededor
-// de la tarjeta, con cálculo automático basado en el tamaño real
-// ─────────────────────────────────────────────────────────────
 export interface BougainvilleaScatterProps {
   cardHeight?: number;
   flowerSpacing?: number;
@@ -334,7 +319,6 @@ export const BougainvilleaScatter = ({
 
   return (
     <>
-      {/* Esquina superior izquierda — racimo grande */}
       <Box
         className="wi-bougan"
         sx={
@@ -422,7 +406,6 @@ export const BougainvilleaScatter = ({
         <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
       </Box>
 
-      {/* Esquina superior derecha — racimo grande */}
       <Box
         className="wi-bougan"
         sx={
@@ -438,7 +421,6 @@ export const BougainvilleaScatter = ({
         <Bougainvillea size={110} rotate={-256} src="/flowers/bougan-1.png" />
       </Box>
 
-      {/* Esquina inferior derecha — racimo grande, volteado para variar */}
       <Box
         className="wi-bougan"
         sx={
@@ -532,7 +514,6 @@ export const BougainvilleaScatter = ({
         <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
       </Box>
 
-      {/* Esquina inferior izquierda — racimo grande, volteado para variar */}
       <Box
         className="wi-bougan"
         sx={
@@ -554,7 +535,6 @@ export const BougainvilleaScatter = ({
         />
       </Box>
 
-      {/* Lado derecho - flores calculadas automáticamente */}
       {flowerPositions.map((topPosition, index) => (
         <Box
           key={`right-${index}`}
@@ -579,7 +559,6 @@ export const BougainvilleaScatter = ({
         </Box>
       ))}
 
-      {/* Lado izquierdo - flores calculadas automáticamente */}
       {flowerPositions.map((topPosition, index) => (
         <Box
           key={`left-${index}`}
@@ -607,10 +586,6 @@ export const BougainvilleaScatter = ({
   );
 };
 
-// ─────────────────────────────────────────────────────────────
-// CountdownTimer — aislado con memo para que su setInterval
-// no provoque re-renders en el componente padre cada segundo.
-// ─────────────────────────────────────────────────────────────
 const CountdownTimer = memo(
   ({
     rose,
@@ -702,10 +677,6 @@ const CountdownTimer = memo(
   },
 );
 
-// ─────────────────────────────────────────────────────────────
-// RomanticCarousel — carrusel de fotos con transición suave
-// (fade cruzado + zoom Ken Burns), insertado antes de "El gran día"
-// ─────────────────────────────────────────────────────────────
 const RomanticCarousel = memo(
   ({
     images,
@@ -769,7 +740,6 @@ const RomanticCarousel = memo(
             />
           ))}
 
-          {/* Velo degradado inferior para legibilidad */}
           <Box
             sx={{
               position: "absolute",
@@ -779,7 +749,6 @@ const RomanticCarousel = memo(
             }}
           />
 
-          {/* Marco dorado interior */}
           <Box
             sx={{
               position: "absolute",
@@ -790,7 +759,6 @@ const RomanticCarousel = memo(
             }}
           />
 
-          {/* Flechas de navegación */}
           {images.length > 1 && (
             <>
               <IconButton
@@ -830,7 +798,6 @@ const RomanticCarousel = memo(
             </>
           )}
 
-          {/* Frase pequeña sobre la foto */}
           <Typography
             sx={{
               position: "absolute",
@@ -848,7 +815,6 @@ const RomanticCarousel = memo(
           </Typography>
         </Box>
 
-        {/* Puntos de navegación */}
         {images.length > 1 && (
           <Box
             sx={{
@@ -879,9 +845,6 @@ const RomanticCarousel = memo(
   },
 );
 
-// ─────────────────────────────────────────────────────────────
-// SingleImageCarousel — carrusel con una sola imagen (estilo igual al RomanticCarousel)
-// ─────────────────────────────────────────────────────────────
 const SingleImageCarousel = memo(
   ({
     image,
@@ -926,7 +889,6 @@ const SingleImageCarousel = memo(
             }}
           />
 
-          {/* Velo degradado inferior para legibilidad */}
           <Box
             sx={{
               position: "absolute",
@@ -936,7 +898,6 @@ const SingleImageCarousel = memo(
             }}
           />
 
-          {/* Marco dorado interior */}
           <Box
             sx={{
               position: "absolute",
@@ -953,8 +914,6 @@ const SingleImageCarousel = memo(
     );
   },
 );
-
-// ─────────────────────────────────────────────────────────────
 
 interface WeddingInvitationProps {
   novio?: string;
@@ -1337,11 +1296,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     </Fade>
   );
 
-  // ───────────────────────────────────────────────────────────
-  // NoteCard — cuadrito decorativo para avisos/textos largos,
-  // con el mismo lenguaje visual que DetailCard (marco dorado,
-  // ícono centrado, esquina "❧" y fondo crema translúcido).
-  // ───────────────────────────────────────────────────────────
   const NoteCard = ({
     icon: Icon,
     title,
@@ -1458,21 +1412,110 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           >
             ♛
           </Typography>
-          <Typography
+          
+          {/* Cuadro decorativo alrededor del texto de introducción */}
+          <Paper
+            elevation={0}
             sx={{
+              p: { xs: 3, sm: 4 },
               mb: 4,
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "0.68rem",
-              letterSpacing: "0.4em",
-              textTransform: "uppercase",
-              color: roseDeep,
-              fontWeight: 600,
+              background: `linear-gradient(135deg, ${alpha(cream, 0.95)}, ${alpha(rosePale, 0.5)})`,
+              border: `2px solid ${alpha(gold, 0.7)}`,
+              borderRadius: "20px",
+              boxShadow: `0 8px 32px ${alpha(rose, 0.15)}, inset 0 1px 0 ${alpha(gold, 0.3)}`,
+              position: "relative",
+              "&::before": {
+                content: '""',
+                position: "absolute",
+                inset: -6,
+                borderRadius: "24px",
+                background: `linear-gradient(135deg, ${gold}, ${rose}, ${gold})`,
+                opacity: 0.15,
+                zIndex: -1,
+              },
+              "&::after": {
+                content: '""',
+                position: "absolute",
+                inset: 8,
+                borderRadius: "14px",
+                border: `1px solid ${alpha(gold, 0.25)}`,
+                pointerEvents: "none",
+              },
             }}
           >
-            Hay momentos en la vida que son especiales por sí solos, pero
-            compartirlos con quienes más amamos los hace inolvidables. Por eso,
-            queremos que sean parte del día en que unimos nuestras vidas.
-          </Typography>
+            <Typography
+              sx={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: { xs: "0.85rem", sm: "0.95rem" },
+                letterSpacing: "0.06em",
+                textAlign: "center",
+                color: ink,
+                fontWeight: 400,
+                lineHeight: 1.9,
+                fontStyle: "italic",
+                position: "relative",
+                zIndex: 1,
+              }}
+            >
+              Hay momentos en la vida que son especiales por sí solos, pero
+              compartirlos con quienes más amamos los hace inolvidables. Por eso,
+              queremos que sean parte del día en que unimos nuestras vidas.
+            </Typography>
+            
+            {/* Decoración de esquinas del cuadro */}
+            <Box
+              sx={{
+                position: "absolute",
+                top: 8,
+                left: 8,
+                width: 20,
+                height: 20,
+                borderTop: `2px solid ${alpha(gold, 0.5)}`,
+                borderLeft: `2px solid ${alpha(gold, 0.5)}`,
+                borderRadius: "4px 0 0 0",
+                pointerEvents: "none",
+              }}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                top: 8,
+                right: 8,
+                width: 20,
+                height: 20,
+                borderTop: `2px solid ${alpha(gold, 0.5)}`,
+                borderRight: `2px solid ${alpha(gold, 0.5)}`,
+                borderRadius: "0 4px 0 0",
+                pointerEvents: "none",
+              }}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 8,
+                left: 8,
+                width: 20,
+                height: 20,
+                borderBottom: `2px solid ${alpha(gold, 0.5)}`,
+                borderLeft: `2px solid ${alpha(gold, 0.5)}`,
+                borderRadius: "0 0 0 4px",
+                pointerEvents: "none",
+              }}
+            />
+            <Box
+              sx={{
+                position: "absolute",
+                bottom: 8,
+                right: 8,
+                width: 20,
+                height: 20,
+                borderBottom: `2px solid ${alpha(gold, 0.5)}`,
+                borderRight: `2px solid ${alpha(gold, 0.5)}`,
+                borderRadius: "0 0 4px 0",
+                pointerEvents: "none",
+              }}
+            />
+          </Paper>
 
           <Typography
             sx={{
@@ -2047,7 +2090,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 border: `1px solid ${alpha(rose, 0.4)}`,
               }}
             >
-              {/* Esquinas y flores decorativas — igual que en la tarjeta principal */}
               <GoldCorner position="tl" />
               <GoldCorner position="tr" />
               <GoldCorner position="bl" />
@@ -2060,7 +2102,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 maxPosition={120}
               />
 
-              {/* Contenido con scroll propio, para que las flores no se recorten */}
               <Box
                 sx={{
                   position: "relative",
@@ -2159,7 +2200,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Zoom>
         )}
 
-        {/* Tarjeta principal */}
         <Card
           ref={cardRef}
           elevation={0}
@@ -2171,7 +2211,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             boxShadow: `0 2px 8px ${alpha(rose, 0.08)}, 0 16px 48px ${alpha(rose, 0.18)}, 0 40px 80px ${alpha(ink, 0.1)}`,
           }}
         >
-          {/* Fondo dentro de la tarjeta */}
           <Box
             sx={{
               position: "absolute",
