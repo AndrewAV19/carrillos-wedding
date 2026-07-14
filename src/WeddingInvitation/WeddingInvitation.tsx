@@ -701,6 +701,183 @@ const CountdownTimer = memo(
 );
 
 // ─────────────────────────────────────────────────────────────
+// RomanticCarousel — carrusel de fotos con transición suave
+// (fade cruzado + zoom Ken Burns), insertado antes de "El gran día"
+// ─────────────────────────────────────────────────────────────
+const RomanticCarousel = memo(
+  ({
+    images,
+    rose,
+    gold,
+    cream,
+  }: {
+    images: string[];
+    rose: string;
+    gold: string;
+    cream: string;
+  }) => {
+    const [index, setIndex] = useState(0);
+    const [isPaused, setIsPaused] = useState(false);
+
+    useEffect(() => {
+      if (isPaused || images.length <= 1) return;
+      const id = setInterval(() => {
+        setIndex((prev) => (prev + 1) % images.length);
+      }, 4500);
+      return () => clearInterval(id);
+    }, [isPaused, images.length]);
+
+    if (images.length === 0) return null;
+
+    const goTo = (i: number) => setIndex(((i % images.length) + images.length) % images.length);
+
+    return (
+      <Box sx={{ mb: 5 }}>
+        <Box
+          onMouseEnter={() => setIsPaused(true)}
+          onMouseLeave={() => setIsPaused(false)}
+          sx={{
+            position: "relative",
+            width: "100%",
+            aspectRatio: "4 / 5",
+            maxHeight: 460,
+            mx: "auto",
+            borderRadius: "20px",
+            overflow: "hidden",
+            border: `2px solid ${alpha(gold, 0.55)}`,
+            boxShadow: `0 16px 48px ${alpha(rose, 0.22)}`,
+          }}
+        >
+          {images.map((src, i) => (
+            <Box
+              key={src}
+              component="img"
+              src={src}
+              alt={`Foto de la pareja ${i + 1}`}
+              sx={{
+                position: "absolute",
+                inset: 0,
+                width: "100%",
+                height: "100%",
+                objectFit: "cover",
+                opacity: i === index ? 1 : 0,
+                transform: i === index ? "scale(1)" : "scale(1.06)",
+                transition: "opacity 1.2s ease, transform 6s ease",
+              }}
+            />
+          ))}
+
+          {/* Velo degradado inferior para legibilidad */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              background: `linear-gradient(to bottom, transparent 60%, ${alpha("#2A1420", 0.55)} 100%)`,
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* Marco dorado interior */}
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 8,
+              border: `1px solid ${alpha(cream, 0.5)}`,
+              borderRadius: "14px",
+              pointerEvents: "none",
+            }}
+          />
+
+          {/* Flechas de navegación */}
+          {images.length > 1 && (
+            <>
+              <IconButton
+                onClick={() => goTo(index - 1)}
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  left: 10,
+                  transform: "translateY(-50%)",
+                  width: 34,
+                  height: 34,
+                  background: alpha("#000", 0.35),
+                  color: "#fff",
+                  backdropFilter: "blur(4px)",
+                  "&:hover": { background: alpha("#000", 0.55) },
+                }}
+              >
+                <LeftIcon sx={{ fontSize: 20 }} />
+              </IconButton>
+              <IconButton
+                onClick={() => goTo(index + 1)}
+                sx={{
+                  position: "absolute",
+                  top: "50%",
+                  right: 10,
+                  transform: "translateY(-50%) rotate(180deg)",
+                  width: 34,
+                  height: 34,
+                  background: alpha("#000", 0.35),
+                  color: "#fff",
+                  backdropFilter: "blur(4px)",
+                  "&:hover": { background: alpha("#000", 0.55) },
+                }}
+              >
+                <LeftIcon sx={{ fontSize: 20 }} />
+              </IconButton>
+            </>
+          )}
+
+          {/* Frase pequeña sobre la foto */}
+          <Typography
+            sx={{
+              position: "absolute",
+              bottom: 16,
+              left: 0,
+              right: 0,
+              textAlign: "center",
+              fontFamily: "'Pinyon Script', cursive",
+              fontSize: "1.9rem",
+              color: "#fff",
+              textShadow: "0 2px 10px rgba(0,0,0,0.4)",
+            }}
+          >
+            Nuestros momentos
+          </Typography>
+        </Box>
+
+        {/* Puntos de navegación */}
+        {images.length > 1 && (
+          <Box
+            sx={{
+              display: "flex",
+              justifyContent: "center",
+              gap: 1,
+              mt: 1.5,
+            }}
+          >
+            {images.map((_, i) => (
+              <Box
+                key={i}
+                onClick={() => goTo(i)}
+                sx={{
+                  width: i === index ? 20 : 8,
+                  height: 8,
+                  borderRadius: "100px",
+                  background: i === index ? rose : alpha(rose, 0.3),
+                  cursor: "pointer",
+                  transition: "all 0.4s ease",
+                }}
+              />
+            ))}
+          </Box>
+        )}
+      </Box>
+    );
+  },
+);
+
+// ─────────────────────────────────────────────────────────────
 
 interface WeddingInvitationProps {
   novio?: string;
@@ -1284,6 +1461,13 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             </Typography>
           </Box>
         </Fade>
+
+        <RomanticCarousel
+          images={["/boda20.jpeg", "/boda21.jpeg"]}
+          rose={rose}
+          gold={gold}
+          cream={cream}
+        />
 
         <SectionDivider label="El gran día" />
 
