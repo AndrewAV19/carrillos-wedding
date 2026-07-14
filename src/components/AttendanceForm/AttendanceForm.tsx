@@ -785,12 +785,13 @@ const AttendanceForm: React.FC<AttendanceFormProps> = ({
                     alignItems: "center",
                     justifyContent: "center",
                     gap: 1,
+                      mb: 6.5,
                   }}
                 >
                   <HeartIcon
                     sx={{
                       fontSize: 14,
-                      color: alpha(theme.palette.primary.main, 0.5),
+                      color: alpha(theme.palette.primary.main, 0.5),            
                     }}
                   />
                   Tu mensaje llegará directo a los novios

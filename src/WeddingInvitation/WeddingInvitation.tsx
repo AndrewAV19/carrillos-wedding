@@ -988,7 +988,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   const [openModal, setOpenModal] = useState(false);
   const [openColorPalette, setOpenColorPalette] = useState(false);
   const [cardHeight, setCardHeight] = useState(1200);
+  const [modalHeight, setModalHeight] = useState(600);
   const cardRef = useRef<HTMLDivElement>(null);
+  const modalRef = useRef<HTMLDivElement>(null);
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1012,6 +1014,27 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
       window.removeEventListener("resize", measureCard);
     };
   }, [activeSection]);
+
+  useEffect(() => {
+    if (!openModal) return;
+
+    const measureModal = () => {
+      if (modalRef.current) {
+        const height = modalRef.current.offsetHeight;
+        if (height > 0) {
+          setModalHeight(height);
+        }
+      }
+    };
+
+    const timeoutId = setTimeout(measureModal, 100);
+    window.addEventListener("resize", measureModal);
+
+    return () => {
+      clearTimeout(timeoutId);
+      window.removeEventListener("resize", measureModal);
+    };
+  }, [openModal]);
 
   const openMaps = () => {
     if (coordenadasGPS) {
@@ -1835,6 +1858,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         >
           <Fade in={openModal}>
             <Box
+              ref={modalRef}
               sx={{
                 position: "absolute",
                 top: "50%",
@@ -1842,80 +1866,99 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 transform: "translate(-50%, -50%)",
                 width: { xs: "95%", sm: 480 },
                 maxHeight: "90vh",
-                overflow: "auto",
+                overflow: "hidden",
                 background: cream,
                 borderRadius: "24px",
                 boxShadow: `0 32px 80px ${alpha(ink, 0.25)}`,
-                p: 4,
                 outline: "none",
                 border: `1px solid ${alpha(rose, 0.4)}`,
               }}
             >
-              
+              {/* Esquinas y flores decorativas — igual que en la tarjeta principal */}
+              <GoldCorner position="tl" />
+              <GoldCorner position="tr" />
+              <GoldCorner position="bl" />
+              <GoldCorner position="br" />
 
+              <BougainvilleaScatter
+                cardHeight={modalHeight}
+                flowerSpacing={20}
+                minPosition={100}
+                maxPosition={120}
+              />
 
-              <IconButton
-                onClick={() => setOpenModal(false)}
+              {/* Contenido con scroll propio, para que las flores no se recorten */}
+              <Box
                 sx={{
-                  position: "absolute",
-                  right: 12,
-                  top: 12,
-                  color: alpha(rose, 0.7),
-                  "&:hover": { color: rose, transform: "rotate(90deg)" },
-                  transition: "all 0.3s",
+                  position: "relative",
+                  zIndex: 1,
+                  maxHeight: "90vh",
+                  overflowY: "auto",
+                  p: 4,
                 }}
               >
-                <CloseIcon />
-              </IconButton>
-              <Box textAlign="center" mb={3}>
-                <HeartIcon
+                <IconButton
+                  onClick={() => setOpenModal(false)}
                   sx={{
-                    fontSize: 44,
-                    color: rose,
-                    mb: 1,
-                    animation: "wi-pulse-heart 2s ease-in-out infinite",
-                  }}
-                />
-                <Typography
-                  sx={{
-                    fontFamily: "'Pinyon Script', cursive",
-                    fontSize: "2.8rem",
-                    color: rose,
-                    lineHeight: 1,
-                    mb: 0.5,
+                    position: "absolute",
+                    right: 12,
+                    top: 12,
+                    color: alpha(rose, 0.7),
+                    "&:hover": { color: rose, transform: "rotate(90deg)" },
+                    transition: "all 0.3s",
                   }}
                 >
-                  Confirma tu asistencia
-                </Typography>
-                <Typography
-                  sx={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontSize: "0.95rem",
-                    fontStyle: "italic",
-                    color: alpha(ink, 0.7),
-                    mb: 2,
-                  }}
-                >
-                  ¡Nos encantaría que nos acompañes en este día tan especial!
-                </Typography>
-                <Chip
-                  label={`${novio.split(" ")[0]} & ${novia.split(" ")[1]}`}
-                  sx={{
-                    fontFamily: "'Cormorant Garamond', serif",
-                    fontWeight: 600,
-                    background: rosePale,
-                    color: roseDeep,
-                    border: `1px solid ${alpha(rose, 0.45)}`,
-                  }}
+                  <CloseIcon />
+                </IconButton>
+                <Box textAlign="center" mb={3}>
+                  <HeartIcon
+                    sx={{
+                      fontSize: 44,
+                      color: rose,
+                      mb: 1,
+                      animation: "wi-pulse-heart 2s ease-in-out infinite",
+                    }}
+                  />
+                  <Typography
+                    sx={{
+                      fontFamily: "'Pinyon Script', cursive",
+                      fontSize: "2.8rem",
+                      color: rose,
+                      lineHeight: 1,
+                      mb: 0.5,
+                    }}
+                  >
+                    Confirma tu asistencia
+                  </Typography>
+                  <Typography
+                    sx={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontSize: "0.95rem",
+                      fontStyle: "italic",
+                      color: alpha(ink, 0.7),
+                      mb: 2,
+                    }}
+                  >
+                    ¡Nos encantaría que nos acompañes en este día tan especial!
+                  </Typography>
+                  <Chip
+                    label={`${novio.split(" ")[0]} & ${novia.split(" ")[1]}`}
+                    sx={{
+                      fontFamily: "'Cormorant Garamond', serif",
+                      fontWeight: 600,
+                      background: rosePale,
+                      color: roseDeep,
+                      border: `1px solid ${alpha(rose, 0.45)}`,
+                    }}
+                  />
+                </Box>
+
+                <AttendanceForm
+                  novio={novio}
+                  novia={novia}
+                  onClose={() => setOpenModal(false)}
                 />
               </Box>
-              
-              <AttendanceForm
-                novio={novio}
-                novia={novia}
-                onClose={() => setOpenModal(false)}
-              />
-              
             </Box>
           </Fade>
         </Modal>
