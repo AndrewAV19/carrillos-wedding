@@ -33,6 +33,8 @@ import {
   Church as ChurchIcon,
   ConfirmationNumber as ConfirmationNumberIcon,
   Palette as PaletteIcon,
+  CardGiftcard as GiftIcon,
+  AutoAwesome as SparkleIcon,
 } from "@mui/icons-material";
 import HistorySection from "../components/HistorySection/HistorySection";
 import Gallery from "../components/Gallery/Gallery";
@@ -1260,6 +1262,107 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
     </Fade>
   );
 
+  // ───────────────────────────────────────────────────────────
+  // NoteCard — cuadrito decorativo para avisos/textos largos,
+  // con el mismo lenguaje visual que DetailCard (marco dorado,
+  // ícono centrado, esquina "❧" y fondo crema translúcido).
+  // ───────────────────────────────────────────────────────────
+  const NoteCard = ({
+    icon: Icon,
+    title,
+    text,
+    delay = 0,
+  }: {
+    icon: React.ElementType;
+    title: string;
+    text: string;
+    delay?: number;
+  }) => (
+    <Fade in timeout={900 + delay}>
+      <Paper
+        className="wi-card-detail"
+        elevation={0}
+        sx={{
+          p: { xs: 3, sm: 3.5 },
+          mt: 3,
+          textAlign: "center",
+          background: alpha(cream, 0.85),
+          backdropFilter: "blur(2px)",
+          border: `1px solid ${alpha(gold, 0.55)}`,
+          borderRadius: "20px",
+          boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
+          position: "relative",
+          overflow: "hidden",
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            background: `radial-gradient(circle at 90% 10%, ${alpha(gold, 0.1)} 0%, transparent 60%)`,
+            pointerEvents: "none",
+          },
+        }}
+      >
+        <Typography
+          sx={{
+            position: "absolute",
+            top: 8,
+            right: 12,
+            fontSize: "1.8rem",
+            color: alpha(gold, 0.2),
+            fontFamily: "'Cormorant Garamond', serif",
+            lineHeight: 1,
+          }}
+        >
+          ❧
+        </Typography>
+
+        <Box
+          sx={{
+            width: 44,
+            height: 44,
+            mx: "auto",
+            mb: 1.5,
+            borderRadius: "12px",
+            background: `linear-gradient(135deg, ${alpha(rose, 0.18)}, ${alpha(gold, 0.22)})`,
+            border: `1px solid ${alpha(rose, 0.35)}`,
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
+          }}
+        >
+          <Icon sx={{ fontSize: 20, color: rose }} />
+        </Box>
+
+        <Typography
+          sx={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: "0.7rem",
+            letterSpacing: "0.22em",
+            textTransform: "uppercase",
+            color: roseDeep,
+            fontWeight: 600,
+            mb: 1,
+          }}
+        >
+          {title}
+        </Typography>
+
+        <Typography
+          sx={{
+            fontFamily: "'Cormorant Garamond', serif",
+            fontSize: { xs: "0.95rem", sm: "1rem" },
+            fontStyle: "italic",
+            fontWeight: 400,
+            color: alpha(ink, 0.85),
+            lineHeight: 1.85,
+          }}
+        >
+          {text}
+        </Typography>
+      </Paper>
+    </Fade>
+  );
+
   const InvitationSection = () => (
     <Grow in timeout={900}>
       <Box>
@@ -1632,31 +1735,19 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Button>
         </Box>
 
-        <Typography
-          sx={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "0.85rem",
-            fontStyle: "italic",
-            color: alpha(roseDeep, 0.8),
-            textAlign: "center",
-            mt: 1,
-          }}
-        >
-          {notasAdicionales}
-        </Typography>
+        <NoteCard
+          icon={SparkleIcon}
+          title="Un día muy especial"
+          text={notasAdicionales}
+          delay={0}
+        />
 
-         <Typography
-          sx={{
-            fontFamily: "'Cormorant Garamond', serif",
-            fontSize: "0.85rem",
-            fontStyle: "italic",
-            color: alpha(roseDeep, 0.8),
-            textAlign: "center",
-            mt: 1,
-          }}
-        >
-          Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener un detalle especial con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!
-        </Typography>
+        <NoteCard
+          icon={GiftIcon}
+          title="Sobre los regalos"
+          text="Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener un detalle especial con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!"
+          delay={150}
+        />
 
         <Box sx={{ mt: 4 }}>
           <GoldFrameLine />

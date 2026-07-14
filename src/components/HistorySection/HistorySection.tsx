@@ -252,7 +252,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                 variant="h6"
                 sx={{
                   fontFamily: '"Cormorant Garamond", Georgia, serif',
-                  color: theme.palette.primary.main,
+               color: "#8B0000",
                   fontSize: "1.3rem",
                   letterSpacing: "0.05em",
                 }}
