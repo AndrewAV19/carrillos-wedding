@@ -1707,7 +1707,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         </Fade>
 
         <SingleImageCarousel
-          image="/boda18.jpeg"
+          image="/boda22.jpeg"
           rose={rose}
           gold={gold}
           cream={cream}
