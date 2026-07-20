@@ -282,11 +282,78 @@ const styles = `
     position: relative;
     z-index: 1;
   }
+
+  /* ── Mensaje de espera ── */
+  .env-waiting-message {
+    position: fixed;
+    bottom: 40px;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: 'Cormorant Garamond', serif;
+    font-size: 16px;
+    font-weight: 300;
+    color: #a87a8a;
+    letter-spacing: 0.08em;
+    opacity: 0;
+    transition: opacity 0.8s ease;
+    z-index: 5;
+    text-align: center;
+    background: rgba(255, 248, 250, 0.7);
+    backdrop-filter: blur(8px);
+    padding: 12px 28px;
+    border-radius: 30px;
+    border: 0.5px solid rgba(228, 205, 213, 0.5);
+    box-shadow: 0 4px 20px rgba(139, 90, 107, 0.06);
+  }
+
+  .env-waiting-message.env-waiting-visible {
+    opacity: 1;
+  }
+
+  .env-waiting-message.env-waiting-hidden {
+    opacity: 0;
+    pointer-events: none;
+  }
+
+  .env-waiting-dots {
+    display: inline-flex;
+    gap: 4px;
+    margin-left: 6px;
+  }
+
+  .env-waiting-dot {
+    width: 5px;
+    height: 5px;
+    background: #c9a0b0;
+    border-radius: 50%;
+    animation: env-dotPulse 1.4s ease-in-out infinite;
+  }
+
+  .env-waiting-dot:nth-child(2) {
+    animation-delay: 0.2s;
+  }
+
+  .env-waiting-dot:nth-child(3) {
+    animation-delay: 0.4s;
+  }
+
+  @keyframes env-dotPulse {
+    0%, 80%, 100% { 
+      transform: scale(0.6);
+      opacity: 0.4;
+    }
+    40% { 
+      transform: scale(1);
+      opacity: 1;
+    }
+  }
 `;
 
 const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
   const [opened, setOpened] = useState(false);
   const [showLetter, setShowLetter] = useState(false);
+  const [showWaiting, setShowWaiting] = useState(false);
+  const [hideWaiting, setHideWaiting] = useState(false);
   const calledOnOpen = useRef(false);
   const letterRef = useRef<HTMLDivElement>(null);
   const [letterHeight, setLetterHeight] = useState(420);
@@ -304,6 +371,20 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
   const handleOpen = () => {
     if (opened) return;
     setOpened(true);
+
+    // Mostrar mensaje de espera después de 1.5 segundos (cuando el sobre ya está abriéndose)
+    setTimeout(() => {
+      setShowWaiting(true);
+    }, 1500);
+
+    // Ocultar mensaje de espera después de 6 segundos (cuando la carta ya está visible)
+    setTimeout(() => {
+      setHideWaiting(true);
+      // Después de la transición de desvanecido, ocultar completamente
+      setTimeout(() => {
+        setShowWaiting(false);
+      }, 800);
+    }, 6000);
 
     setTimeout(() => {
       setShowLetter(true);
@@ -655,6 +736,18 @@ const EnvelopeOpening: React.FC<EnvelopeOpeningProps> = ({ onOpen }) => {
             </div>
           </div>
         </div>
+
+        {/* Mensaje de espera */}
+        {showWaiting && (
+          <div className={`env-waiting-message ${hideWaiting ? "env-waiting-hidden" : "env-waiting-visible"}`}>
+            Un momento, estamos preparando tu invitación
+            <span className="env-waiting-dots">
+              <span className="env-waiting-dot" />
+              <span className="env-waiting-dot" />
+              <span className="env-waiting-dot" />
+            </span>
+          </div>
+        )}
       </div>
     </>
   );

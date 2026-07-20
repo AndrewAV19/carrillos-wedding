@@ -1,4 +1,3 @@
-// components/HistorySection.tsx
 import React, { useEffect, useState } from "react";
 import {
   Box,
@@ -125,7 +124,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
         overflow: "hidden",
       }}
     >
-      {/* Elementos decorativos de fondo mejorados */}
       <Box
         sx={{
           position: "absolute",
@@ -191,7 +189,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
               sx={{
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 fontStyle: "italic",
-                color: theme.palette.text.secondary,
+                color: "#6B3A2A",
                 display: "flex",
                 alignItems: "center",
                 justifyContent: "center",
@@ -211,7 +209,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
           </Box>
         </Fade>
 
-        {/* Video player con YouTube */}
         <Fade in={true} timeout={1500}>
           <Paper
             elevation={0}
@@ -252,7 +249,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                 variant="h6"
                 sx={{
                   fontFamily: '"Cormorant Garamond", Georgia, serif',
-               color: "#8B0000",
+                  color: "#6B3A2A",
                   fontSize: "1.3rem",
                   letterSpacing: "0.05em",
                 }}
@@ -263,7 +260,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
           </Paper>
         </Fade>
 
-        {/* Tarjeta de historia principal con diseño mejorado */}
         <Fade in={true} timeout={2000}>
           <Paper
             elevation={0}
@@ -300,7 +296,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                 lineHeight: 1.9,
                 fontFamily: '"Cormorant Garamond", Georgia, serif',
                 textAlign: "center",
-                color: theme.palette.text.primary,
+                color: "#6B3A2A",
                 whiteSpace: "pre-line",
                 position: "relative",
                 px: { xs: 2, md: 4 },
@@ -308,7 +304,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                   content: '"❝"',
                   position: "absolute",
                   fontSize: "5rem",
-                  color: alpha(theme.palette.primary.main, 0.1),
+                  color: alpha("#6B3A2A", 0.1),
                   fontFamily: "Georgia, serif",
                 },
                 "&::before": {
@@ -327,7 +323,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
           </Paper>
         </Fade>
 
-        {/* Línea de tiempo romántica con imágenes mejorada */}
         <Box sx={{ position: "relative", mb: 4 }}>
           <Typography
             variant="h3"
@@ -335,7 +330,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
             sx={{
               mb: 6,
               fontFamily: '"Cormorant Garamond", Georgia, serif',
-              color: theme.palette.primary.dark,
+              color: "#6B3A2A",
               fontSize: { xs: "2rem", md: "3rem" },
             }}
           >
@@ -365,7 +360,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                   },
                 }}
               >
-                {/* Decoración de fondo */}
                 <Box
                   sx={{
                     position: "absolute",
@@ -421,10 +415,10 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                           variant="h3"
                           sx={{
                             fontWeight: "bold",
-                            color: item.color,
+                            color: "#6B3A2A",
                             fontFamily: '"Cormorant Garamond", Georgia, serif',
                             fontSize: { xs: "2rem", md: "2.5rem" },
-                            textShadow: `2px 2px 4px ${alpha(item.color, 0.2)}`,
+                            textShadow: `2px 2px 4px ${alpha("#6B3A2A", 0.2)}`,
                           }}
                         >
                           {item.year}
@@ -433,7 +427,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                           variant="h4"
                           sx={{
                             fontFamily: '"Cormorant Garamond", Georgia, serif',
-                            color: theme.palette.text.primary,
+                            color: "#6B3A2A",
                             fontSize: { xs: "1.5rem", md: "2rem" },
                           }}
                         >
@@ -445,7 +439,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                         variant="h6"
                         sx={{
                           fontWeight: 500,
-                          color: theme.palette.primary.main,
+                          color: "#6B3A2A",
                           mb: 1,
                           fontSize: { xs: "1rem", md: "1.2rem" },
                         }}
@@ -456,7 +450,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                       <Typography
                         variant="body1"
                         sx={{
-                          color: theme.palette.text.secondary,
+                          color: "#6B3A2A",
                           fontStyle: "italic",
                           fontSize: { xs: "1rem", md: "1.1rem" },
                         }}
@@ -466,7 +460,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                     </Box>
                   </Box>
 
-                  {/* Galería de imágenes mejorada */}
                   <Grid container spacing={3} sx={{ mt: 2 }}>
                     {item.images.map((image, imgIndex) => (
                       <Grid size={{ xs: 12, sm: 6, md: 4 }} key={imgIndex}>
@@ -505,7 +498,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                             }}
                           />
 
-                          {/* Overlay romántico */}
                           <Box
                             className="image-overlay"
                             sx={{
@@ -542,7 +534,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
         </Box>
       </Container>
 
-      {/* Modal para ver imágenes en grande */}
       <Modal
         open={!!selectedImage}
         onClose={handleCloseModal}
@@ -634,7 +625,6 @@ const HistorySection: React.FC<HistorySectionProps> = ({
                   }}
                 />
 
-                {/* Indicador de imágenes */}
                 {currentEventImages.length > 1 && (
                   <Box
                     sx={{

@@ -362,7 +362,7 @@ export const BougainvilleaScatter = ({
       >
         <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
       </Box>
-       <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -376,7 +376,7 @@ export const BougainvilleaScatter = ({
       >
         <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
       </Box>
-       <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -391,7 +391,7 @@ export const BougainvilleaScatter = ({
         <Bougainvillea size={110} rotate={600} src="/flowers/bougan-1.png" />
       </Box>
 
-       <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -434,10 +434,15 @@ export const BougainvilleaScatter = ({
           } as any
         }
       >
-        <Bougainvillea size={110} rotate={256} src="/flowers/bougan-1.png" flip />
+        <Bougainvillea
+          size={110}
+          rotate={256}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
 
-       <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -450,10 +455,15 @@ export const BougainvilleaScatter = ({
           } as any
         }
       >
-        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+        <Bougainvillea
+          size={110}
+          rotate={136}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
 
-         <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -466,9 +476,14 @@ export const BougainvilleaScatter = ({
           } as any
         }
       >
-        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+        <Bougainvillea
+          size={110}
+          rotate={136}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
-        <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -481,9 +496,14 @@ export const BougainvilleaScatter = ({
           } as any
         }
       >
-        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+        <Bougainvillea
+          size={110}
+          rotate={136}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
-         <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -496,9 +516,14 @@ export const BougainvilleaScatter = ({
           } as any
         }
       >
-        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+        <Bougainvillea
+          size={110}
+          rotate={136}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
-        <Box
+      <Box
         className="wi-bougan"
         sx={
           {
@@ -511,7 +536,12 @@ export const BougainvilleaScatter = ({
           } as any
         }
       >
-        <Bougainvillea size={110} rotate={136} src="/flowers/bougan-1.png" flip />
+        <Bougainvillea
+          size={110}
+          rotate={136}
+          src="/flowers/bougan-1.png"
+          flip
+        />
       </Box>
 
       <Box
@@ -702,7 +732,8 @@ const RomanticCarousel = memo(
 
     if (images.length === 0) return null;
 
-    const goTo = (i: number) => setIndex(((i % images.length) + images.length) % images.length);
+    const goTo = (i: number) =>
+      setIndex(((i % images.length) + images.length) % images.length);
 
     return (
       <Box sx={{ mb: 5 }}>
@@ -907,8 +938,6 @@ const SingleImageCarousel = memo(
               pointerEvents: "none",
             }}
           />
-
-         
         </Box>
       </Box>
     );
@@ -1179,123 +1208,123 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   );
 
   const DetailCard = ({
-    icon: Icon,
-    title,
-    value,
-    sub,
-    delay = 0,
-    onClick,
-  }: {
-    icon: React.ElementType;
-    title: string;
-    value: string;
-    sub?: string;
-    delay?: number;
-    onClick?: () => void;
-  }) => (
-    <Fade in timeout={800 + delay}>
-      <Paper
-        className="wi-card-detail"
-        elevation={0}
-        onClick={onClick}
+  icon: Icon,
+  title,
+  value,
+  sub,
+  delay = 0,
+  onClick,
+}: {
+  icon: React.ElementType;
+  title: string;
+  value: string;
+  sub?: string;
+  delay?: number;
+  onClick?: () => void;
+}) => (
+  <Fade in timeout={800 + delay}>
+    <Paper
+      className="wi-card-detail"
+      elevation={0}
+      onClick={onClick}
+      sx={{
+        p: { xs: 2.5, sm: 3 },
+        height: "100%",
+        background: "#C05C3E", // ← Terracota principal
+        backdropFilter: "blur(2px)",
+        border: `1px solid ${alpha("#D4A373", 0.55)}`, // ← Dorado suave
+        borderRadius: "20px",
+        boxShadow: `0 4px 24px ${alpha("#8B3A2A", 0.15)}`, // ← Sombra terracota oscuro
+        "&:hover": {
+          boxShadow: `0 16px 40px ${alpha("#8B3A2A", 0.3)}`, // ← Sombra más intensa
+          ...(onClick && { transform: "translateY(-6px)" }),
+        },
+        cursor: onClick ? "pointer" : "default",
+        position: "relative",
+        overflow: "hidden",
+        "&::after": {
+          content: '""',
+          position: "absolute",
+          inset: 0,
+          background: `radial-gradient(circle at 90% 10%, ${alpha("#D4A373", 0.15)} 0%, transparent 60%)`, // ← Dorado tenue
+          pointerEvents: "none",
+        },
+      }}
+    >
+      <Typography
         sx={{
-          p: { xs: 2.5, sm: 3 },
-          height: "100%",
-          background: alpha(cream, 0.85),
-          backdropFilter: "blur(2px)",
-          border: `1px solid ${alpha(gold, 0.55)}`,
-          borderRadius: "20px",
-          boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
-          "&:hover": {
-            boxShadow: `0 16px 40px ${alpha(rose, 0.25)}`,
-            ...(onClick && { transform: "translateY(-6px)" }),
-          },
-          cursor: onClick ? "pointer" : "default",
-          position: "relative",
-          overflow: "hidden",
-          "&::after": {
-            content: '""',
-            position: "absolute",
-            inset: 0,
-            background: `radial-gradient(circle at 90% 10%, ${alpha(gold, 0.1)} 0%, transparent 60%)`,
-            pointerEvents: "none",
-          },
+          position: "absolute",
+          top: 8,
+          right: 12,
+          fontSize: "1.8rem",
+          color: alpha("#F8EDE3", 0.15), // ← Crema muy sutil
+          fontFamily: "'Cormorant Garamond', serif",
+          lineHeight: 1,
         }}
       >
-        <Typography
+        ❧
+      </Typography>
+      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+        <Box
           sx={{
-            position: "absolute",
-            top: 8,
-            right: 12,
-            fontSize: "1.8rem",
-            color: alpha(gold, 0.2),
-            fontFamily: "'Cormorant Garamond', serif",
-            lineHeight: 1,
+            width: 44,
+            height: 44,
+            borderRadius: "12px",
+            flexShrink: 0,
+            background: `linear-gradient(135deg, ${alpha("#F8EDE3", 0.15)}, ${alpha("#D4A373", 0.2)})`, // ← Fondo sutil
+            border: `1px solid ${alpha("#F8EDE3", 0.25)}`, // ← Borde crema
+            display: "flex",
+            alignItems: "center",
+            justifyContent: "center",
           }}
         >
-          ❧
-        </Typography>
-        <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
-          <Box
+          <Icon sx={{ fontSize: 20, color: "#F8EDE3" }} /> {/* ← Icono crema */}
+        </Box>
+        <Box>
+          <Typography
             sx={{
-              width: 44,
-              height: 44,
-              borderRadius: "12px",
-              flexShrink: 0,
-              background: `linear-gradient(135deg, ${alpha(rose, 0.18)}, ${alpha(gold, 0.22)})`,
-              border: `1px solid ${alpha(rose, 0.35)}`,
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: "0.7rem",
+              letterSpacing: "0.22em",
+              textTransform: "uppercase",
+              color: "#D4A373", // ← Dorado suave para título
+              fontWeight: 600,
+              mb: 0.3,
             }}
           >
-            <Icon sx={{ fontSize: 20, color: rose }} />
-          </Box>
-          <Box>
+            {title}
+          </Typography>
+          <Typography
+            sx={{
+              fontFamily: "'Cormorant Garamond', serif",
+              fontSize: { xs: "1.05rem", sm: "1.15rem" },
+              fontWeight: 500,
+              color: "#F8EDE3", // ← Crema para valor principal
+              lineHeight: 1.3,
+            }}
+          >
+            {value}
+          </Typography>
+          {sub && (
             <Typography
               sx={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "0.7rem",
-                letterSpacing: "0.22em",
-                textTransform: "uppercase",
-                color: roseDeep,
-                fontWeight: 600,
-                mb: 0.3,
+                fontSize: "0.88rem",
+                color: "#F8EDE3", // ← Crema para subtítulo
+                fontStyle: "italic",
+                fontWeight: 400,
+                opacity: 0.85,
+                mt: 0.3,
               }}
             >
-              {title}
+              {sub}
             </Typography>
-            <Typography
-              sx={{
-                fontFamily: "'Cormorant Garamond', serif",
-                fontSize: { xs: "1.05rem", sm: "1.15rem" },
-                fontWeight: 500,
-                color: ink,
-                lineHeight: 1.3,
-              }}
-            >
-              {value}
-            </Typography>
-            {sub && (
-              <Typography
-                sx={{
-                  fontFamily: "'Cormorant Garamond', serif",
-                  fontSize: "0.88rem",
-                  color: goldDark,
-                  fontStyle: "italic",
-                  fontWeight: 600,
-                  mt: 0.3,
-                }}
-              >
-                {sub}
-              </Typography>
-            )}
-          </Box>
+          )}
         </Box>
-      </Paper>
-    </Fade>
-  );
-
+      </Box>
+    </Paper>
+  </Fade>
+);
   const NoteCard = ({
     icon: Icon,
     title,
@@ -1412,7 +1441,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           >
             ♛
           </Typography>
-          
+
           {/* Cuadro decorativo alrededor del texto de introducción */}
           <Paper
             elevation={0}
@@ -1458,10 +1487,10 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               }}
             >
               Hay momentos en la vida que son especiales por sí solos, pero
-              compartirlos con quienes más amamos los hace inolvidables. Por eso,
-              queremos que sean parte del día en que unimos nuestras vidas.
+              compartirlos con quienes más amamos los hace inolvidables. Por
+              eso, queremos que sean parte del día en que unimos nuestras vidas.
             </Typography>
-            
+
             {/* Decoración de esquinas del cuadro */}
             <Box
               sx={{
@@ -1772,12 +1801,35 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Grid>
         </Grid>
 
+        
+
+        <RomanticCarousel
+          images={["/boda30.jpeg"]}
+          rose={rose}
+          gold={gold}
+          cream={cream}
+        />
+
+        <NoteCard
+          icon={SparkleIcon}
+          title="Un día muy especial"
+          text={notasAdicionales}
+          delay={0}
+        />
+
+        <NoteCard
+          icon={GiftIcon}
+          title="Sobre los regalos"
+          text="Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener un detalle especial con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!"
+          delay={150}
+        />
+
         <Stack
           direction="row"
           spacing={1}
           justifyContent="center"
           flexWrap="wrap"
-          sx={{ mb: 3, gap: 1 }}
+          sx={{ mb: 3, gap: 1, mt:4 }}
         >
           {[
             {
@@ -1852,27 +1904,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             Confirmar asistencia
           </Button>
         </Box>
-
-          <RomanticCarousel
-          images={["/boda20.jpeg", "/boda21.jpeg"]}
-          rose={rose}
-          gold={gold}
-          cream={cream}
-        />
-
-        <NoteCard
-          icon={SparkleIcon}
-          title="Un día muy especial"
-          text={notasAdicionales}
-          delay={0}
-        />
-
-        <NoteCard
-          icon={GiftIcon}
-          title="Sobre los regalos"
-          text="Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener un detalle especial con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!"
-          delay={150}
-        />
 
         <Box sx={{ mt: 4 }}>
           <GoldFrameLine />
@@ -2221,38 +2252,43 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           >
             <Box
               component="img"
-              src="/boda1.jpeg"
-              alt=""
-              aria-hidden="true"
+              src="/fondo.jpeg"
               sx={{
                 position: "absolute",
-                top: 0,
+                inset: 0,
+                width: "100%",
+                height: "50%",
+                objectFit: "cover",
+                objectPosition: "center",
+                opacity: 1,
+                filter: "none",
+              }}
+            />
+
+            <Box
+              component="img"
+              src="/fondo.jpeg"
+              sx={{
+                position: "absolute",
+                bottom: 0,
                 left: 0,
                 width: "100%",
                 height: "50%",
                 objectFit: "cover",
-                objectPosition: "53% top",
-                opacity: 1.5,
-                filter: "saturate(0.6) brightness(1.15)",
-                pointerEvents: "none",
-                userSelect: "none",
+                objectPosition: "center",
+                opacity: 1,
               }}
             />
 
             <Box
               sx={{
-                position: "absolute",
+                position: "fixed",
                 inset: 0,
-                background: `
-                  linear-gradient(to bottom,
-                    rgba(255,253,249,0.6) 0%,
-                    rgba(253,246,236,0.5) 30%,
-                    rgba(250,240,228,0.4) 60%,
-                    rgba(250,240,228,0.45) 100%
-                  )
-                `,
-                pointerEvents: "none",
-                zIndex: 0,
+                zIndex: -1,
+                backgroundImage: "url('/fondo2.jpeg')",
+                backgroundSize: "cover",
+                backgroundPosition: "center",
+                backgroundRepeat: "no-repeat",
               }}
             />
 
