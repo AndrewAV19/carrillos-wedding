@@ -18,6 +18,7 @@ import {
   Grid,
   Stack,
   Slide,
+  useTheme,
 } from "@mui/material";
 import {
   Favorite as HeartIcon,
@@ -1056,6 +1057,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   const [modalHeight, setModalHeight] = useState(600);
   const cardRef = useRef<HTMLDivElement>(null);
   const modalRef = useRef<HTMLDivElement>(null);
+  const theme = useTheme();
 
   useEffect(() => {
     window.scrollTo({ top: 0, behavior: "smooth" });
@@ -1124,7 +1126,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   const gold = "#E8A33D";
   const goldDark = "#C97B1F";
   const cream = "#FFFBF6";
-  const ink = "#3D1F2D";
+  const ink = "#5C3A21";
 
   const Ornament = () => (
     <Typography
@@ -1208,123 +1210,124 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   );
 
   const DetailCard = ({
-  icon: Icon,
-  title,
-  value,
-  sub,
-  delay = 0,
-  onClick,
-}: {
-  icon: React.ElementType;
-  title: string;
-  value: string;
-  sub?: string;
-  delay?: number;
-  onClick?: () => void;
-}) => (
-  <Fade in timeout={800 + delay}>
-    <Paper
-      className="wi-card-detail"
-      elevation={0}
-      onClick={onClick}
-      sx={{
-        p: { xs: 2.5, sm: 3 },
-        height: "100%",
-        background: "#C05C3E", // ← Terracota principal
-        backdropFilter: "blur(2px)",
-        border: `1px solid ${alpha("#D4A373", 0.55)}`, // ← Dorado suave
-        borderRadius: "20px",
-        boxShadow: `0 4px 24px ${alpha("#8B3A2A", 0.15)}`, // ← Sombra terracota oscuro
-        "&:hover": {
-          boxShadow: `0 16px 40px ${alpha("#8B3A2A", 0.3)}`, // ← Sombra más intensa
-          ...(onClick && { transform: "translateY(-6px)" }),
-        },
-        cursor: onClick ? "pointer" : "default",
-        position: "relative",
-        overflow: "hidden",
-        "&::after": {
-          content: '""',
-          position: "absolute",
-          inset: 0,
-          background: `radial-gradient(circle at 90% 10%, ${alpha("#D4A373", 0.15)} 0%, transparent 60%)`, // ← Dorado tenue
-          pointerEvents: "none",
-        },
-      }}
-    >
-      <Typography
+    icon: Icon,
+    title,
+    value,
+    sub,
+    delay = 0,
+    onClick,
+  }: {
+    icon: React.ElementType;
+    title: string;
+    value: string;
+    sub?: string;
+    delay?: number;
+    onClick?: () => void;
+  }) => (
+    <Fade in timeout={800 + delay}>
+      <Paper
+        className="wi-card-detail"
+        elevation={0}
+        onClick={onClick}
         sx={{
-          position: "absolute",
-          top: 8,
-          right: 12,
-          fontSize: "1.8rem",
-          color: alpha("#F8EDE3", 0.15), // ← Crema muy sutil
-          fontFamily: "'Cormorant Garamond', serif",
-          lineHeight: 1,
+          p: { xs: 2.5, sm: 3 },
+          height: "100%",
+          background: "#C05C3E", // ← Terracota principal
+          backdropFilter: "blur(2px)",
+          border: `1px solid ${alpha("#D4A373", 0.55)}`, // ← Dorado suave
+          borderRadius: "20px",
+          boxShadow: `0 4px 24px ${alpha("#8B3A2A", 0.15)}`, // ← Sombra terracota oscuro
+          "&:hover": {
+            boxShadow: `0 16px 40px ${alpha("#8B3A2A", 0.3)}`, // ← Sombra más intensa
+            ...(onClick && { transform: "translateY(-6px)" }),
+          },
+          cursor: onClick ? "pointer" : "default",
+          position: "relative",
+          overflow: "hidden",
+          "&::after": {
+            content: '""',
+            position: "absolute",
+            inset: 0,
+            background: `radial-gradient(circle at 90% 10%, ${alpha("#D4A373", 0.15)} 0%, transparent 60%)`, // ← Dorado tenue
+            pointerEvents: "none",
+          },
         }}
       >
-        ❧
-      </Typography>
-      <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
-        <Box
+        <Typography
           sx={{
-            width: 44,
-            height: 44,
-            borderRadius: "12px",
-            flexShrink: 0,
-            background: `linear-gradient(135deg, ${alpha("#F8EDE3", 0.15)}, ${alpha("#D4A373", 0.2)})`, // ← Fondo sutil
-            border: `1px solid ${alpha("#F8EDE3", 0.25)}`, // ← Borde crema
-            display: "flex",
-            alignItems: "center",
-            justifyContent: "center",
+            position: "absolute",
+            top: 8,
+            right: 12,
+            fontSize: "1.8rem",
+            color: alpha("#F8EDE3", 0.15), // ← Crema muy sutil
+            fontFamily: "'Cormorant Garamond', serif",
+            lineHeight: 1,
           }}
         >
-          <Icon sx={{ fontSize: 20, color: "#F8EDE3" }} /> {/* ← Icono crema */}
-        </Box>
-        <Box>
-          <Typography
+          ❧
+        </Typography>
+        <Box sx={{ display: "flex", alignItems: "flex-start", gap: 2 }}>
+          <Box
             sx={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "0.7rem",
-              letterSpacing: "0.22em",
-              textTransform: "uppercase",
-              color: "#D4A373", // ← Dorado suave para título
-              fontWeight: 600,
-              mb: 0.3,
+              width: 44,
+              height: 44,
+              borderRadius: "12px",
+              flexShrink: 0,
+              background: `linear-gradient(135deg, ${alpha("#F8EDE3", 0.15)}, ${alpha("#D4A373", 0.2)})`, // ← Fondo sutil
+              border: `1px solid ${alpha("#F8EDE3", 0.25)}`, // ← Borde crema
+              display: "flex",
+              alignItems: "center",
+              justifyContent: "center",
             }}
           >
-            {title}
-          </Typography>
-          <Typography
-            sx={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: { xs: "1.05rem", sm: "1.15rem" },
-              fontWeight: 500,
-              color: "#F8EDE3", // ← Crema para valor principal
-              lineHeight: 1.3,
-            }}
-          >
-            {value}
-          </Typography>
-          {sub && (
+            <Icon sx={{ fontSize: 20, color: "#F8EDE3" }} />{" "}
+            {/* ← Icono crema */}
+          </Box>
+          <Box>
             <Typography
               sx={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: "0.88rem",
-                color: "#F8EDE3", // ← Crema para subtítulo
-                fontStyle: "italic",
-                fontWeight: 400,
-                opacity: 0.85,
-                mt: 0.3,
+                fontSize: "0.7rem",
+                letterSpacing: "0.22em",
+                textTransform: "uppercase",
+                color: "#D4A373", // ← Dorado suave para título
+                fontWeight: 600,
+                mb: 0.3,
               }}
             >
-              {sub}
+              {title}
             </Typography>
-          )}
+            <Typography
+              sx={{
+                fontFamily: "'Cormorant Garamond', serif",
+                fontSize: { xs: "1.05rem", sm: "1.15rem" },
+                fontWeight: 500,
+                color: "#F8EDE3", // ← Crema para valor principal
+                lineHeight: 1.3,
+              }}
+            >
+              {value}
+            </Typography>
+            {sub && (
+              <Typography
+                sx={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: "0.88rem",
+                  color: "#F8EDE3", // ← Crema para subtítulo
+                  fontStyle: "italic",
+                  fontWeight: 400,
+                  opacity: 0.85,
+                  mt: 0.3,
+                }}
+              >
+                {sub}
+              </Typography>
+            )}
+          </Box>
         </Box>
-      </Box>
-    </Paper>
-  </Fade>
-);
+      </Paper>
+    </Fade>
+  );
   const NoteCard = ({
     icon: Icon,
     title,
@@ -1341,21 +1344,27 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         className="wi-card-detail"
         elevation={0}
         sx={{
-          p: { xs: 3, sm: 3.5 },
-          mt: 3,
-          textAlign: "center",
-          background: alpha(cream, 0.85),
-          backdropFilter: "blur(2px)",
-          border: `1px solid ${alpha(gold, 0.55)}`,
-          borderRadius: "20px",
-          boxShadow: `0 4px 24px ${alpha(rose, 0.12)}`,
+          p: { xs: 4, md: 6 },
+          mb: 8,
+          borderRadius: 4,
+          background: alpha(theme.palette.background.paper, 0.9),
+          backdropFilter: "blur(10px)",
+          border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
           position: "relative",
-          overflow: "hidden",
-          "&::after": {
+          "&::before": {
             content: '""',
             position: "absolute",
-            inset: 0,
-            background: `radial-gradient(circle at 90% 10%, ${alpha(gold, 0.1)} 0%, transparent 60%)`,
+            top: 0,
+            left: 0,
+            right: 0,
+            bottom: 0,
+            borderRadius: 4,
+            padding: "2px",
+            background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
+            WebkitMask:
+              "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+            WebkitMaskComposite: "xor",
+            maskComposite: "exclude",
             pointerEvents: "none",
           },
         }}
@@ -1448,27 +1457,22 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             sx={{
               p: { xs: 3, sm: 4 },
               mb: 4,
-              background: `linear-gradient(135deg, ${alpha(cream, 0.95)}, ${alpha(rosePale, 0.5)})`,
-              border: `2px solid ${alpha(gold, 0.7)}`,
               borderRadius: "20px",
-              boxShadow: `0 8px 32px ${alpha(rose, 0.15)}, inset 0 1px 0 ${alpha(gold, 0.3)}`,
+              overflow: "hidden",
               position: "relative",
-              "&::before": {
-                content: '""',
-                position: "absolute",
-                inset: -6,
-                borderRadius: "24px",
-                background: `linear-gradient(135deg, ${gold}, ${rose}, ${gold})`,
-                opacity: 0.15,
-                zIndex: -1,
-              },
-              "&::after": {
-                content: '""',
-                position: "absolute",
-                inset: 8,
-                borderRadius: "14px",
-                border: `1px solid ${alpha(gold, 0.25)}`,
-                pointerEvents: "none",
+
+              // Igual que el Paper del video
+              background: alpha(theme.palette.common.black, 0.01),
+              border: `1px solid ${alpha(theme.palette.primary.main, 0.2)}`,
+
+              transition: "all 0.3s ease",
+
+              "&:hover": {
+                borderColor: alpha(theme.palette.primary.main, 0.4),
+                boxShadow: `0 20px 40px -12px ${alpha(
+                  theme.palette.primary.main,
+                  0.3,
+                )}`,
               },
             }}
           >
@@ -1491,7 +1495,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               eso, queremos que sean parte del día en que unimos nuestras vidas.
             </Typography>
 
-            {/* Decoración de esquinas del cuadro */}
+            {/* Esquina superior izquierda */}
             <Box
               sx={{
                 position: "absolute",
@@ -1499,12 +1503,14 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 left: 8,
                 width: 20,
                 height: 20,
-                borderTop: `2px solid ${alpha(gold, 0.5)}`,
-                borderLeft: `2px solid ${alpha(gold, 0.5)}`,
+                borderTop: `2px solid ${alpha(gold, 0.35)}`,
+                borderLeft: `2px solid ${alpha(gold, 0.35)}`,
                 borderRadius: "4px 0 0 0",
                 pointerEvents: "none",
               }}
             />
+
+            {/* Esquina superior derecha */}
             <Box
               sx={{
                 position: "absolute",
@@ -1512,12 +1518,14 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 right: 8,
                 width: 20,
                 height: 20,
-                borderTop: `2px solid ${alpha(gold, 0.5)}`,
-                borderRight: `2px solid ${alpha(gold, 0.5)}`,
+                borderTop: `2px solid ${alpha(gold, 0.35)}`,
+                borderRight: `2px solid ${alpha(gold, 0.35)}`,
                 borderRadius: "0 4px 0 0",
                 pointerEvents: "none",
               }}
             />
+
+            {/* Esquina inferior izquierda */}
             <Box
               sx={{
                 position: "absolute",
@@ -1525,12 +1533,14 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 left: 8,
                 width: 20,
                 height: 20,
-                borderBottom: `2px solid ${alpha(gold, 0.5)}`,
-                borderLeft: `2px solid ${alpha(gold, 0.5)}`,
+                borderBottom: `2px solid ${alpha(gold, 0.35)}`,
+                borderLeft: `2px solid ${alpha(gold, 0.35)}`,
                 borderRadius: "0 0 0 4px",
                 pointerEvents: "none",
               }}
             />
+
+            {/* Esquina inferior derecha */}
             <Box
               sx={{
                 position: "absolute",
@@ -1538,8 +1548,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 right: 8,
                 width: 20,
                 height: 20,
-                borderBottom: `2px solid ${alpha(gold, 0.5)}`,
-                borderRight: `2px solid ${alpha(gold, 0.5)}`,
+                borderBottom: `2px solid ${alpha(gold, 0.35)}`,
+                borderRight: `2px solid ${alpha(gold, 0.35)}`,
                 borderRadius: "0 0 4px 0",
                 pointerEvents: "none",
               }}
@@ -1801,8 +1811,6 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           </Grid>
         </Grid>
 
-        
-
         <RomanticCarousel
           images={["/boda30.jpeg"]}
           rose={rose}
@@ -1829,7 +1837,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
           spacing={1}
           justifyContent="center"
           flexWrap="wrap"
-          sx={{ mb: 3, gap: 1, mt:4 }}
+          sx={{ mb: 3, gap: 1, mt: 4 }}
         >
           {[
             {
