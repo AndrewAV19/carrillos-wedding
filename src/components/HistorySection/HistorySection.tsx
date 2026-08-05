@@ -57,7 +57,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
       description:
         "El día que el destino nos regaló nuestra primera cita y comenzó nuestra historia.",
       icon: <StarsIcon />,
-      color: "#FFB6C1",
+      color: "#C4A882",
       images: ["/lt1.jpeg", "/lt2.jpeg"],
     },
     {
@@ -67,7 +67,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
       description:
         "Bailamos bajo las estrellas y supimos que queríamos esto para siempre.",
       icon: <HeartIcon />,
-      color: "#FFD700",
+      color: "#C4A882",
       images: ["/lt3.jpeg", "/lt4.jpeg"],
     },
     {
@@ -76,7 +76,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
       event: "Diciembre, 2025",
       description: "Nuestro primer árbol de navidad, el primero de muchos.",
       icon: <AcUnitIcon />,
-      color: "#FF69B4",
+      color: "#C4A882",
       images: ["/lt5.jpeg"],
     },
     {
@@ -85,7 +85,7 @@ const HistorySection: React.FC<HistorySectionProps> = ({
       event: "Enero, 2026",
       description: "Descubriendo el mundo juntos, un destino a la vez.",
       icon: <FlightIcon />,
-      color: "#9370DB",
+      color: "#C4A882",
       images: ["/lt6.jpeg", "/lt7.jpeg", "/lt8.jpeg"],
     },
   ];
