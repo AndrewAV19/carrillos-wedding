@@ -89,6 +89,12 @@ import AttendanceForm from "../components/AttendanceForm/AttendanceForm";
  *    carrying a `filter: drop-shadow(...)`. Added `will-change: transform`
  *    so the browser promotes each flower to its own compositor layer and
  *    animates it on the GPU instead of repainting the filter every frame.
+ *
+ * 7. LAYOUT: content was sitting almost flush against the card/viewport
+ *    edges on mobile. Added real horizontal breathing room via the
+ *    Container's `px` and a larger `CardContent` padding (see
+ *    "CENTERING FIX" comments below) so text and cards no longer touch the
+ *    edges.
  * ==========================================================================*/
 
 const COLORS = {
@@ -1890,7 +1896,19 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
         }}
       />
 
-      <Container maxWidth="sm" sx={{ py: 4, position: "relative", zIndex: 1 }}>
+      {/* CENTERING FIX: the Container now carries its own responsive
+          horizontal padding (px) instead of relying on MUI's thin default,
+          so the whole card sits with real margin from the viewport edges
+          and reads as centered rather than edge-to-edge. */}
+      <Container
+        maxWidth="sm"
+        sx={{
+          py: 4,
+          px: { xs: 3, sm: 4, md: 5 },
+          position: "relative",
+          zIndex: 1,
+        }}
+      >
         <MusicPlayer />
 
         <Modal
@@ -1911,7 +1929,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 top: "50%",
                 left: "50%",
                 transform: "translate(-50%, -50%)",
-                width: { xs: "95%", sm: 480 },
+                width: { xs: "92%", sm: 480 },
                 maxHeight: "90vh",
                 overflow: "hidden",
                 background: cream,
@@ -1933,7 +1951,15 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 maxPosition={120}
               />
 
-              <Box sx={{ position: "relative", zIndex: 1, maxHeight: "90vh", overflowY: "auto", p: 4 }}>
+              <Box
+                sx={{
+                  position: "relative",
+                  zIndex: 1,
+                  maxHeight: "90vh",
+                  overflowY: "auto",
+                  p: { xs: 3.5, sm: 4.5 },
+                }}
+              >
                 <IconButton
                   onClick={handleCloseModal}
                   sx={{
@@ -2093,11 +2119,17 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
               maxPosition={120}
             />
 
+            {/* CENTERING FIX: extra padding (was p:{xs:3,sm:4}) plus a
+                sensible maxWidth + auto margins so the invitation copy
+                never sits flush against the card's rounded border, even
+                on small phones. */}
             <CardContent
               sx={{
-                p: { xs: 3, sm: 4 },
+                p: { xs: 4, sm: 5 },
                 backgroundColor: "transparent",
-                "&:last-child": { pb: { xs: 3, sm: 4 } },
+                maxWidth: 560,
+                mx: "auto",
+                "&:last-child": { pb: { xs: 4, sm: 5 } },
               }}
             >
               {renderSection()}
