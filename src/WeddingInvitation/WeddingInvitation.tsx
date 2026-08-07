@@ -295,7 +295,13 @@ const CORNER_POS: Record<string, React.CSSProperties> = {
 };
 
 const GoldCorner = memo(
-  ({ position, size = 74 }: { position: "tl" | "tr" | "bl" | "br"; size?: number }) => (
+  ({
+    position,
+    size = 74,
+  }: {
+    position: "tl" | "tr" | "bl" | "br";
+    size?: number;
+  }) => (
     <Box
       sx={{
         position: "absolute",
@@ -410,8 +416,7 @@ export const BougainvilleaScatter = memo(
 
       const positions: number[] = [];
       for (let i = 0; i < numberOfFlowers; i++) {
-        const basePos =
-          startPosition + (i * span) / (numberOfFlowers - 1 || 1);
+        const basePos = startPosition + (i * span) / (numberOfFlowers - 1 || 1);
         const variation = seededJitter(i, 30);
         positions.push(
           Math.max(startPosition, Math.min(endPosition, basePos + variation)),
@@ -505,89 +510,101 @@ BougainvilleaScatter.displayName = "BougainvilleaScatter";
 
 const WEDDING_TARGET = new Date("2026-09-26T17:00:00").getTime();
 
-const CountdownTimer = memo(({ rose, rosePale }: { rose: string; rosePale: string }) => {
-  const [cd, setCd] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
+const CountdownTimer = memo(
+  ({ rose, rosePale }: { rose: string; rosePale: string }) => {
+    const [cd, setCd] = useState({ days: 0, hours: 0, minutes: 0, seconds: 0 });
 
-  useEffect(() => {
-    const tick = () => {
-      const diff = WEDDING_TARGET - Date.now();
-      if (diff > 0) {
-        setCd({
-          days: Math.floor(diff / 86400000),
-          hours: Math.floor((diff / 3600000) % 24),
-          minutes: Math.floor((diff / 60000) % 60),
-          seconds: Math.floor((diff / 1000) % 60),
-        });
-      }
-    };
-    tick();
-    const id = setInterval(tick, 1000);
-    return () => clearInterval(id);
-  }, []);
+    useEffect(() => {
+      const tick = () => {
+        const diff = WEDDING_TARGET - Date.now();
+        if (diff > 0) {
+          setCd({
+            days: Math.floor(diff / 86400000),
+            hours: Math.floor((diff / 3600000) % 24),
+            minutes: Math.floor((diff / 60000) % 60),
+            seconds: Math.floor((diff / 1000) % 60),
+          });
+        }
+      };
+      tick();
+      const id = setInterval(tick, 1000);
+      return () => clearInterval(id);
+    }, []);
 
-  return (
-    <Box
-      sx={{
-        display: "flex",
-        justifyContent: "center",
-        gap: { xs: 1.5, sm: 3 },
-        mb: 4,
-      }}
-    >
-      {[
-        { v: cd.days, l: "Días" },
-        { v: cd.hours, l: "Horas" },
-        { v: cd.minutes, l: "Min" },
-        { v: cd.seconds, l: "Seg" },
-      ].map(({ v, l }) => (
-        <Box key={l} sx={{ textAlign: "center" }}>
-          <Paper
-            elevation={0}
-            sx={{
-              width: { xs: 54, sm: 64 },
-              height: { xs: 54, sm: 64 },
-              display: "flex",
-              alignItems: "center",
-              justifyContent: "center",
-              borderRadius: "12px",
-              background: `linear-gradient(145deg, ${rosePale}, #fff)`,
-              border: `1px solid ${alpha(rose, 0.35)}`,
-              mb: 0.75,
-            }}
-          >
+    return (
+      <Box
+        sx={{
+          display: "flex",
+          justifyContent: "center",
+          gap: { xs: 1.5, sm: 3 },
+          mb: 4,
+        }}
+      >
+        {[
+          { v: cd.days, l: "Días" },
+          { v: cd.hours, l: "Horas" },
+          { v: cd.minutes, l: "Min" },
+          { v: cd.seconds, l: "Seg" },
+        ].map(({ v, l }) => (
+          <Box key={l} sx={{ textAlign: "center" }}>
+            <Paper
+              elevation={0}
+              sx={{
+                width: { xs: 54, sm: 64 },
+                height: { xs: 54, sm: 64 },
+                display: "flex",
+                alignItems: "center",
+                justifyContent: "center",
+                borderRadius: "12px",
+                background: `linear-gradient(145deg, ${rosePale}, #fff)`,
+                border: `1px solid ${alpha(rose, 0.35)}`,
+                mb: 0.75,
+              }}
+            >
+              <Typography
+                sx={{
+                  fontFamily: "'Cormorant Garamond', serif",
+                  fontSize: { xs: "1.5rem", sm: "1.8rem" },
+                  fontWeight: 600,
+                  color: rose,
+                  lineHeight: 1,
+                }}
+              >
+                {String(v).padStart(2, "0")}
+              </Typography>
+            </Paper>
             <Typography
               sx={{
                 fontFamily: "'Cormorant Garamond', serif",
-                fontSize: { xs: "1.5rem", sm: "1.8rem" },
+                fontSize: "0.65rem",
+                letterSpacing: "0.2em",
+                textTransform: "uppercase",
+                color: alpha(rose, 0.8),
                 fontWeight: 600,
-                color: rose,
-                lineHeight: 1,
               }}
             >
-              {String(v).padStart(2, "0")}
+              {l}
             </Typography>
-          </Paper>
-          <Typography
-            sx={{
-              fontFamily: "'Cormorant Garamond', serif",
-              fontSize: "0.65rem",
-              letterSpacing: "0.2em",
-              textTransform: "uppercase",
-              color: alpha(rose, 0.8),
-              fontWeight: 600,
-            }}
-          >
-            {l}
-          </Typography>
-        </Box>
-      ))}
-    </Box>
-  );
-});
+          </Box>
+        ))}
+      </Box>
+    );
+  },
+);
 CountdownTimer.displayName = "CountdownTimer";
 
 const RomanticCarousel = memo(
-  ({ images, rose, gold, cream }: { images: string[]; rose: string; gold: string; cream: string }) => {
+  ({
+    images,
+    rose,
+    gold,
+    cream,
+  }: {
+    images: string[];
+    rose: string;
+    gold: string;
+    cream: string;
+  }) => {
     const [index, setIndex] = useState(0);
     const [isPaused, setIsPaused] = useState(false);
 
@@ -600,7 +617,8 @@ const RomanticCarousel = memo(
     }, [isPaused, images.length]);
 
     const goTo = useCallback(
-      (i: number) => setIndex(((i % images.length) + images.length) % images.length),
+      (i: number) =>
+        setIndex(((i % images.length) + images.length) % images.length),
       [images.length],
     );
 
@@ -702,7 +720,9 @@ const RomanticCarousel = memo(
         </Box>
 
         {images.length > 1 && (
-          <Box sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 1.5 }}>
+          <Box
+            sx={{ display: "flex", justifyContent: "center", gap: 1, mt: 1.5 }}
+          >
             {images.map((_, i) => (
               <Box
                 key={i}
@@ -726,7 +746,17 @@ const RomanticCarousel = memo(
 RomanticCarousel.displayName = "RomanticCarousel";
 
 const SingleImageCarousel = memo(
-  ({ image, rose, gold, cream }: { image: string; rose: string; gold: string; cream: string }) => (
+  ({
+    image,
+    rose,
+    gold,
+    cream,
+  }: {
+    image: string;
+    rose: string;
+    gold: string;
+    cream: string;
+  }) => (
     <Box sx={{ mb: 5 }}>
       <Box
         sx={{
@@ -802,7 +832,16 @@ const Ornament = memo(() => (
 Ornament.displayName = "Ornament";
 
 const SectionDivider = memo(({ label }: { label?: string }) => (
-  <Box sx={{ display: "flex", alignItems: "center", gap: "12px", width: "80%", mx: "auto", my: 3 }}>
+  <Box
+    sx={{
+      display: "flex",
+      alignItems: "center",
+      gap: "12px",
+      width: "80%",
+      mx: "auto",
+      my: 3,
+    }}
+  >
     <Box
       sx={{
         flex: 1,
@@ -1014,17 +1053,21 @@ const NoteCard = memo(
             backdropFilter: "blur(8px)",
             border: `1px solid ${alpha(theme.palette.primary.main, 0.1)}`,
             position: "relative",
+
+            display: "flex",
+            flexDirection: "column",
+            alignItems: "center",
+            textAlign: "center",
+
             "&::before": {
               content: '""',
               position: "absolute",
-              top: 0,
-              left: 0,
-              right: 0,
-              bottom: 0,
+              inset: 0,
               borderRadius: 4,
               padding: "2px",
               background: `linear-gradient(135deg, ${theme.palette.primary.main}, ${theme.palette.secondary.main})`,
-              WebkitMask: "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
+              WebkitMask:
+                "linear-gradient(#fff 0 0) content-box, linear-gradient(#fff 0 0)",
               WebkitMaskComposite: "xor",
               maskComposite: "exclude",
               pointerEvents: "none",
@@ -1208,10 +1251,18 @@ const InvitationSection = memo(
                     right: corner.endsWith("r") ? 8 : undefined,
                     width: 20,
                     height: 20,
-                    borderTop: corner.startsWith("t") ? `2px solid ${alpha(gold, 0.35)}` : undefined,
-                    borderBottom: corner.startsWith("b") ? `2px solid ${alpha(gold, 0.35)}` : undefined,
-                    borderLeft: corner.endsWith("l") ? `2px solid ${alpha(gold, 0.35)}` : undefined,
-                    borderRight: corner.endsWith("r") ? `2px solid ${alpha(gold, 0.35)}` : undefined,
+                    borderTop: corner.startsWith("t")
+                      ? `2px solid ${alpha(gold, 0.35)}`
+                      : undefined,
+                    borderBottom: corner.startsWith("b")
+                      ? `2px solid ${alpha(gold, 0.35)}`
+                      : undefined,
+                    borderLeft: corner.endsWith("l")
+                      ? `2px solid ${alpha(gold, 0.35)}`
+                      : undefined,
+                    borderRight: corner.endsWith("r")
+                      ? `2px solid ${alpha(gold, 0.35)}`
+                      : undefined,
                     pointerEvents: "none",
                   }}
                 />
@@ -1232,8 +1283,23 @@ const InvitationSection = memo(
               {novio.split(" ")[0]}
             </Typography>
 
-            <Box sx={{ display: "flex", alignItems: "center", gap: 2, width: "80%", mx: "auto", my: 1.5 }}>
-              <Box sx={{ flex: 1, height: "1px", background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.7)})` }} />
+            <Box
+              sx={{
+                display: "flex",
+                alignItems: "center",
+                gap: 2,
+                width: "80%",
+                mx: "auto",
+                my: 1.5,
+              }}
+            >
+              <Box
+                sx={{
+                  flex: 1,
+                  height: "1px",
+                  background: `linear-gradient(90deg, transparent, ${alpha(gold, 0.7)})`,
+                }}
+              />
               <Typography
                 sx={{
                   fontFamily: "'Cormorant Garamond', serif",
@@ -1246,7 +1312,13 @@ const InvitationSection = memo(
               >
                 &amp;
               </Typography>
-              <Box sx={{ flex: 1, height: "1px", background: `linear-gradient(90deg, ${alpha(gold, 0.7)}, transparent)` }} />
+              <Box
+                sx={{
+                  flex: 1,
+                  height: "1px",
+                  background: `linear-gradient(90deg, ${alpha(gold, 0.7)}, transparent)`,
+                }}
+              />
             </Box>
 
             <Typography
@@ -1321,7 +1393,10 @@ const InvitationSection = memo(
               >
                 Con la bendición de nuestros padres
               </Typography>
-              {["Sra. Laura Karina Salcedo Hernández", "Sr. J. Jesús Carrillo Ibarra"].map((name) => (
+              {[
+                "Sra. Laura Karina Salcedo Hernández",
+                "Sr. J. Jesús Carrillo Ibarra",
+              ].map((name) => (
                 <Typography
                   key={name}
                   sx={{
@@ -1336,12 +1411,38 @@ const InvitationSection = memo(
                   {name}
                 </Typography>
               ))}
-              <Box sx={{ display: "flex", justifyContent: "center", alignItems: "center", gap: 2, my: 1.5 }}>
-                <Box sx={{ width: 32, height: "1px", background: alpha(gold, 0.6) }} />
-                <Typography sx={{ color: gold, fontSize: "1rem", fontFamily: "'Cormorant Garamond', serif" }}>
+              <Box
+                sx={{
+                  display: "flex",
+                  justifyContent: "center",
+                  alignItems: "center",
+                  gap: 2,
+                  my: 1.5,
+                }}
+              >
+                <Box
+                  sx={{
+                    width: 32,
+                    height: "1px",
+                    background: alpha(gold, 0.6),
+                  }}
+                />
+                <Typography
+                  sx={{
+                    color: gold,
+                    fontSize: "1rem",
+                    fontFamily: "'Cormorant Garamond', serif",
+                  }}
+                >
                   ❧
                 </Typography>
-                <Box sx={{ width: 32, height: "1px", background: alpha(gold, 0.6) }} />
+                <Box
+                  sx={{
+                    width: 32,
+                    height: "1px",
+                    background: alpha(gold, 0.6),
+                  }}
+                />
               </Box>
               <Typography
                 sx={{
@@ -1357,7 +1458,12 @@ const InvitationSection = memo(
             </Box>
           </Fade>
 
-          <SingleImageCarousel image="/boda22.jpeg" rose={rose} gold={gold} cream={cream} />
+          <SingleImageCarousel
+            image="/boda22.jpeg"
+            rose={rose}
+            gold={gold}
+            cream={cream}
+          />
 
           <SectionDivider label="El gran día" />
 
@@ -1380,13 +1486,31 @@ const InvitationSection = memo(
 
           <Grid container spacing={2} sx={{ mb: 4 }}>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <DetailCard icon={CalendarIcon} title="Fecha" value={fecha} sub="Sábado" delay={0} />
+              <DetailCard
+                icon={CalendarIcon}
+                title="Fecha"
+                value={fecha}
+                sub="Sábado"
+                delay={0}
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <DetailCard icon={TimeIcon} title="Ceremonia" value={lugarCeremonia} sub={hora} delay={150} />
+              <DetailCard
+                icon={TimeIcon}
+                title="Ceremonia"
+                value={lugarCeremonia}
+                sub={hora}
+                delay={150}
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
-              <DetailCard icon={ChurchIcon} title="Lugar" value={lugar} sub={horaFiesta} delay={300} />
+              <DetailCard
+                icon={ChurchIcon}
+                title="Lugar"
+                value={lugar}
+                sub={horaFiesta}
+                delay={300}
+              />
             </Grid>
             <Grid size={{ xs: 12, sm: 6 }}>
               <DetailCard
@@ -1400,9 +1524,19 @@ const InvitationSection = memo(
             </Grid>
           </Grid>
 
-          <RomanticCarousel images={["/boda30.jpeg"]} rose={rose} gold={gold} cream={cream} />
+          <RomanticCarousel
+            images={["/boda31.jpeg"]}
+            rose={rose}
+            gold={gold}
+            cream={cream}
+          />
 
-          <NoteCard icon={SparkleIcon} title="Un día muy especial" text={notasAdicionales} delay={0} />
+          <NoteCard
+            icon={SparkleIcon}
+            title="Un día muy especial"
+            text={notasAdicionales}
+            delay={0}
+          />
 
           <NoteCard
             icon={GiftIcon}
@@ -1411,11 +1545,29 @@ const InvitationSection = memo(
             delay={150}
           />
 
-          <Stack direction="row" spacing={1} justifyContent="center" flexWrap="wrap" sx={{ mb: 3, gap: 1, mt: 4 }}>
+          <Stack
+            direction="row"
+            spacing={1}
+            justifyContent="center"
+            flexWrap="wrap"
+            sx={{ mb: 3, gap: 1, mt: 4 }}
+          >
             {[
-              { icon: LocationIcon, label: "Ubicación", section: "details" as const },
-              { icon: HistoryIcon, label: "Historia", section: "history" as const },
-              { icon: PhotoIcon, label: "Galería", section: "gallery" as const },
+              {
+                icon: LocationIcon,
+                label: "Ubicación",
+                section: "details" as const,
+              },
+              {
+                icon: HistoryIcon,
+                label: "Historia",
+                section: "history" as const,
+              },
+              {
+                icon: PhotoIcon,
+                label: "Galería",
+                section: "gallery" as const,
+              },
             ].map(({ icon: Icon, label, section }) => (
               <Button
                 key={label}
@@ -1450,7 +1602,9 @@ const InvitationSection = memo(
             <Button
               variant="contained"
               onClick={onOpenModal}
-              endIcon={<ConfirmationNumberIcon sx={{ fontSize: "16px !important" }} />}
+              endIcon={
+                <ConfirmationNumberIcon sx={{ fontSize: "16px !important" }} />
+              }
               sx={{
                 fontFamily: "'Cormorant Garamond', serif",
                 fontSize: "1rem",
@@ -1493,7 +1647,12 @@ interface LocationSectionProps {
 }
 
 const LocationSection = memo(
-  ({ lugar, direccion, onOpenMapsIglesia, onOpenMaps }: LocationSectionProps) => {
+  ({
+    lugar,
+    direccion,
+    onOpenMapsIglesia,
+    onOpenMaps,
+  }: LocationSectionProps) => {
     const { rose, gold, goldDark, ink, cream } = COLORS;
     return (
       <Slide direction="left" in mountOnEnter unmountOnExit>
@@ -1734,7 +1893,10 @@ interface WeddingInvitationProps {
 // Small debounce helper so ResizeObserver doesn't trigger a state update
 // (and therefore a re-render) on every single intermediate frame while an
 // element is resizing.
-function useDebouncedCallback<T extends (...args: any[]) => void>(fn: T, delay: number) {
+function useDebouncedCallback<T extends (...args: any[]) => void>(
+  fn: T,
+  delay: number,
+) {
   const fnRef = useRef(fn);
   fnRef.current = fn;
   const timeoutRef = useRef<ReturnType<typeof setTimeout>>();
@@ -1766,7 +1928,9 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   codigoDresscode = "Nos reservamos el blanco",
   notasAdicionales = "Nuestra boda será una celebración muy íntima y especial. Por ello, hemos reservado lugares específicos para quienes más queremos; si estás en nuestra lista, es porque eres pieza fundamental en nuestra historia. Te pedimos confirmar tu asistencia lo antes posible, ya que cada detalle está planeado pensando para ti.",
 }) => {
-  const [activeSection, setActiveSection] = useState<"invitation" | "history" | "gallery" | "details">("invitation");
+  const [activeSection, setActiveSection] = useState<
+    "invitation" | "history" | "gallery" | "details"
+  >("invitation");
   const [openModal, setOpenModal] = useState(false);
   const [openColorPalette, setOpenColorPalette] = useState(false);
   const [cardHeight, setCardHeight] = useState(1200);
@@ -1825,17 +1989,31 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
 
   const handleOpenModal = useCallback(() => setOpenModal(true), []);
   const handleCloseModal = useCallback(() => setOpenModal(false), []);
-  const handleOpenColorPalette = useCallback(() => setOpenColorPalette(true), []);
-  const handleCloseColorPalette = useCallback(() => setOpenColorPalette(false), []);
-  const handleBackToInvitation = useCallback(() => setActiveSection("invitation"), []);
-  const handleNavigate = useCallback((section: "history" | "gallery" | "details") => setActiveSection(section), []);
+  const handleOpenColorPalette = useCallback(
+    () => setOpenColorPalette(true),
+    [],
+  );
+  const handleCloseColorPalette = useCallback(
+    () => setOpenColorPalette(false),
+    [],
+  );
+  const handleBackToInvitation = useCallback(
+    () => setActiveSection("invitation"),
+    [],
+  );
+  const handleNavigate = useCallback(
+    (section: "history" | "gallery" | "details") => setActiveSection(section),
+    [],
+  );
 
   const { rose, gold, ink, cream, rosePale } = COLORS;
 
   const renderSection = () => {
     switch (activeSection) {
       case "history":
-        return <HistorySection novio={novio} novia={novia} historia={historia} />;
+        return (
+          <HistorySection novio={novio} novia={novia} historia={historia} />
+        );
       case "gallery":
         return <Gallery fotos={fotos} />;
       case "details":
@@ -2016,7 +2194,11 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                   />
                 </Box>
 
-                <AttendanceForm novio={novio} novia={novia} onClose={handleCloseModal} />
+                <AttendanceForm
+                  novio={novio}
+                  novia={novia}
+                  onClose={handleCloseModal}
+                />
               </Box>
             </Box>
           </Fade>
@@ -2035,7 +2217,10 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                 height: 44,
                 background: rose,
                 color: "#fff",
-                "&:hover": { background: COLORS.roseDeep, transform: "scale(1.1)" },
+                "&:hover": {
+                  background: COLORS.roseDeep,
+                  transform: "scale(1.1)",
+                },
                 transition: "all 0.3s",
                 boxShadow: `0 4px 16px ${alpha(rose, 0.5)}`,
               }}
@@ -2056,7 +2241,14 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
             boxShadow: `0 2px 8px ${alpha(rose, 0.08)}, 0 16px 48px ${alpha(rose, 0.18)}, 0 40px 80px ${alpha(ink, 0.1)}`,
           }}
         >
-          <Box sx={{ position: "absolute", inset: 0, zIndex: 0, overflow: "hidden" }}>
+          <Box
+            sx={{
+              position: "absolute",
+              inset: 0,
+              zIndex: 0,
+              overflow: "hidden",
+            }}
+          >
             {/* Single hero background layer — the original rendered the
                 same /fondo.jpeg twice (top half + bottom half), doubling
                 the decode/paint cost for no visual difference. */}
