@@ -436,6 +436,7 @@ export const BougainvilleaScatter = memo(
             sx={
               {
                 position: "absolute",
+                pointerEvents: "none",
                 zIndex: 2,
                 "--r": "-12deg",
                 ...f.pos,
@@ -2142,8 +2143,8 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
                   onClick={handleCloseModal}
                   sx={{
                     position: "absolute",
-                    right: 12,
-                    top: 12,
+                    right: 46,
+                    top: 42,
                     color: alpha(rose, 0.7),
                     "&:hover": { color: rose, transform: "rotate(90deg)" },
                     transition: "all 0.3s",
