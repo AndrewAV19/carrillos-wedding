@@ -1542,7 +1542,7 @@ const InvitationSection = memo(
           <NoteCard
             icon={GiftIcon}
             title="Sobre los regalos"
-            text="Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener un detalle especial con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!"
+            text="Lo más valioso para nosotros es su compañía en nuestro gran día. Si desean tener algún detalle con nosotros, preferiríamos recibir su apoyo en efectivo, el cual destinaremos a construir nuestro futuro juntos. Durante la recepción contaremos con una lluvia de sobres y un código QR para transferencias. ¡Gracias por ayudarnos a empezar nuestra historia!"
             delay={150}
           />
 
@@ -1927,7 +1927,7 @@ export const WeddingInvitation: React.FC<WeddingInvitationProps> = ({
   frasePersonal = "Y en un beso, supimos que era para siempre",
   coordenadasGPS = { lat: 20.301798, lng: -102.539874 },
   codigoDresscode = "Nos reservamos el blanco",
-  notasAdicionales = "Nuestra boda será una celebración muy íntima y especial. Por ello, hemos reservado lugares específicos para quienes más queremos; si estás en nuestra lista, es porque eres pieza fundamental en nuestra historia. Te pedimos confirmar tu asistencia lo antes posible, ya que cada detalle está planeado pensando para ti.",
+  notasAdicionales = "Nuestra boda será una celebración muy íntima y especial. Por ello, hemos reservado, lugares específicos para quienes más queremos; si estás en nuestra lista, es porque eres pieza fundamental en nuestra historia. Te pedimos confirmar tu asistencia lo antes posible, ya que cada detalle está pensado para ti.",
 }) => {
   const [activeSection, setActiveSection] = useState<
     "invitation" | "history" | "gallery" | "details"
